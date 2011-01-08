@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="river_select">Wähle einen Fluss...</string>
+    <string name="app_name">Pegel-Online</string>
+<string name="point_select">Wähle einen Messpunkt...</string>
+</resources>
