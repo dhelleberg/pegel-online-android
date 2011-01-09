@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PegelDataView extends Activity {
 
@@ -45,10 +46,8 @@ public class PegelDataView extends Activity {
 	};
 
 	private String[] data = null;
-
-	protected String imgurl;
-
-	protected Drawable d;
+	protected String imgurl = null;
+	protected Drawable d = null;
 
 
 	/** Called when the activity is first created. */
@@ -166,30 +165,51 @@ public class PegelDataView extends Activity {
 	}
 
 	protected void updateImageInUi() {
-		ImageView img = (ImageView) findViewById(R.id.data_image);
-		img.setImageDrawable(d);
+		if(d != null)
+		{
+			ImageView img = (ImageView) findViewById(R.id.data_image);
+			img.setImageDrawable(d);
+		}
+		else
+		{
+			Toast.makeText(this,"Verbindungsfehler zum Server, kann das Bild nicht laden, bitte noch einmal \"Refresh\" im options-menu probieren. Sorry!", Toast.LENGTH_LONG).show();
+		}
 		setProgressBarIndeterminateVisibility(false);
+
 	}
 	protected void updateDataInUi() {
-		((TextView) findViewById(R.id.data_table_measure)).setText(data[0]);
-		String tendency = "";
-		int t = Integer.parseInt(data[1]);
-		switch (t) {
-		case 0:
-			tendency = "konstant";
-			break;
-		case 1:
-			tendency = "steigend";
-			break;
-		case -1:
-			tendency = "fallend";
-			break;
-
-		default:
-			tendency = "unbekannt";
-			break;
+		if(data != null)
+		{
+			((TextView) findViewById(R.id.data_table_measure)).setText(data[0]);
+			String tendency = "";
+			int t = Integer.parseInt(data[1]);
+			switch (t) {
+			case 0:
+				tendency = "konstant";
+				break;
+			case 1:
+				tendency = "steigend";
+				break;
+			case -1:
+				tendency = "fallend";
+				break;
+	
+			default:
+				tendency = "unbekannt";
+				break;
+			}
+			((TextView) findViewById(R.id.data_table_tendency)).setText(tendency);
+			((TextView) findViewById(R.id.data_table_time)).setText(data[2]);
+			
+			SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+			SharedPreferences.Editor edit = settings.edit();
+			edit.putString("measure", data[0]);
+			edit.commit();
 		}
-		((TextView) findViewById(R.id.data_table_tendency)).setText(tendency);
-		((TextView) findViewById(R.id.data_table_time)).setText(data[2]);
+		else //ERROR
+		{
+			Toast.makeText(this,"Verbindungsfehler zum Server, kann die Daten nicht laden,  bitte noch einmal \"Refresh\" im options-menu probieren. Sorry!", Toast.LENGTH_LONG).show();
+		}
+
 	}
 }
