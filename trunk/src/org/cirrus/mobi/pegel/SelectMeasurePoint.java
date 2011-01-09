@@ -24,8 +24,7 @@ public class SelectMeasurePoint extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-
+		
 		PointStore ps = ((PegelApplication) getApplication()).getPointStore();
 		this.river = getIntent().getStringExtra("river");
 		
@@ -40,7 +39,7 @@ public class SelectMeasurePoint extends ListActivity {
 		} catch (Exception e) {
 			//TODO: Error handling
 		}		
-		setListAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, plain_points));
+		setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, plain_points));
 		
 		TextView head = (TextView) findViewById(R.id.list_head);
 		head.setText(river);

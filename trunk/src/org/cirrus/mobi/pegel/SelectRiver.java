@@ -59,7 +59,7 @@ public class SelectRiver extends ListActivity {
 	}
 
 	protected void updateDataInUi() {
-		setListAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, rivers));
+		setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, rivers));
 		setProgressBarIndeterminateVisibility(false);
 	}
 
