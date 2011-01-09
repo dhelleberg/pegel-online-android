@@ -29,6 +29,6 @@
 		</TableRow>
 
 	</TableLayout>
-	<ImageView android:layout_width="wrap_content" android:id="@+id/data_image"
-		android:layout_height="wrap_content" android:layout_below="@id/data_table"></ImageView>
+	<ImageView android:layout_width="fill_parent" android:id="@+id/data_image"
+		android:layout_height="fill_parent" android:layout_below="@id/data_table"></ImageView>
 </RelativeLayout>
