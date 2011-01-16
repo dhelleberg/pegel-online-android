@@ -15,20 +15,21 @@ public final class R {
         public static final int widget_bg=0x7f020001;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f060007;
-        public static final int SequenceTextView01=0x7f060008;
+        public static final int LinearLayout01=0x7f060008;
+        public static final int PegelGrafikView=0x7f060006;
+        public static final int SequenceTextView01=0x7f060009;
         public static final int data_headline=0x7f060000;
         public static final int data_image=0x7f060005;
         public static final int data_table=0x7f060001;
         public static final int data_table_measure=0x7f060002;
         public static final int data_table_tendency=0x7f060003;
         public static final int data_table_time=0x7f060004;
-        public static final int list_head=0x7f060009;
-        public static final int m_refresh=0x7f060006;
-        public static final int widget_data=0x7f06000c;
-        public static final int widget_head=0x7f06000b;
-        public static final int widget_layout=0x7f06000a;
-        public static final int widget_update=0x7f06000d;
+        public static final int list_head=0x7f06000a;
+        public static final int m_refresh=0x7f060007;
+        public static final int widget_data=0x7f06000d;
+        public static final int widget_head=0x7f06000c;
+        public static final int widget_layout=0x7f06000b;
+        public static final int widget_update=0x7f06000e;
     }
     public static final class layout {
         public static final int data=0x7f030000;
