@@ -43,6 +43,10 @@ public class SelectMeasurePoint extends ListActivity {
 		
 		TextView head = (TextView) findViewById(R.id.list_head);
 		head.setText(river);
+		
+		PegelApplication pa = (PegelApplication) getApplication();
+		pa.tracker.trackPageView("/SelectRiver");
+
 	}
 
 
