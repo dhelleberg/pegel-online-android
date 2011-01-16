@@ -11,10 +11,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class SelectRiver extends ListActivity {
 
@@ -55,11 +57,17 @@ public class SelectRiver extends ListActivity {
 		setProgressBarIndeterminateVisibility(true);
 
 		getRivers();
+		
+		PegelApplication pa = (PegelApplication) getApplication();
+		pa.tracker.trackPageView("/SelectRiver");
 	
 	}
 
 	protected void updateDataInUi() {
-		setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, rivers));
+		if(rivers != null)
+			setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, rivers));
+		else
+			Toast.makeText(this,"Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!", Toast.LENGTH_LONG).show();
 		setProgressBarIndeterminateVisibility(false);
 	}
 
@@ -72,9 +80,13 @@ public class SelectRiver extends ListActivity {
 				try {
 					rivers = ps.getRivers(getApplicationContext());
 					Arrays.sort(rivers);
-					//TODO: might take time, display progress dialog...
 				} catch (Exception e) {
-					//TODO: Error handling
+					try {
+						rivers = ps.getRivers(getApplicationContext());
+						Arrays.sort(rivers);
+					} catch (Exception ex) {
+						
+					}
 				}		
 				mHandler.post(mUpdateDaten);
 			}
