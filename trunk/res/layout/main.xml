@@ -9,10 +9,11 @@
     android:layout_height="wrap_content" 
     android:text="@string/river_select"
     android:id="@+id/list_head"
-    />
+    android:textSize="20sp"
+    android:padding="5dip"/>
 <ListView android:id="@android:id/list" 
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content"
-	android:fastScrollEnabled="false">
+	android:fastScrollEnabled="false" android:padding="5dip">
 </ListView>
 </LinearLayout>
