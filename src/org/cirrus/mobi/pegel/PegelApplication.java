@@ -14,7 +14,7 @@ public class PegelApplication extends Application {
 	public static final String host = "http://pegel-online.appspot.com";
 	
 	private PointStore pointStore;
-	GoogleAnalyticsTracker tracker;
+	public GoogleAnalyticsTracker tracker;
 
 
 	@Override

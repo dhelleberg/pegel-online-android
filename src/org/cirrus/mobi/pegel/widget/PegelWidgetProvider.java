@@ -27,15 +27,19 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		final int N = appWidgetIds.length;
-
-		Log.v(TAG, "update!");
-
-		//start service to handle updates on click
-		context.startService(new Intent(context, UpdateService.class));
+		Log.v(TAG, "on update");		
+		// Perform this loop procedure for each App Widget that belongs to this provider
+		for (int i=0; i<N; i++) {
+			int appWidgetId = appWidgetIds[i];
+			Log.v(TAG, "update!");
+			//start service to handle updates on click
+			context.startService(new Intent(context, UpdateService.class));
+		}
 	}
 
 	@Override
 	public void onReceive(Context ctxt, Intent intent) {
+		Log.v(TAG, "on Recieve! "+intent.getAction() );
 		//if we recieve a refresh-intent, update the widget!
 		if (REFRESH_ACTION.equals(intent.getAction())) {
 			ctxt.startService(new Intent(ctxt, UpdateService.class));
@@ -43,6 +47,26 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 		else {
 			super.onReceive(ctxt, intent);
 		}
+	}
+
+	@Override
+	public void onDeleted(Context ctxt, int[] ids)
+	{
+		Log.v(TAG, "on deleted");		
+	}
+
+	
+	@Override
+	public void onEnabled(Context ctxt)
+	{
+		Log.v(TAG, "on enabled!");		
+	}
+
+	@Override
+	public void onDisabled(Context ctxt)
+	{
+		Log.v(TAG, "on disabled, free ressources!");
+		ctxt.stopService(new Intent(ctxt, UpdateService.class));
 	}
 
 
@@ -66,20 +90,22 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 
 			AppWidgetManager mgr = AppWidgetManager.getInstance(this);			
 
-			
+			PegelApplication pa = (PegelApplication) getApplication();
+			pa.tracker.trackEvent("WidgetView", "refresh", "refresh", 1);
+
 			// Get the layout for the App Widget and attach an on-click listener to the button
 			RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.pegel_widget);
-			
+
 			SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 			String river = settings.getString("river", "");
 			if(river.length() > 0)
 			{
-								
+
 				//show progress indicator
 				updateViews.setViewVisibility(R.id.widget_update, View.VISIBLE);
 				//update wigdet
 				mgr.updateAppWidget(me, updateViews);
-				
+
 				String mpoint = settings.getString("mpoint", "");
 				String measure = settings.getString("measure", "");
 				String pnr = settings.getString("pnr", "");			
@@ -116,10 +142,10 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 			i.setAction(REFRESH_ACTION);
 			PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 			updateViews.setOnClickPendingIntent(R.id.widget_layout, pi);
-			
+
 			//show progress indicator
 			updateViews.setViewVisibility(R.id.widget_update, View.INVISIBLE);
-			
+
 			mgr.updateAppWidget(me, updateViews);
 
 		}
@@ -137,7 +163,7 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 			case -1:
 				tendency = "fallend";
 				break;
-	
+
 			default:
 				tendency = "unbekannt";
 				break;
