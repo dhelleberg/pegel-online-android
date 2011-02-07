@@ -45,7 +45,7 @@ public class SelectMeasurePoint extends ListActivity {
 		head.setText(river);
 		
 		PegelApplication pa = (PegelApplication) getApplication();
-		pa.tracker.trackPageView("/SelectRiver");
+		pa.tracker.trackPageView("/SelectMeasurePoint");
 
 	}
 

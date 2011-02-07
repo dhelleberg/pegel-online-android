@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -214,6 +216,8 @@ public class PegelDataView extends Activity {
 		{
 			ImageView img = (ImageView) findViewById(R.id.data_image);
 			img.setImageDrawable(d);
+			Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.imagealpha);
+			img.startAnimation(fadeIn);
 		}
 		else
 		{
