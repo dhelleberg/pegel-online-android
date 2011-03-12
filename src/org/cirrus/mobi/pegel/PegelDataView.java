@@ -24,8 +24,10 @@ import java.net.URL;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +49,8 @@ public class PegelDataView extends Activity {
 	private static final String HSW = "HSW";
 
 	protected static final String TAG = "PegelDataView";
+
+	private static final int DIALOG_ABOUT = 1;
 
 	private String pegelNummer;
 
@@ -85,6 +89,8 @@ public class PegelDataView extends Activity {
 
 	private PegelApplication pa;
 
+	private String app_ver;
+
 
 	/** Called when the activity is first created. */
 	@Override
@@ -112,6 +118,14 @@ public class PegelDataView extends Activity {
 		
 		this.pa = (PegelApplication) getApplication();
 		pa.tracker.trackPageView("/PegelDataView");
+		
+		
+		try {
+			this.app_ver = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			this.app_ver = "unknown";
+		}
+
 	}
 
 	//Menu Inflater for fixture selection
@@ -130,10 +144,42 @@ public class PegelDataView extends Activity {
 			this.fetchData();
 			this.pa.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
 			return true;
+		case R.id.m_about:
+			showDialog(DIALOG_ABOUT);
+			this.pa.tracker.trackEvent("PegelDataView", "about", "about", 1);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 
 		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+	    Dialog dialog;
+	    switch(id) {
+	    case DIALOG_ABOUT:
+	        dialog = createAboutDialog();
+	        break;
+	    default:
+	        dialog = null;
+	    }
+	    return dialog;
+	}
+	
+	private Dialog createAboutDialog() {
+		
+		Dialog dialog = new Dialog(this);
+
+		dialog.setContentView(R.layout.about_dialog);
+		dialog.setTitle("About Pegel-Online v."+app_ver);
+
+		TextView text = (TextView) dialog.findViewById(R.id.about_d_text);
+		text.setText(R.string.about);
+		ImageView image = (ImageView) dialog.findViewById(R.id.about_d_logo);
+		image.setImageResource(R.drawable.icon);
+		
+		return dialog;
 	}
 
 	@Override
