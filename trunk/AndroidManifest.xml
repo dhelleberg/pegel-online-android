@@ -21,6 +21,7 @@
 				android:resource="@xml/pegelwidgetinfo" />
 		</receiver>
 		<service android:name=".widget.PegelWidgetProvider$UpdateService" />
+		<activity android:name=".PegelFragmentsActivity"></activity>
 	</application>
 
 

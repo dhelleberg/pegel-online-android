@@ -40,6 +40,8 @@ public class SelectRiver extends ListActivity {
 
 	private static final String PREFS_NAME = "prefs";
 
+	private static final int HONEYCOMB = 11;
+
 	// Need handler for callbacks to the UI thread
 	final Handler mHandler = new Handler();
 
@@ -62,7 +64,10 @@ public class SelectRiver extends ListActivity {
 		if(river.length() > 0)
 		{
 			Intent i = new Intent();
-			i.setClass(getApplicationContext(),PegelDataView.class);
+			if(android.os.Build.VERSION.SDK_INT >= HONEYCOMB)
+				i.setClass(getApplicationContext(),PegelFragmentsActivity.class);
+			else
+				i.setClass(getApplicationContext(),PegelDataView.class);
 			i.putExtra("river", river);
 			i.putExtra("pnr", settings.getString("pnr", ""));
 			i.putExtra("mpoint", settings.getString("mpoint", ""));
