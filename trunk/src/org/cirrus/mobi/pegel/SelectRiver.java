@@ -68,16 +68,17 @@ public class SelectRiver extends ListActivity {
 			i.putExtra("mpoint", settings.getString("mpoint", ""));
 			startActivity(i);		
 		}
-
+		else
+		{   //only fire tracker if we do not forward
+			PegelApplication pa = (PegelApplication) getApplication();
+			pa.tracker.trackPageView("/SelectRiver");
+		}
 		
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main);
 		setProgressBarIndeterminateVisibility(true);
 
-		getRivers();
-		
-		PegelApplication pa = (PegelApplication) getApplication();
-		pa.tracker.trackPageView("/SelectRiver");
+		getRivers();		
 	
 	}
 
