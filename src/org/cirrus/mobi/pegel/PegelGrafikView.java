@@ -90,7 +90,7 @@ public class PegelGrafikView extends View{
 		gradientBoxPaint = new Paint();
 		gradientBoxPaint.setAntiAlias(true);
 		gradientBoxPaint.setDither(true);
-		gradientBoxPaint.setShader(new LinearGradient(0, 0, 0, GRADIENT_LENGTH, new int[]{0xFFFF0000, Color.YELLOW, Color.GREEN},null, Shader.TileMode.CLAMP));
+		gradientBoxPaint.setShader(new LinearGradient(0, 0, 0, GRADIENT_LENGTH, new int[]{Color.RED, Color.YELLOW, Color.GREEN},new float[]{0f,0.5f,1f}, Shader.TileMode.CLAMP));
 		gradientBoxPaint.setStrokeWidth(1f);	
 		
 		boxBg = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
