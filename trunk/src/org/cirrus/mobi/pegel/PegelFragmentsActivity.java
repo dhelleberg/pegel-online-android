@@ -1,11 +1,15 @@
 package org.cirrus.mobi.pegel;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 
 public class PegelFragmentsActivity extends Activity {
 
+	private static final String PREFS_NAME = "prefs";
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -13,9 +17,13 @@ public class PegelFragmentsActivity extends Activity {
 
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		String pnr = getIntent().getStringExtra("pnr");
-		String river = getIntent().getStringExtra("river");
-		String mpoint = getIntent().getStringExtra("mpoint");
+		//interims solution
+		
+		//check if we have a saved preference, then we jump to detailview already
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		String river = settings.getString("river", "");
+		String pnr = settings.getString("pnr", "");
+		String mpoint = settings.getString("mpoint", "");
 		
 		setContentView(R.layout.fragment_view);
 		
