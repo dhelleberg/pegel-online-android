@@ -35,7 +35,7 @@ public class SelectMeasurePoint extends ListActivity {
 	
 
 	private static final String PREFS_NAME = "prefs";
-	private static final int HONEYCOMB = 11;
+
 	private String[][] measure_points;
 	private String river;
 
@@ -73,10 +73,7 @@ public class SelectMeasurePoint extends ListActivity {
 	//listView handler
 	public void onListItemClick(ListView parent, View v, int position, long id) { 
 		Intent i = new Intent();
-		if(android.os.Build.VERSION.SDK_INT >= HONEYCOMB)
-			i.setClass(getApplicationContext(),PegelFragmentsActivity.class);
-		else
-			i.setClass(getApplicationContext(),PegelDataView.class);
+		i.setClass(getApplicationContext(),PegelDataView.class);
 		i.putExtra("river", river);
 		i.putExtra("pnr", this.measure_points[position][1]);
 		i.putExtra("mpoint", this.measure_points[position][0]);
