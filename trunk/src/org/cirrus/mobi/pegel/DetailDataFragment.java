@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 	public class DetailDataFragment extends Fragment {
 
 		private AbstractPegelDetail abstractPegelDetail;
-
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater,
 				ViewGroup container, Bundle savedInstanceState) {

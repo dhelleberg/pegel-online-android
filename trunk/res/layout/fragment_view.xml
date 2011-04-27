@@ -3,9 +3,16 @@
 	android:id="@+id/FragementLayout" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:orientation="horizontal">
 
-    <fragment class="org.cirrus.mobi.pegel.DetailDataFragment"
-            android:id="@+id/DetailDataFragment" android:layout_weight="1"
+     <fragment class="org.cirrus.mobi.pegel.ListRiverFragment"
+            android:id="@+id/ListRiverFragment" android:layout_weight="1"
             android:layout_width="0px"
             android:layout_height="match_parent" />
+
+ <FrameLayout android:id="@+id/details" android:layout_weight="1"
+            android:layout_width="0px" android:layout_height="match_parent"
+            android:background="?android:attr/detailsElementBackground" />
+
+  
+
 
 </LinearLayout>

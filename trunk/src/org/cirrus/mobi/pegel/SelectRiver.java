@@ -29,30 +29,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SelectRiver extends ListActivity {
+public class SelectRiver extends ListActivity implements RiverCallBack{
 
 	private static final String PREFS_NAME = "prefs";
+	private AbstractSelectRiver abstractSR;
 
 	
 
-	// Need handler for callbacks to the UI thread
-	final Handler mHandler = new Handler();
-
-	// Create runnable for posting
-	final Runnable mUpdateDaten = new Runnable() {
-		public void run() {
-			updateDataInUi();
-		}
-	};
-	
-	String[] rivers = null;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -80,49 +69,31 @@ public class SelectRiver extends ListActivity {
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main);
 		setProgressBarIndeterminateVisibility(true);
-
-		getRivers();		
+		
+		this.abstractSR = new AbstractSelectRiver(this, this);
+		abstractSR.getRivers();		
 	
 	}
 
-	protected void updateDataInUi() {
-		if(rivers != null)
-			setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, rivers));
-		else
-			Toast.makeText(this,"Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!", Toast.LENGTH_LONG).show();
-		setProgressBarIndeterminateVisibility(false);
-	}
 
-	private void getRivers() {
-		// Fire off a thread to do some work that we shouldn't do directly in the UI thread
-		Thread t = new Thread() {
-			public void run() {
-				PointStore ps = ((PegelApplication) getApplication()).getPointStore();
-				
-				try {
-					rivers = ps.getRivers(getApplicationContext());
-					Arrays.sort(rivers);
-				} catch (Exception e) {
-					try {
-						rivers = ps.getRivers(getApplicationContext());
-						Arrays.sort(rivers);
-					} catch (Exception ex) {
-						
-					}
-				}		
-				mHandler.post(mUpdateDaten);
-			}
-		};
-		t.start();
-	}
-
-	
-	
 	//listView handler
 	public void onListItemClick(ListView parent, View v, int position, long id) { 
 		Intent i = new Intent();
 		i.setClass(getApplicationContext(),SelectMeasurePoint.class);
-		i.putExtra("river", rivers[position]);
+		i.putExtra("river", this.abstractSR.rivers[position]);
 		startActivity(i);		
 	}
+
+	@Override
+	public void setRivers(String[] rivers) {
+		
+		if(rivers != null)
+			setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, rivers));
+		else
+			Toast.makeText(this,"Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!", Toast.LENGTH_LONG).show();
+		
+		setProgressBarIndeterminateVisibility(false);	
+	}
+
+
 }
