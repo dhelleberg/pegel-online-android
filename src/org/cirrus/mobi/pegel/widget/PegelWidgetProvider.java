@@ -20,6 +20,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.R;
+import org.cirrus.mobi.pegel.StartupActivity;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import android.app.IntentService;
@@ -155,6 +156,15 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 					updateViews.setTextViewText(R.id.widget_data, measureText);
 				}
 			}
+			else
+			{
+				//show main Application and let the user select a river
+				Intent i = new Intent(this, StartupActivity.class);
+				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(i);
+			}
+			
+			
 			//register Intent to update on click, that will be passed to the "onRevieve" method of the PegelWidgetProvider who call us then
 			Intent i=new Intent(this, PegelWidgetProvider.class);
 			i.setAction(REFRESH_ACTION);
