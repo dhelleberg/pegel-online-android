@@ -18,9 +18,12 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import org.cirrus.mobi.pegel.widget.PegelWidgetProvider.UpdateService;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -48,6 +51,8 @@ public class PegelDataView extends Activity {
 	private String river;
 
 	private String pnr;
+
+	private boolean byBackKey = false;
 
 
 	/** Called when the activity is first created. */
@@ -140,11 +145,19 @@ public class PegelDataView extends Activity {
 			SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
 			SharedPreferences.Editor edit = settings.edit();
 			edit.clear();
-			edit.commit();			
+			edit.commit();
+			this.byBackKey = true; //do not refresh service
+			
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
-
-
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		if(!byBackKey)
+			this.startService(new Intent(this, UpdateService.class));
+		byBackKey = false;
+	}
 }
