@@ -2,7 +2,6 @@ package org.cirrus.mobi.pegel;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,9 +25,6 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		}
 		this.abstractSR = new AbstractSelectRiver(getActivity(), this);
 		abstractSR.getRivers();			        
-		
-		
-
 	}
 
 	//listView handler
@@ -50,9 +46,8 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 
 		if(position != mCurCheckPosition)
 		{
-
 			//transit to new Fragment
-			MeasurePointFragment mpf = new MeasurePointFragment(this.abstractSR.rivers[position]);
+			MeasurePointFragment mpf = MeasurePointFragment.newInstance(this.abstractSR.rivers[position]);
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 			// Replace whatever is in the fragment_container view with this fragment,
@@ -64,9 +59,6 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 			
 			mCurCheckPosition = position;
 		}
-
-
-
 	}
 
 	@Override
