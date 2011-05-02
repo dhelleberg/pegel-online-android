@@ -2,6 +2,7 @@ package org.cirrus.mobi.pegel;
 
 import org.cirrus.mobi.pegel.data.PointStore;
 
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -18,14 +19,18 @@ public class MeasurePointFragment extends ListFragment {
 
 	private String[][] measure_points;
 	private String river;
+	
+	int mCurCheckPosition = 0;	
 
+	public MeasurePointFragment(String river) {
+		this.river = river;
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 		PointStore ps = ((PegelApplication) getActivity().getApplication()).getPointStore();
-		//this.river = getIntent().getStringExtra("river");
 
 		String[] plain_points = null;
 		try {
@@ -39,9 +44,9 @@ public class MeasurePointFragment extends ListFragment {
 			//TODO: Error handling
 		}		
 		setListAdapter(new ArrayAdapter<String>(getActivity(),R.layout.list_item, R.id.SequenceTextView01, plain_points));
+		
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-		TextView head = (TextView) getActivity().findViewById(R.id.list_head);
-		head.setText(river);
 	}
 	
 	//listView handler
@@ -52,6 +57,15 @@ public class MeasurePointFragment extends ListFragment {
 		i.putExtra("pnr", this.measure_points[position][1]);
 		i.putExtra("mpoint", this.measure_points[position][0]);*/
 
+
+		this.select(position);
+		//startActivity(i);		
+	}
+
+	private void select(int position) {
+		getListView().setItemChecked(position, true);
+		
+		/** save settings */
 		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("river", river);
@@ -59,7 +73,23 @@ public class MeasurePointFragment extends ListFragment {
 		editor.putString("mpoint", this.measure_points[position][0]);
 		editor.commit();
 
-		//startActivity(i);		
+		if(position !=  mCurCheckPosition)
+		{
+			DetailDataFragment df = new DetailDataFragment(this.measure_points[position][1], river,this.measure_points[position][0]);
+			
+			
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+			// Replace whatever is in the fragment_container view with this fragment,
+			// and add the transaction to the back stack
+			transaction.replace(R.id.details, df);
+			transaction.addToBackStack(null);
+			// Commit the transaction
+			transaction.commit();
+			
+			mCurCheckPosition = position;			
+		}
+		
 	}
 
 }
