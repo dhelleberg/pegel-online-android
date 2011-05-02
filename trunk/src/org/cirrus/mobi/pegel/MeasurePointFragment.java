@@ -23,7 +23,7 @@ public class MeasurePointFragment extends ListFragment {
 		MeasurePointFragment mpf = new MeasurePointFragment();
 		 // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putString("river",river);
+        args.putString("river",river);        
         mpf.setArguments(args);
         return mpf;
 	}
@@ -48,6 +48,17 @@ public class MeasurePointFragment extends ListFragment {
 		setListAdapter(new ArrayAdapter<String>(getActivity(),R.layout.list_item, R.id.SequenceTextView01, plain_points));
 		
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		
+        
+        //check if we have a saved preference, then we jump to detailview already
+		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		String mpoint = settings.getString("mpoint", "");
+		if(mpoint.length() > 0)
+		{
+			int pos = ((ArrayAdapter<String> )getListAdapter()).getPosition(mpoint);
+			this.select(pos);
+			this.setSelection(pos);
+		}
 
 	}
 	

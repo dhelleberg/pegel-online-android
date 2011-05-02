@@ -2,6 +2,8 @@ package org.cirrus.mobi.pegel;
 
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,20 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 
 	int mCurCheckPosition = 0;	
 	private AbstractSelectRiver abstractSR;
+	
+	public static ListRiverFragment getInstance(String river, String mpoint, String pnr)
+	{
+		ListRiverFragment lrf = new ListRiverFragment();
+		if(river != null)
+		{
+			Bundle args = new Bundle();
+			args.putString("river", river);
+			args.putString("mpoint", mpoint);
+			args.putString("pnr", pnr);
+			lrf.setArguments(args);
+		}		
+		return lrf;
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -29,6 +45,12 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 
 	//listView handler
 	public void onListItemClick(ListView parent, View v, int position, long id) { 
+		//delete preferences
+		SharedPreferences settings = getActivity().getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences.Editor edit = settings.edit();
+		edit.clear();
+		edit.commit();		
+		
 		showDetails(position);
 	}
 
@@ -38,7 +60,6 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		super.onSaveInstanceState(outState);
 		outState.putInt("curChoice", mCurCheckPosition);
 	}
-
 
 	private void showDetails(int position) {
 
@@ -71,7 +92,13 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		getActivity().setProgressBarIndeterminateVisibility(false);
-		this.showDetails(mCurCheckPosition);
+		
+		if(getArguments() != null && getArguments().getString("river") != null)
+		{
+			int pos = ((ArrayAdapter<String>) (getListAdapter())).getPosition(getArguments().getString("river"));
+			this.showDetails( pos );
+			this.setSelection(pos);
+		}	
 	}
 }
 

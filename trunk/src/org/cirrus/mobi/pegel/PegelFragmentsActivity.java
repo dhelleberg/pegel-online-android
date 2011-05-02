@@ -21,30 +21,22 @@ public class PegelFragmentsActivity extends Activity {
 		
 		//check if we have a saved preference, then we jump to detailview already
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
-		String river = settings.getString("river", "");
+		String river = settings.getString("river", "");		
 		
-		setContentView(R.layout.fragment_view);
+		ListRiverFragment lrf; 
 		
 		if(river.length() > 0)
-		{		
+		{
+			//saved preferences, show details
 			String pnr = settings.getString("pnr", "");
-			String mpoint = settings.getString("mpoint", "");
-		
-			
-		
-			/*FragmentManager fragmentManager = getFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			
-			DetailDataFragment detailPegelFragment = new DetailDataFragment();
-			fragmentTransaction.add(R.id.FragementLayout, detailPegelFragment);
-			fragmentTransaction.commit();*/
-			
-			//DetailDataFragment fragment = (DetailDataFragment) getFragmentManager().findFragmentById(R.id.DetailDataFragment);
-			//fragment.showData(pnr, river, mpoint);
-		
-			setProgressBarIndeterminateVisibility(true);
+			String mpoint = settings.getString("mpoint", "");			
+			lrf = ListRiverFragment.getInstance(river, mpoint, pnr);
 		}
+		else
+			lrf = ListRiverFragment.getInstance(null, null, null);
+		getFragmentManager().beginTransaction().add(R.id.ListRiverFragment, lrf).commit();
 		
+		setContentView(R.layout.fragment_view);
 		
 	}
 	
