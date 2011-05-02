@@ -5,25 +5,27 @@ import org.cirrus.mobi.pegel.data.PointStore;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class MeasurePointFragment extends ListFragment {
 
 	private static final String PREFS_NAME = "prefs";
 
 	private String[][] measure_points;
-	private String river;
 	
 	int mCurCheckPosition = 0;	
 
-	public MeasurePointFragment(String river) {
-		this.river = river;
+	public static MeasurePointFragment newInstance(String river) {
+		MeasurePointFragment mpf = new MeasurePointFragment();
+		 // Supply index input as an argument.
+        Bundle args = new Bundle();
+        args.putString("river",river);
+        mpf.setArguments(args);
+        return mpf;
 	}
 
 	@Override
@@ -34,7 +36,7 @@ public class MeasurePointFragment extends ListFragment {
 
 		String[] plain_points = null;
 		try {
-			measure_points = ps.getMeasurePoints(getActivity(),river);
+			measure_points = ps.getMeasurePoints(getActivity(),getArguments().getString("river"));
 			plain_points = new String[measure_points.length];
 			for (int i = 0; i < plain_points.length; i++) {
 				plain_points[i] = measure_points[i][0];
@@ -50,16 +52,8 @@ public class MeasurePointFragment extends ListFragment {
 	}
 	
 	//listView handler
-	public void onListItemClick(ListView parent, View v, int position, long id) { 
-		/*Intent i = new Intent();
-		i.setClass(getApplicationContext(),PegelDataView.class);
-		i.putExtra("river", river);
-		i.putExtra("pnr", this.measure_points[position][1]);
-		i.putExtra("mpoint", this.measure_points[position][0]);*/
-
-
+	public void onListItemClick(ListView parent, View v, int position, long id) { 	
 		this.select(position);
-		//startActivity(i);		
 	}
 
 	private void select(int position) {
@@ -68,15 +62,14 @@ public class MeasurePointFragment extends ListFragment {
 		/** save settings */
 		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("river", river);
+		editor.putString("river", getArguments().getString("river"));
 		editor.putString("pnr", this.measure_points[position][1]);
 		editor.putString("mpoint", this.measure_points[position][0]);
 		editor.commit();
 
 		if(position !=  mCurCheckPosition)
 		{
-			DetailDataFragment df = new DetailDataFragment(this.measure_points[position][1], river,this.measure_points[position][0]);
-			
+			DetailDataFragment df = DetailDataFragment.getInstance(this.measure_points[position][1], getArguments().getString("river") ,this.measure_points[position][0]);			
 			
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
@@ -88,8 +81,6 @@ public class MeasurePointFragment extends ListFragment {
 			transaction.commit();
 			
 			mCurCheckPosition = position;			
-		}
-		
+		}	
 	}
-
 }

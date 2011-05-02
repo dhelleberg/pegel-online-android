@@ -12,22 +12,24 @@ import android.view.ViewGroup;
 public class DetailDataFragment extends Fragment {
 
 	private AbstractPegelDetail abstractPegelDetail;
-	private String mpoint;
-	private String river;
-	private String pnr;
-
-	public DetailDataFragment(String pnr, String river, String mpoint) {
-		this.pnr = pnr;
-		this.river = river;
-		this.mpoint = mpoint;
+	
+	
+	public static DetailDataFragment getInstance(String pnr, String river, String mpoint) {
+		
+		DetailDataFragment df = new DetailDataFragment();
+		
+		Bundle args = new Bundle();
+		args.putString("pnr", pnr);
+		args.putString("river", river);
+		args.putString("mpoint", mpoint);
+		df.setArguments(args);
+		return df;		
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-
-		abstractPegelDetail.showData(pnr, river, mpoint);		
+		abstractPegelDetail.showData(getArguments().getString("pnr"), getArguments().getString("river"), getArguments().getString("mpoint"));		
 	}
 
 	@Override
@@ -35,11 +37,9 @@ public class DetailDataFragment extends Fragment {
 			ViewGroup container, Bundle savedInstanceState) {
 
 		super.onCreateView(inflater, container, savedInstanceState);
-
+		
 		View dataView  = inflater.inflate(R.layout.data, container, false);
-
 		PegelGrafikView pgv = (PegelGrafikView) dataView.findViewById(R.id.PegelGrafikView);
-
 		this.abstractPegelDetail = new AbstractPegelDetail(getActivity(), pgv);
 
 		return dataView;
