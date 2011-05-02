@@ -67,7 +67,6 @@ public class PegelDataView extends Activity {
 		this.abstractPegelDetail = new AbstractPegelDetail(this, pgv);
 		
 		this.abstractPegelDetail.showData(pnr, river, mpoint);
-			
 		
 		this.pa = (PegelApplication) getApplication();
 		pa.tracker.trackPageView("/PegelDataView");
