@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:title="Refresh" android:id="@+id/m_refresh"></item>
-	<item android:title="About" android:id="@+id/m_about"></item>
+	<item android:title="Refresh" android:id="@+id/m_refresh" android:icon="@drawable/refresh"></item>
+	<item android:title="Feedback" android:id="@+id/m_feedback" android:icon="@drawable/edit"></item>
+	<item android:title="About" android:id="@+id/m_about" android:icon="@drawable/details"></item>
 </menu>
