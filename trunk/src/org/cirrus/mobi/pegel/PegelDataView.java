@@ -52,7 +52,7 @@ public class PegelDataView extends Activity {
 
 	private String pnr;
 
-	private boolean byBackKey = false;
+	private boolean norefresh = false;
 
 
 	/** Called when the activity is first created. */
@@ -100,6 +100,14 @@ public class PegelDataView extends Activity {
 			this.abstractPegelDetail.showData(pnr, river, mpoint);
 			this.pa.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
 			return true;
+		case R.id.m_feedback:
+			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+			emailIntent.setType("message/rfc822");
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"dominik.helleberg@googlemail.com"});
+			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pegel-Online Feedback" );  
+			this.pa.tracker.trackEvent("PegelDataView", "feedback", "feedback", 1);
+			startActivity(Intent.createChooser(emailIntent, "Email senden..."));
+			return true;
 		case R.id.m_about:
 			showDialog(DIALOG_ABOUT);
 			this.pa.tracker.trackEvent("PegelDataView", "about", "about", 1);
@@ -146,7 +154,7 @@ public class PegelDataView extends Activity {
 			SharedPreferences.Editor edit = settings.edit();
 			edit.clear();
 			edit.commit();
-			this.byBackKey = true; //do not refresh service
+			this.norefresh = true; //do not refresh service
 			
 		}
 		return super.onKeyDown(keyCode, event);
@@ -156,8 +164,8 @@ public class PegelDataView extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		if(!byBackKey)
+		if(!norefresh)
 			this.startService(new Intent(this, UpdateService.class));
-		byBackKey = false;
+		norefresh = false;
 	}
 }
