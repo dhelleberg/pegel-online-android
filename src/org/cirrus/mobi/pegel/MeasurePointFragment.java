@@ -17,7 +17,7 @@ public class MeasurePointFragment extends ListFragment {
 
 	private String[][] measure_points;
 	
-	int mCurCheckPosition = 0;	
+	int mCurCheckPosition = -1;	
 
 	public static MeasurePointFragment newInstance(String river) {
 		MeasurePointFragment mpf = new MeasurePointFragment();
@@ -91,7 +91,8 @@ public class MeasurePointFragment extends ListFragment {
 			// Commit the transaction
 			transaction.commit();
 			
-			mCurCheckPosition = position;			
+			mCurCheckPosition = position;
+			
 		}	
 	}
 }
