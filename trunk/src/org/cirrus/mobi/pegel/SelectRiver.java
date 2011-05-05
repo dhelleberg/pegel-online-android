@@ -19,16 +19,11 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import java.util.Arrays;
-
-import org.cirrus.mobi.pegel.data.PointStore;
-
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
