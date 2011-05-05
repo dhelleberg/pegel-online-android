@@ -31,6 +31,11 @@ public class DetailDataFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		abstractPegelDetail.showData(getArguments().getString("pnr"), getArguments().getString("river"), getArguments().getString("mpoint"));		
 	}
+	
+	public void refresh()
+	{
+		abstractPegelDetail.showData(getArguments().getString("pnr"), getArguments().getString("river"), getArguments().getString("mpoint"));
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -44,6 +49,18 @@ public class DetailDataFragment extends Fragment {
 
 		return dataView;
 	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		//refresh options menu
+		getActivity().invalidateOptionsMenu();
+	}
 
-
+	@Override
+	public void onStop() {
+		super.onStop();
+		//refresh options menu
+		getActivity().invalidateOptionsMenu();
+	}
 }
