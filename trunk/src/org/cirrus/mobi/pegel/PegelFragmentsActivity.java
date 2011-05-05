@@ -1,8 +1,25 @@
 package org.cirrus.mobi.pegel;
+/*	Copyright (C) 2011	Dominik Helleberg
 
-import android.app.Activity;
+This file is part of pegel-online.
+
+pegel-online is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+pegel-online is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +32,9 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class PegelFragmentsActivity extends Activity {
+import com.google.android.maps.MapActivity;
+
+public class PegelFragmentsActivity extends MapActivity {
 
 	private static final String PREFS_NAME = "prefs";
 	private static final int DIALOG_ABOUT = 1;
@@ -44,7 +63,20 @@ public class PegelFragmentsActivity extends Activity {
 			lrf = ListRiverFragment.getInstance(river, mpoint, pnr);
 		}
 		else
+		{
 			lrf = ListRiverFragment.getInstance(null, null, null);
+			//show map as well
+			MapFragment mf = new MapFragment();
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+			// Replace whatever is in the fragment_container view with this fragment,
+			// and add the transaction to the back stack
+			transaction.replace(R.id.details, mf);
+			transaction.addToBackStack(null);
+			// Commit the transaction
+			transaction.commit();
+	
+		}
 		getFragmentManager().beginTransaction().add(R.id.ListRiverFragment, lrf).commit();
 		
 		setContentView(R.layout.fragment_view);
@@ -124,6 +156,12 @@ public class PegelFragmentsActivity extends Activity {
 		image.setImageResource(R.drawable.icon);
 		
 		return dialog;
+	}
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
