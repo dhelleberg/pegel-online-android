@@ -26,6 +26,7 @@ import org.cirrus.mobi.pegel.data.PointStore;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
@@ -82,7 +83,12 @@ public class AbstractPegelDetail {
 
 	public void showData(String pnr, String river, String mpoint)
 	{
-		StringBuilder headline = new StringBuilder(river).append('\n').append(mpoint);
+		StringBuilder headline = new StringBuilder(river);
+		parentActivity.getResources().getConfiguration();
+		if(parentActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+			headline.append(' ').append(mpoint);
+		else
+			headline.append('\n').append(mpoint);
 		TextView headlineView = (TextView) parentActivity.findViewById(R.id.data_headline);
 		headlineView.setText(headline);
 		this.pnr = pnr;
