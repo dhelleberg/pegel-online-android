@@ -40,9 +40,8 @@ public class PegelGrafikView extends View{
 	private static final String TAG = "PegelGrafikView";
 	private static final int PADDING_TOP = 10;
 	private static final int PADDING_LEFT = 5;
-	private Context context = null;
-	private int width = -1;
-	private int height = -1;
+//	private int width = -1;
+//	private int height = -1;
 	private Paint linePaintBox;
 	private float boxheight = 110f;
 	private float boxwidth = 30f;
@@ -63,7 +62,6 @@ public class PegelGrafikView extends View{
 
 	public PegelGrafikView(Context context, AttributeSet set) {
 		super(context, set);
-		this.context = context;
 
 		linePaintBox = new Paint();
 		linePaintBox.setAntiAlias(true);
@@ -166,16 +164,17 @@ public class PegelGrafikView extends View{
 	public void onSizeChanged(int width, int height, int oldw, int oldh)
 	{
 		Log.v(TAG, "size-changed: "+width+" "+height);
-		this.width = width;
-		this.height = height;
+//		this.width = width;
+//		this.height = height;
 	}
 
 	//we want the maximum square size 
 	@Override
 	public void onMeasure (int widthMeasureSpec, int heightMeasureSpec)
 	{
-		Log.v(TAG, "onMeasure called");
-		super.setMeasuredDimension(400, 400);
+		Log.v(TAG, "onMeasure called: wm: "+widthMeasureSpec+" wh: "+heightMeasureSpec);
+
+		super.setMeasuredDimension(Math.round(110*scalefactor),Math.round(boxheight*scalefactor)+PADDING_TOP+10);
 	}
 
 	@Override
