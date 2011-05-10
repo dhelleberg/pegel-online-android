@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.cirrus.mobi.pegel" android:versionCode="6" android:versionName="0.9.2">
+	package="org.cirrus.mobi.pegel" android:versionCode="7" android:versionName="0.9.3">
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:name="PegelApplication" android:hardwareAccelerated="true" android:debuggable="true">
+		android:name="PegelApplication" android:hardwareAccelerated="true" android:debuggable="false">
 		<activity android:name=".StartupActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
 		</receiver>
 		<service android:name=".widget.PegelWidgetProvider$UpdateService" />
 		<activity android:name=".PegelFragmentsActivity"></activity>
-		<uses-library android:name="com.google.android.maps" android:required="true"></uses-library>
+		<!-- <uses-library android:name="com.google.android.maps" android:required="true"></uses-library> -->
 	</application>
 
 	
