@@ -17,9 +17,9 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,9 +32,9 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.maps.MapActivity;
+//import com.google.android.maps.MapActivity;
 
-public class PegelFragmentsActivity extends MapActivity {
+public class PegelFragmentsActivity extends Activity {
 
 	private static final String PREFS_NAME = "prefs";
 	private static final int DIALOG_ABOUT = 1;
@@ -53,7 +53,7 @@ public class PegelFragmentsActivity extends MapActivity {
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		String river = settings.getString("river", "");		
 		
-		ListRiverFragment lrf; 
+		ListRiverFragment lrf = null; 
 		
 		if(river.length() > 0)
 		{
@@ -66,7 +66,7 @@ public class PegelFragmentsActivity extends MapActivity {
 		{
 			lrf = ListRiverFragment.getInstance(null, null, null);
 			//show map as well
-			MapFragment mf = new MapFragment();
+			/*MapFragment mf = new MapFragment();
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 			// Replace whatever is in the fragment_container view with this fragment,
@@ -74,10 +74,11 @@ public class PegelFragmentsActivity extends MapActivity {
 			transaction.replace(R.id.details, mf);
 			transaction.addToBackStack(null);
 			// Commit the transaction
-			transaction.commit();
+			transaction.commit();*/
 	
 		}
-		getFragmentManager().beginTransaction().add(R.id.ListRiverFragment, lrf).commit();
+		if(lrf != null)
+			getFragmentManager().beginTransaction().add(R.id.ListRiverFragment, lrf).commit();
 		
 		setContentView(R.layout.fragment_view);
 		
@@ -158,10 +159,11 @@ public class PegelFragmentsActivity extends MapActivity {
 		return dialog;
 	}
 
+	/*
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
-	}
+	}*/
 
 }
