@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/LinearLayout01" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:orientation="horizontal">
+	<TextView android:text="@+id/SequenceTextView01" android:id="@+id/SequenceTextView01"
+		android:paddingLeft="10dip" android:paddingRight="5dip"
+		android:paddingBottom="15dip" android:paddingTop="15dip"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:textColor="#FFFFFF"
+		android:textSize="20dip"
+		style="@style/listViewActivatedStyle">
+	</TextView>
+
+</LinearLayout>

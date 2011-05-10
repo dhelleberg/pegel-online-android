@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="river_select">Wähle einen Fluss...</string>
+	<string name="app_name">Pegel-Online</string>
+	<string name="point_select">Wähle einen Messpunkt...</string>
+	<string name="widget_default">Bitte einen Fluss auswählen.</string>
+	<string name="about">Copyright 2011 Dominik Helleberg\n
+    This program comes with ABSOLUTELY NO WARRANTY; for details go here: http://bit.ly/gUGqFe\n
+    This is free software, and you are welcome to redistribute it
+    under certain conditions;</string>
+</resources>
