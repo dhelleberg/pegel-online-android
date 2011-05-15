@@ -78,7 +78,7 @@ public class PegelFragmentsActivity extends Activity {
 	
 		}
 		if(lrf != null)
-			getFragmentManager().beginTransaction().add(R.id.ListRiverFragment, lrf).commit();
+			getFragmentManager().beginTransaction().replace(R.id.ListRiverFragment, lrf).commit();
 		
 		setContentView(R.layout.fragment_view);
 		
