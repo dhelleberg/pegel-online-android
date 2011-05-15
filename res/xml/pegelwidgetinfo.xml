@@ -2,5 +2,6 @@
     android:minWidth="160dp"
     android:minHeight="72dp"
     android:updatePeriodMillis="3600000"
-    android:initialLayout="@layout/pegel_widget"><!-- 3600000 = 1 hour -->
+    android:initialLayout="@layout/pegel_widget"
+    android:resizeMode="horizontal|vertical"><!-- 3600000 = 1 hour -->
 </appwidget-provider>
