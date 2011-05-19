@@ -16,10 +16,13 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +34,12 @@ import android.view.ViewGroup;
 public class DetailDataFragment extends Fragment {
 
 	private AbstractPegelDetail abstractPegelDetail;
-	
-	
+
+
 	public static DetailDataFragment getInstance(String pnr, String river, String mpoint) {
-		
+
 		DetailDataFragment df = new DetailDataFragment();
-		
+
 		Bundle args = new Bundle();
 		args.putString("pnr", pnr);
 		args.putString("river", river);
@@ -50,7 +53,7 @@ public class DetailDataFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		abstractPegelDetail.showData(getArguments().getString("pnr"), getArguments().getString("river"), getArguments().getString("mpoint"));		
 	}
-	
+
 	public void refresh()
 	{
 		abstractPegelDetail.showData(getArguments().getString("pnr"), getArguments().getString("river"), getArguments().getString("mpoint"));
@@ -61,14 +64,29 @@ public class DetailDataFragment extends Fragment {
 			ViewGroup container, Bundle savedInstanceState) {
 
 		super.onCreateView(inflater, container, savedInstanceState);
-		
+
 		View dataView  = inflater.inflate(R.layout.data, container, false);
 		PegelGrafikView pgv = (PegelGrafikView) dataView.findViewById(R.id.PegelGrafikView);
 		this.abstractPegelDetail = new AbstractPegelDetail(getActivity(), pgv);
 
-		return dataView;
-	}
+		// setup Action Bar for tabs
+		final ActionBar actionBar = getActivity().getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		if(actionBar.getTabCount() == 0)
+		{			
+			// add a new tab and set its title text and tab listener
+			actionBar.addTab(actionBar.newTab().setText("Blah")
+					.setTabListener(new MyTabListener(this)));
 	
+			actionBar.addTab(actionBar.newTab().setText("blubs")
+					.setTabListener(new MyTabListener(this)));
+		}
+
+		return dataView;
+
+	}
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -81,5 +99,35 @@ public class DetailDataFragment extends Fragment {
 		super.onStop();
 		//refresh options menu
 		getActivity().invalidateOptionsMenu();
+	}
+
+	private class MyTabListener implements ActionBar.TabListener {
+		private Fragment mFragment;
+
+		// Called to create an instance of the listener when adding a new tab
+		public MyTabListener(Fragment fragment) {
+			mFragment = fragment;
+		}
+
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			if(getFragmentManager() != null) // I have seen NPEs here :(
+			{
+				Fragment f = getFragmentManager().findFragmentById(R.id.details); 
+				//check if the pegel-details are shown, only then show the refresh action
+				if(!(f instanceof DetailDataFragment))
+					ft.replace(R.id.FragementLayout, mFragment, null);
+			}
+		}
+
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			// do nothing
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 }
