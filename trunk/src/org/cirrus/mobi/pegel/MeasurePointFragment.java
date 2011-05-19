@@ -101,11 +101,8 @@ public class MeasurePointFragment extends ListFragment {
 			DetailDataFragment df = DetailDataFragment.getInstance(this.measure_points[position][1], getArguments().getString("river") ,this.measure_points[position][0]);			
 			
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
 			// Replace whatever is in the fragment_container view with this fragment,
-			// and add the transaction to the back stack
-			transaction.replace(R.id.details, df);
-			transaction.addToBackStack(null);
+			transaction.replace(R.id.details, df);			
 			// Commit the transaction
 			transaction.commit();
 			
