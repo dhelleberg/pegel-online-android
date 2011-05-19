@@ -85,7 +85,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		if(rivers != null)
 			setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, rivers));
 		else
-			Toast.makeText(this,"Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!", Toast.LENGTH_LONG).show();
+			Toast.makeText(this,getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
 		
 		setProgressBarIndeterminateVisibility(false);	
 	}
