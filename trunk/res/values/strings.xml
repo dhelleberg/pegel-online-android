@@ -8,4 +8,7 @@
     This program comes with ABSOLUTELY NO WARRANTY; for details go here: http://bit.ly/gUGqFe\n
     This is free software, and you are welcome to redistribute it
     under certain conditions;</string>
+    <string name="connection_error">Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!</string>
+    <string name="pgview_hsw">HSW-</string>
+    <string name="pgview_pegel">PEG-</string>
 </resources>

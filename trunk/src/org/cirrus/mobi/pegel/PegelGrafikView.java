@@ -40,8 +40,6 @@ public class PegelGrafikView extends View{
 	private static final String TAG = "PegelGrafikView";
 	private static final int PADDING_TOP = 10;
 	private static final int PADDING_LEFT = 5;
-//	private int width = -1;
-//	private int height = -1;
 	private Paint linePaintBox;
 	private float boxheight = 110f;
 	private float boxwidth = 30f;
@@ -57,6 +55,8 @@ public class PegelGrafikView extends View{
 	private float scalefactor = 1.0f;
 	private List<AdditonalPoint> additionalPoints;
 	private Paint linePaintAdditionalPaint;
+	private String hsw_string;
+	private String pegel_string;
 	
 	
 
@@ -116,6 +116,7 @@ public class PegelGrafikView extends View{
 	{
 		Log.v(TAG, "got hsw: "+hsw);
 		this.hsw = hsw;
+		this.hsw_string = getResources().getText(R.string.pgview_hsw)+""+hsw;
 		//TODO: additional data
 		this.calcPixels();
 	}
@@ -157,6 +158,7 @@ public class PegelGrafikView extends View{
 	{
 		Log.v(TAG, "got measure: "+measure);
 		this.pegel = measure;
+		this.pegel_string = getResources().getText(R.string.pgview_pegel)+""+measure;
 		this.calcPixels();
 	}
 	
@@ -226,9 +228,9 @@ public class PegelGrafikView extends View{
 		{	
 			canvas.drawLine(0, hswpixel, boxwidth+11, hswpixel, linePaintHSW);
 			if(hsw > pegel)
-				canvas.drawText("HSW-"+hsw, boxwidth+11, hswpixel, linePaintHSW);
+				canvas.drawText(hsw_string, boxwidth+11, hswpixel, linePaintHSW);
 			else
-				canvas.drawText("HSW-"+hsw, boxwidth+11, hswpixel+9, linePaintHSW);
+				canvas.drawText(hsw_string, boxwidth+11, hswpixel+9, linePaintHSW);
 		}
 
 		//draw pegel
@@ -236,9 +238,9 @@ public class PegelGrafikView extends View{
 		{
 			canvas.drawLine(0, pegelpixel, boxwidth+11, pegelpixel, linePaintPegel);
 			if(hsw > pegel)
-				canvas.drawText("PEG-"+pegel, boxwidth+11, pegelpixel+9, linePaintPegel);
+				canvas.drawText(pegel_string, boxwidth+11, pegelpixel+9, linePaintPegel);
 			else
-				canvas.drawText("PEG-"+pegel, boxwidth+11, pegelpixel, linePaintPegel);
+				canvas.drawText(pegel_string, boxwidth+11, pegelpixel, linePaintPegel);
 		}
 
 	}

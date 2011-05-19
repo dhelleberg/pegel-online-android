@@ -106,7 +106,7 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		if(rivers != null)
 			setListAdapter(new ArrayAdapter<String>(getActivity(),R.layout.list_item, R.id.SequenceTextView01, rivers));
 		else
-			Toast.makeText(getActivity(),"Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!", Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(),getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
 
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		getActivity().setProgressBarIndeterminateVisibility(false);
