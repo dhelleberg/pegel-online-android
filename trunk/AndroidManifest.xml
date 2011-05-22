@@ -24,6 +24,7 @@
 		<service android:name=".widget.PegelWidgetProvider$UpdateService" />
 		<activity android:name=".PegelFragmentsActivity"></activity>
 		<!-- <uses-library android:name="com.google.android.maps" android:required="true"></uses-library> -->
+		<activity android:name=".TabbedDataActivity"></activity>
 	</application>
 
 	
