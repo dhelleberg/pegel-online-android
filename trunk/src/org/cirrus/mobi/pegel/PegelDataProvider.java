@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -30,16 +31,18 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class PegelDataProvider {
-	
-	protected static final String TAG = "AbstractPegelDetail";
+
+	protected static final String TAG = "PegelDataProvider";
 
 	public static final int STATUS_ERROR = 0x2;
 	public static final int STATUS_FINISHED = 0x3;
 
+	protected static final String MAPS_URL = "http://maps.google.com/maps/api/staticmap?";
+
 
 	private String[] data = null;
 	protected String imgurl = null;
-	protected Drawable d = null;
+	
 	protected String[][] dataDetails = null;
 
 	private String pnr;
@@ -52,6 +55,9 @@ public class PegelDataProvider {
 
 	private PegelDataResultReciever pdrPegelDetail;
 	private PegelDataResultReciever pdrPegelImage;
+	private PegelDataResultReciever pdrPegelMap;
+
+	private int mapsize;
 
 	private static PegelDataProvider abstractPegelDetail = null; 
 
@@ -65,7 +71,12 @@ public class PegelDataProvider {
 		return abstractPegelDetail;
 	}
 
-	public void showData(String pnr, PegelDataResultReciever pdrPegel, PegelDataResultReciever pdrPegelImage, PegelDataResultReciever pdrPegelDetails)
+	public void showData(String pnr, 
+			PegelDataResultReciever pdrPegel,
+			PegelDataResultReciever pdrPegelImage, 
+			PegelDataResultReciever pdrPegelDetails,
+			PegelDataResultReciever pdrPegelMap,
+			int mapsize)
 	{
 		if(updateing)
 			return;
@@ -75,16 +86,24 @@ public class PegelDataProvider {
 		this.pdrPegel = pdrPegel;
 		this.pdrPegelImage = pdrPegelImage;
 		this.pdrPegelDetail = pdrPegelDetails;
+		this.pdrPegelMap = pdrPegelMap;
+		this.mapsize = mapsize;
 		this.pnr = pnr;
 		this.fetchData(refresh);
 	}
 
-	public void refresh(String pnr, PegelDataResultReciever pdrPegel, PegelDataResultReciever pdrPegelImage, PegelDataResultReciever pdrPegelDetails) {
+	public void refresh(String pnr, PegelDataResultReciever pdrPegel, 
+			PegelDataResultReciever pdrPegelImage, 
+			PegelDataResultReciever pdrPegelDetails,
+			PegelDataResultReciever pdrPegelMap,
+			int mapsize) {
 		if(updateing)
 			return;
 		this.pdrPegel = pdrPegel;
 		this.pdrPegelImage = pdrPegelImage;
 		this.pdrPegelDetail = pdrPegelDetails;
+		this.pdrPegelMap = pdrPegelMap;
+		this.mapsize = mapsize;
 		this.pnr = pnr;
 		this.fetchData(true);
 	}
@@ -94,12 +113,10 @@ public class PegelDataProvider {
 
 		updateing = true;
 
-		//		
-
 		// Fire off a thread to do some work that we shouldn't do directly in the UI thread
 		Thread t = new Thread() {
 			public void run() {
-				if(refresh || data == null)
+				if( (refresh || data == null) && pdrPegel != null)
 				{
 					PointStore ps = pegelApp.getPointStore();
 					try {
@@ -124,7 +141,7 @@ public class PegelDataProvider {
 		// Fire off a thread to do some work that we shouldn't do directly in the UI thread
 		Thread t2 = new Thread() {
 			public void run() {
-				if(refresh || d == null)
+				if((refresh || pegelApp.getCachedDrawable("pegel") == null) && pdrPegelImage != null )
 				{
 					PointStore ps = pegelApp.getPointStore();
 					try {
@@ -144,7 +161,7 @@ public class PegelDataProvider {
 					try {
 						imgu = new URL(imgurl);
 						InputStream is = (InputStream) imgu.openConnection().getInputStream();
-						d = Drawable.createFromStream(is, "src");					
+						pegelApp.setCachedImage("pegel", Drawable.createFromStream(is, "src"));					
 
 					} catch (Exception e) {
 						Log.w(TAG, "Error fecthing image from server, giving up...", e);
@@ -159,7 +176,7 @@ public class PegelDataProvider {
 		// Fire off a thread to do some work that we shouldn't do directly in the UI thread
 		Thread t3 = new Thread() {
 			public void run() {
-				if(refresh || dataDetails == null)
+				if((refresh || dataDetails == null) && pdrPegelDetail != null )
 				{
 					PointStore ps = pegelApp.getPointStore();
 					try {
@@ -178,14 +195,85 @@ public class PegelDataProvider {
 			}
 		};
 		t3.start();
+
+		//fetch details of the measure point
+		// Fire off a thread to do some work that we shouldn't do directly in the UI thread
+		Thread t4 = new Thread() {
+			
+
+			public void run() {
+				if((refresh || pegelApp.getCachedDrawable("map")== null) && pdrPegelMap != null )
+				{
+					String[]pdata = null;
+					PointStore ps = pegelApp.getPointStore();
+					try {
+						pdata = ps.getPointData(pnr);
+					} catch (Exception e) {
+						Log.w(TAG, "Error fecthing data from server, retry...", e);					
+
+						try {
+							pdata = ps.getPointData(pnr);
+						} catch (Exception e1) {
+							Log.w(TAG, "Error fecthing data from server, giving up...", e);
+						}
+					}
+					if(pdata != null && pdata[3] != null)
+					{
+
+						String lat = pdata[3];
+						String lon = pdata[4];
+						StringBuilder mapsUrl = new StringBuilder(MAPS_URL);
+						mapsUrl.append("center=").append(lat).append(',').append(lon);
+						mapsUrl.append("&zoom=12&size=").append(mapsize).append("x").append(mapsize).append("&sensor=false");
+						mapsUrl.append("&markers=color:blue|label:M|").append(lat).append(',').append(lon);
+						Log.v(TAG, "will request map URL: "+mapsUrl.toString());
+
+						URL imgu;
+						InputStream is = null;
+						try {
+							imgu = new URL(mapsUrl.toString());
+							is = (InputStream) imgu.openConnection().getInputStream();
+							pegelApp.setCachedImage("map",Drawable.createFromStream(is, "src"));	
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							Log.w(TAG, "Error fetching maps-URL",e1);
+						}
+						finally
+						{
+							if(is != null)
+								try {    is.close();		} catch (IOException e) {	}
+						}
+					}
+				}
+				updateMap();
+			}
+		};
+		t4.start();
+
 	}
+
+	protected void updateMap() {
+		updateing = false;
+		if(pegelApp.getCachedDrawable("map") != null && pdrPegelMap != null)
+		{
+			if(pdrPegelMap != null)
+			{
+				pdrPegelMap.send(STATUS_FINISHED, Bundle.EMPTY);
+			}
+		}
+		else
+		{
+			if(pdrPegelMap != null)
+				pdrPegelMap.send(STATUS_ERROR, Bundle.EMPTY);
+		}
+	}
+
 	protected void updateImage() {
 		updateing = false;		
-		if(d != null && pdrPegelImage != null)
+		if(pegelApp.getCachedDrawable("pegel") != null && pdrPegelImage != null)
 		{
 			if(pdrPegelImage != null)
 			{
-				pegelApp.setCachedImage(d);
 				pdrPegelImage.send(STATUS_FINISHED, Bundle.EMPTY);
 			}
 		}
@@ -194,7 +282,6 @@ public class PegelDataProvider {
 			if(pdrPegelImage != null)
 				pdrPegelImage.send(STATUS_ERROR, Bundle.EMPTY);
 		}
-		//		parentActivity.setProgressBarIndeterminateVisibility(false);
 
 	}
 	protected void updateData() {
