@@ -25,6 +25,8 @@
 		<activity android:name=".PegelFragmentsActivity"></activity>
 		<!-- <uses-library android:name="com.google.android.maps" android:required="true"></uses-library> -->
 		<activity android:name=".TabbedDataActivity"></activity>
+		<activity android:name=".MoreDetailsActivity"></activity>
+		<activity android:name=".MapActivity"></activity>
 	</application>
 
 	
