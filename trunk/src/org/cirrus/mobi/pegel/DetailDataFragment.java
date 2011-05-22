@@ -68,13 +68,13 @@ public class DetailDataFragment extends Fragment {
 		headlineView.setText(headline);
 		
 		getActivity().setProgressBarIndeterminateVisibility(true);
-		this.pegelDataProvider.showData(getArguments().getString("pnr"), pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails);
+		this.pegelDataProvider.showData(getArguments().getString("pnr"), pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, 0);
 
 	}
 
 	public void refresh()
 	{
-		this.pegelDataProvider.refresh(getArguments().getString("pnr"), pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails);
+		this.pegelDataProvider.refresh(getArguments().getString("pnr"), pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, 0);
 	}
 
 	@Override

@@ -117,7 +117,7 @@ public class PegelDetailHelper {
 
 	protected void updateImageInUi() {
 		ImageView img = (ImageView) activity.findViewById(R.id.data_image);
-		img.setImageDrawable(((PegelApplication) activity.getApplication()).getCachedDrawable());
+		img.setImageDrawable(((PegelApplication) activity.getApplication()).getCachedDrawable("pegel"));
 		Animation fadeIn = AnimationUtils.loadAnimation(activity, R.anim.imagealpha);
 		img.startAnimation(fadeIn);		
 		activity.setProgressBarIndeterminateVisibility(false);
