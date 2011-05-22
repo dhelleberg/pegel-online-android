@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/tabLinLayout" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:orientation="vertical">
+	<TextView android:text="@+id/tabText" android:id="@+id/tabText"
+		android:paddingLeft="10dip" android:paddingRight="5dip"
+		android:paddingTop="5dip"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:gravity="top|center"
+		android:textColor="@drawable/tabs_selector">
+	</TextView>
+	 <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"        
+        android:background="@drawable/tab_color_selector" 
+        />
+</LinearLayout>

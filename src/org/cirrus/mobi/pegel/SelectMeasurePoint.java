@@ -73,7 +73,7 @@ public class SelectMeasurePoint extends ListActivity {
 	//listView handler
 	public void onListItemClick(ListView parent, View v, int position, long id) { 
 		Intent i = new Intent();
-		i.setClass(getApplicationContext(),PegelDataView.class);
+		i.setClass(getApplicationContext(),TabbedDataActivity.class);
 		i.putExtra("river", river);
 		i.putExtra("pnr", this.measure_points[position][1]);
 		i.putExtra("mpoint", this.measure_points[position][0]);
