@@ -66,6 +66,8 @@ public class PointStore {
 	private static final String LAST_P_UPDATE = "lpu";
 	
 	private static final int DEFAULT_BUFFER = 131072; //128k
+	private static final String LON = "lon";
+	private static final String LAT = "lat";
 
 	//simple cache in memory
 	private JSONObject jo_points = null;
@@ -227,7 +229,7 @@ public class PointStore {
 	 */
 	public String[] getPointData(String pnr) throws Exception
 	{
-		String[] results = new String[3];
+		String[] results = new String[5];
 
 		BufferedReader in = null;
 		try 
@@ -247,6 +249,10 @@ public class PointStore {
 			results[0] = data.getString(MESSUNG);
 			results[1] = data.getString(TENDENZ);
 			results[2] = data.getString(ZEIT);
+			if(data.getString(LAT) != null)
+				results[3] = data.getString(LAT);
+			if(data.getString(LON) != null)
+				results[4] = data.getString(LON);
 		}
 		finally
 		{
