@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import java.util.Set;
+
 import org.cirrus.mobi.pegel.widget.PegelWidgetProvider.UpdateService;
 
 import android.app.Activity;
@@ -26,14 +28,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PegelDataView extends Activity {
 
@@ -42,20 +51,17 @@ public class PegelDataView extends Activity {
 	private static final int DIALOG_ABOUT = 1;
 
 	private PegelApplication pa;
-
 	private String app_ver;
 
-	private AbstractPegelDetail abstractPegelDetail;
-
-	private String mpoint;
-
-	private String river;
-
-	private String pnr;
-
+	private String pnr = null;
 	private boolean norefresh = false;
 
+	private PegelDataProvider pegelDataProvider;
 
+	private PegelDetailHelper pegelDetailHelper;
+
+	
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,21 +69,32 @@ public class PegelDataView extends Activity {
 		
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		setContentView(R.layout.data);
-
-		this.pnr = getIntent().getStringExtra("pnr");
-		this.river = getIntent().getStringExtra("river");
-		this.mpoint = getIntent().getStringExtra("mpoint");
-
-		
-		PegelGrafikView pgv = (PegelGrafikView) findViewById(R.id.PegelGrafikView);
-		
-		this.abstractPegelDetail = new AbstractPegelDetail(this, pgv);
-		
-		this.abstractPegelDetail.showData(pnr, river, mpoint);
+		setContentView(R.layout.pegel_data);	
 		
 		this.pa = (PegelApplication) getApplication();
-		pa.tracker.trackPageView("/PegelDataView");
+		
+		pa.tracker.trackPageView("/PegelDataView");	
+		
+		this.pnr = getIntent().getStringExtra("pnr");
+		String river = getIntent().getStringExtra("river");
+		String mpoint = getIntent().getStringExtra("mpoint");
+
+		StringBuilder headline = new StringBuilder(river);
+		getResources().getConfiguration();
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+			headline.append(' ').append(mpoint);
+		else
+			headline.append('\n').append(mpoint);
+		
+		TextView headlineView = (TextView) findViewById(R.id.data_headline);
+		headlineView.setText(headline);
+		
+		
+		this.pegelDataProvider = PegelDataProvider.getInstance((PegelApplication) getApplication());
+		this.pegelDetailHelper = new PegelDetailHelper(this);
+
+		setProgressBarIndeterminateVisibility(true);
+		this.pegelDataProvider.showData(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails);
 				
 		try {
 			this.app_ver = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
@@ -86,6 +103,7 @@ public class PegelDataView extends Activity {
 		}
 
 	}
+
 
 	//Menu Inflater for fixture selection
 	@Override
@@ -100,7 +118,7 @@ public class PegelDataView extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.m_refresh:
-			this.abstractPegelDetail.showData(pnr, river, mpoint);
+			this.pegelDataProvider.refresh(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails);
 			this.pa.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
 			return true;
 		case R.id.m_feedback:
@@ -165,10 +183,12 @@ public class PegelDataView extends Activity {
 	
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
-		if(!norefresh)
+		// update the widget if we exit
+		if(!norefresh) 
 			this.startService(new Intent(this, UpdateService.class));
 		norefresh = false;
 	}
+	
+
 }

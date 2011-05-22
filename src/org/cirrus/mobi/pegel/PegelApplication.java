@@ -23,6 +23,7 @@ import org.cirrus.mobi.pegel.data.PointStore;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 import android.app.Application;
+import android.graphics.drawable.Drawable;
 
 public class PegelApplication extends Application {
 	
@@ -33,6 +34,8 @@ public class PegelApplication extends Application {
 	
 	private PointStore pointStore;
 	public GoogleAnalyticsTracker tracker;
+
+	private Drawable d;
 
 
 	@Override
@@ -48,6 +51,14 @@ public class PegelApplication extends Application {
 	public PointStore getPointStore()
 	{
 		return this.pointStore;
+	}
+
+	public void setCachedImage(Drawable d) {
+		this.d = d;		
+	}
+
+	public Drawable getCachedDrawable() {
+		return d;
 	}
 
 }
