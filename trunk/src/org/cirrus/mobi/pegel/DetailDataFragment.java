@@ -23,17 +23,20 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Detailed View of the data
  */
 public class DetailDataFragment extends Fragment {
 
-	private AbstractPegelDetail abstractPegelDetail;
+	private PegelDataProvider pegelDataProvider;
+	private PegelDetailHelper pegelDetailHelper;
 
 
 	public static DetailDataFragment getInstance(String pnr, String river, String mpoint) {
@@ -51,12 +54,27 @@ public class DetailDataFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		abstractPegelDetail.showData(getArguments().getString("pnr"), getArguments().getString("river"), getArguments().getString("mpoint"));		
+
+		this.pegelDetailHelper = new PegelDetailHelper(getActivity());
+		
+		StringBuilder headline = new StringBuilder(getArguments().getString("river"));
+		getResources().getConfiguration();
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+			headline.append(' ').append(getArguments().getString("mpoint"));
+		else
+			headline.append('\n').append(getArguments().getString("mpoint"));
+		
+		TextView headlineView = (TextView) getActivity().findViewById(R.id.data_headline);
+		headlineView.setText(headline);
+		
+		getActivity().setProgressBarIndeterminateVisibility(true);
+		this.pegelDataProvider.showData(getArguments().getString("pnr"), pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails);
+
 	}
 
 	public void refresh()
 	{
-		abstractPegelDetail.showData(getArguments().getString("pnr"), getArguments().getString("river"), getArguments().getString("mpoint"));
+		this.pegelDataProvider.refresh(getArguments().getString("pnr"), pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails);
 	}
 
 	@Override
@@ -65,9 +83,10 @@ public class DetailDataFragment extends Fragment {
 
 		super.onCreateView(inflater, container, savedInstanceState);
 
-		View dataView  = inflater.inflate(R.layout.data, container, false);
+		View dataView  = inflater.inflate(R.layout.pegel_data, container, false);
 		PegelGrafikView pgv = (PegelGrafikView) dataView.findViewById(R.id.PegelGrafikView);
-		this.abstractPegelDetail = new AbstractPegelDetail(getActivity(), pgv);
+		this.pegelDataProvider = PegelDataProvider.getInstance((PegelApplication) getActivity().getApplication());
+
 
 		// setup Action Bar for tabs
 		final ActionBar actionBar = getActivity().getActionBar();
