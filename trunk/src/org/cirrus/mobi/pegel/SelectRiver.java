@@ -49,7 +49,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		{
 			Intent i = new Intent();
 			
-			i.setClass(getApplicationContext(),PegelDataView.class);
+			i.setClass(getApplicationContext(),TabbedDataActivity.class);
 			i.putExtra("river", river);
 			i.putExtra("pnr", settings.getString("pnr", ""));
 			i.putExtra("mpoint", settings.getString("mpoint", ""));
