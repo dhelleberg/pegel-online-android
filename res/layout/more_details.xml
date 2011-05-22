@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<TextView
+		android:text="Messdaten"
+		android:id="@+id/textView1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></TextView>
+	<TableLayout
+		android:layout_height="match_parent"
+		android:id="@+id/tableLayout1"
+		android:layout_width="match_parent">
+		<TableRow
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:id="@+id/tableRow1Headline">
+			<TextView
+				style="@style/TableHeadline"
+				android:text="Messung"
+				android:id="@+id/textView2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"></TextView>
+			<TextView
+				style="@style/TableHeadline"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView3"
+				android:text="Wert"></TextView>
+			<TextView
+				style="@style/TableHeadline"
+				android:text="Beschreibung"
+				android:id="@+id/textView4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"></TextView>
+		</TableRow>
+		<TableRow
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:id="@+id/tableRow2">
+			<TextView
+				android:text="Pegel"
+				android:id="@+id/textView2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"></TextView>
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView3"
+				android:text="xxx cm"></TextView>
+			<TextView
+				android:text="Aktueller Pegel"
+				android:id="@+id/textView4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"></TextView>
+		</TableRow>
+	</TableLayout>
+</LinearLayout>
