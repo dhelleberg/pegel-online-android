@@ -2,7 +2,12 @@
 <resources>
 	<style name="listViewActivatedStyle"/>
 	
-	<style name="TableHeadline" parent="@android:style/TextAppearance.Medium">
+	<style name="DetailsHeadline" parent="@android:style/TextAppearance.Medium">
+		<item name="android:textStyle">bold</item>
+	</style>
+	
+	<style name="TableHeadline">
 		<item name="android:textStyle">bold</item>
 	</style>		
+			
 </resources>
