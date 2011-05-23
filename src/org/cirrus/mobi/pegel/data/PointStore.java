@@ -249,9 +249,9 @@ public class PointStore {
 			results[0] = data.getString(MESSUNG);
 			results[1] = data.getString(TENDENZ);
 			results[2] = data.getString(ZEIT);
-			if(data.getString(LAT) != null)
+			if(data.has(LAT))
 				results[3] = data.getString(LAT);
-			if(data.getString(LON) != null)
+			if(data.has(LON))
 				results[4] = data.getString(LON);
 		}
 		finally
