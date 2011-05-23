@@ -34,6 +34,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 
 	private static final String PREFS_NAME = "prefs";
 	private AbstractSelectRiver abstractSR;
+	private PegelApplication pegelApp;
 
 	
 
@@ -42,6 +43,8 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		this.pegelApp = (PegelApplication) getApplication();
 		//check if we have a saved preference, then we jump to detailview already
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		String river = settings.getString("river", "");
@@ -56,9 +59,8 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 			startActivity(i);		
 		}
 		else
-		{   //only fire tracker if we do not forward
-			PegelApplication pa = (PegelApplication) getApplication();
-			pa.tracker.trackPageView("/SelectRiver");
+		{   //only fire tracker if we do not forward			
+			pegelApp.tracker.trackPageView("/SelectRiver");
 		}
 		
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -85,8 +87,10 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		if(rivers != null)
 			setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, rivers));
 		else
+		{
 			Toast.makeText(this,getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-		
+			pegelApp.tracker.trackEvent("ERROR-Visible", "ShowRivers", "Toast", 0);
+		}		
 		setProgressBarIndeterminateVisibility(false);	
 	}
 
