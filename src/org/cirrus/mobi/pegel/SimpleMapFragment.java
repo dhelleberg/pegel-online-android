@@ -121,11 +121,11 @@ public class SimpleMapFragment extends Fragment {
 				break;
 			case PegelDataProvider.STATUS_NO_MAP:
 				getActivity().runOnUiThread(mUpdateNoMap);
-				pegelApp.tracker.trackEvent("Map", "NoMap3", "Sorry", 0);
+				pegelApp.tracker.trackEvent("Map", "NoMap3", "Sorry", 1);
 				break;
 			default:
 				Toast.makeText(getActivity().getApplicationContext(), getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-				pegelApp.tracker.trackEvent("ERROR-Visible", "ShowMap", "Toast", 0);
+				pegelApp.tracker.trackEvent("ERROR-Visible", "ShowMap", "Toast", 1);
 				break;
 			}
 			getActivity().setProgressBarIndeterminateVisibility(false);

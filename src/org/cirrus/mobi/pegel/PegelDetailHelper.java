@@ -138,7 +138,7 @@ public class PegelDetailHelper {
 				break;
 			default:
 				Toast.makeText(activity, activity.getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-				pegelApp.tracker.trackEvent("ERROR-Visible", "Data", "Toast", 0);
+				pegelApp.tracker.trackEvent("ERROR-Visible", "Data", "Toast", 1);
 				break;
 			}
 		}
@@ -155,7 +155,7 @@ public class PegelDetailHelper {
 				break;
 			default:
 				Toast.makeText(activity, activity.getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-				pegelApp.tracker.trackEvent("ERROR-Visible", "DataDetail", "Toast", 0);
+				pegelApp.tracker.trackEvent("ERROR-Visible", "DataDetail", "Toast", 1);
 				break;
 			}
 		}
@@ -174,7 +174,7 @@ public class PegelDetailHelper {
 
 			default:
 				Toast.makeText(activity, activity.getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-				pegelApp.tracker.trackEvent("ERROR-Visible", "ShowImage", "Toast", 0);
+				pegelApp.tracker.trackEvent("ERROR-Visible", "ShowImage", "Toast", 1);
 				break;
 			}			
 		}

@@ -124,12 +124,12 @@ public class PegelDataProvider {
 						data = ps.getPointData(pnr);
 					} catch (Exception e) {
 						Log.w(TAG, "Error fecthing data from server, retry...", e);					
-						pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 0);
+						pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 1);
 						try {
 							data = ps.getPointData(pnr);
 						} catch (Exception e1) {
 							Log.w(TAG, "Error fecthing data from server, giving up...", e);
-							pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 0);
+							pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 1);
 						}
 					}
 				} 				
@@ -149,12 +149,12 @@ public class PegelDataProvider {
 						imgurl = ps.getURLData(pnr);
 					} catch (Exception e) {
 						Log.w(TAG, "Error fecthing data from server, retry...", e);
-						pegelApp.tracker.trackEvent("ERROR", "getURLData-hidden", e.getMessage(), 0);
+						pegelApp.tracker.trackEvent("ERROR", "getURLData-hidden", e.getMessage(), 1);
 						try {
 							imgurl = ps.getURLData(pnr);
 						} catch (Exception e1) {
 							Log.w(TAG, "Error fecthing data from server, giving up...", e);
-							pegelApp.tracker.trackEvent("ERROR", "getURLData-hidden", e.getMessage(), 0);
+							pegelApp.tracker.trackEvent("ERROR", "getURLData-hidden", e.getMessage(), 1);
 						}
 					} 
 					//fecht image 
@@ -166,7 +166,7 @@ public class PegelDataProvider {
 
 					} catch (Exception e) {
 						Log.w(TAG, "Error fecthing image from server, giving up...", e);
-						pegelApp.tracker.trackEvent("ERROR", "fetchImage-hidden", e.getMessage(), 0);
+						pegelApp.tracker.trackEvent("ERROR", "fetchImage-hidden", e.getMessage(), 1);
 					}
 				}
 				updateImage();
@@ -185,12 +185,12 @@ public class PegelDataProvider {
 						dataDetails = ps.getMeasurePointDetails(pegelApp.getApplicationContext(), pnr);
 					} catch (Exception e) {
 						Log.w(TAG, "Error fecthing data from server, retry...", e);					
-						pegelApp.tracker.trackEvent("ERROR", "getMeasurePointDetails-hidden", e.getMessage(), 0);
+						pegelApp.tracker.trackEvent("ERROR", "getMeasurePointDetails-hidden", e.getMessage(), 1);
 						try {
 							dataDetails = ps.getMeasurePointDetails(pegelApp.getApplicationContext(), pnr);
 						} catch (Exception e1) {
 							Log.w(TAG, "Error fecthing data from server, giving up...", e);
-							pegelApp.tracker.trackEvent("ERROR", "getMeasurePointDetails-hidden", e.getMessage(), 0);
+							pegelApp.tracker.trackEvent("ERROR", "getMeasurePointDetails-hidden", e.getMessage(), 1);
 						}
 					}
 				}
@@ -213,12 +213,12 @@ public class PegelDataProvider {
 						pdata = ps.getPointData(pnr);
 					} catch (Exception e) {
 						Log.w(TAG, "Error fecthing data from server, retry...", e);					
-						pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 0);
+						pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 1);
 						try {
 							pdata = ps.getPointData(pnr);
 						} catch (Exception e1) {
 							Log.w(TAG, "Error fecthing data from server, giving up...", e);
-							pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 0);
+							pegelApp.tracker.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 1);
 						}
 					}
 					if(pdata != null && pdata[3] != null)
@@ -240,7 +240,7 @@ public class PegelDataProvider {
 							pegelApp.setCachedImage("map",Drawable.createFromStream(is, "src"));	
 						} catch (Exception e1) {
 							Log.w(TAG, "Error fetching maps-URL",e1);
-							pegelApp.tracker.trackEvent("ERROR", "fetchMap-hidden", e1.getMessage(), 0);
+							pegelApp.tracker.trackEvent("ERROR", "fetchMap-hidden", e1.getMessage(), 1);
 						}
 						finally
 						{
