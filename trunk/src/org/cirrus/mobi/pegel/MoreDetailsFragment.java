@@ -125,7 +125,7 @@ public class MoreDetailsFragment extends Fragment {
 				break;
 			default:
 				Toast.makeText(getActivity().getApplicationContext(), getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-				pegelApp.tracker.trackEvent("ERROR-Visible", "MoreDataDetail3", "Toast", 0);
+				pegelApp.tracker.trackEvent("ERROR-Visible", "MoreDataDetail3", "Toast", 1);
 				break;
 			}
 			if(getActivity() != null)

@@ -125,8 +125,9 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.m_refresh:
+			setProgressBarIndeterminateVisibility(true);
 			this.pegelDataProvider.refresh(pnr, null, null, null, pdrDataMap, getSize());
-			this.pegelApp.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
+			this.pegelApp.tracker.trackEvent("MapActivity", "refresh", "refresh", 1);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -146,11 +147,11 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 				break;
 			case PegelDataProvider.STATUS_NO_MAP:
 				runOnUiThread(mUpdateNoMap);
-				pegelApp.tracker.trackEvent("Map", "NoMap", "Sorry", 0);
+				pegelApp.tracker.trackEvent("Map", "NoMap", "Sorry", 1);
 				break;
 			default:
 				Toast.makeText(getApplicationContext(), getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-				pegelApp.tracker.trackEvent("ERROR-Visible", "ShowMap", "Toast", 0);
+				pegelApp.tracker.trackEvent("ERROR-Visible", "ShowMap", "Toast", 1);
 				break;
 			}
 			setProgressBarIndeterminateVisibility(false);

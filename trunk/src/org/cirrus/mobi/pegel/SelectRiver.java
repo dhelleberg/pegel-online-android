@@ -89,7 +89,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		else
 		{
 			Toast.makeText(this,getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-			pegelApp.tracker.trackEvent("ERROR-Visible", "ShowRivers", "Toast", 0);
+			pegelApp.tracker.trackEvent("ERROR-Visible", "ShowRivers", "Toast", 1);
 		}		
 		setProgressBarIndeterminateVisibility(false);	
 	}
