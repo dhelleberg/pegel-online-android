@@ -14,4 +14,6 @@
     <string name="connection_error">Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!</string>
     <string name="pgview_hsw">HSW-</string>
     <string name="pgview_pegel">PEG-</string>
+    <string name="noMap">Sorry, für diese Mess-Station sind keine Koordinaten verfügbar :(</string>
+    <string name="mapHeader">Karte</string>
 </resources>
