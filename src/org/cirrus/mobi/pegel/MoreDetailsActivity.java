@@ -54,8 +54,8 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 
 		this.pegelDetailHelper = new PegelDetailHelper(this);
 
-		this.pa = (PegelApplication) getApplication();		
-		pa.tracker.trackPageView("/PegelDataDetailsView");
+		this.pegelApp = (PegelApplication) getApplication();		
+		pegelApp.tracker.trackPageView("/PegelDataDetailsView");
 
 		this.pnr = getIntent().getStringExtra("pnr");
 
@@ -104,7 +104,7 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 		switch (item.getItemId()) {
 		case R.id.m_refresh:
 			this.pegelDataProvider.refresh(pnr, null, null, pdrDataDetails, null, 0);
-			this.pa.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
+			this.pegelApp.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -124,6 +124,7 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 				break;
 			default:
 				Toast.makeText(getApplicationContext(), getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
+				pegelApp.tracker.trackEvent("ERROR-Visible", "MoreDataDetail", "Toast", 0);
 				break;
 			}
 			setProgressBarIndeterminateVisibility(false);

@@ -15,11 +15,14 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,20 +44,21 @@ public class PegelFragmentsActivity extends Activity {
 
 	private String app_ver;
 	private PegelApplication pa;
-	
+	private DetailDataFragment df;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
+
 		//check if we have a saved preference, then we jump to detailview already
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		String river = settings.getString("river", "");		
-		
+
 		ListRiverFragment lrf = null; 
-		
+
 		if(river.length() > 0)
 		{
 			//saved preferences, show details
@@ -75,23 +79,23 @@ public class PegelFragmentsActivity extends Activity {
 			transaction.addToBackStack(null);
 			// Commit the transaction
 			transaction.commit();*/
-	
+
 		}
 		if(lrf != null)
 			getFragmentManager().beginTransaction().replace(R.id.ListRiverFragment, lrf).commit();
-		
+
 		setContentView(R.layout.fragment_view);
-		
+
 		this.pa = (PegelApplication) getApplication();
 		pa.tracker.trackPageView("/PegelFragmentsActivity");
-		
+
 		try {
 			this.app_ver = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
 		} catch (NameNotFoundException e) {
 			this.app_ver = "unknown";
 		}		
 	}
-	
+
 	//Menu Inflater action bar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,19 +137,19 @@ public class PegelFragmentsActivity extends Activity {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-	    Dialog dialog;
-	    switch(id) {
-	    case DIALOG_ABOUT:
-	        dialog = createAboutDialog();
-	        break;
-	    default:
-	        dialog = null;
-	    }
-	    return dialog;
+		Dialog dialog;
+		switch(id) {
+		case DIALOG_ABOUT:
+			dialog = createAboutDialog();
+			break;
+		default:
+			dialog = null;
+		}
+		return dialog;
 	}
-	
+
 	private Dialog createAboutDialog() {
-		
+
 		Dialog dialog = new Dialog(this);
 
 		dialog.setContentView(R.layout.about_dialog);
@@ -155,9 +159,72 @@ public class PegelFragmentsActivity extends Activity {
 		text.setText(R.string.about);
 		ImageView image = (ImageView) dialog.findViewById(R.id.about_d_logo);
 		image.setImageResource(R.drawable.icon);
-		
+
 		return dialog;
 	}
+	
+	public void showDetails(String pnr, String river, String mpoint)
+	{
+			this.df = DetailDataFragment.getInstance(pnr, river, mpoint);			
+			
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			// Replace whatever is in the fragment_container view with this fragment,
+			transaction.replace(R.id.details, df);			
+			// Commit the transaction
+			transaction.commit();
+			if(getActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS)
+				showTabs(pnr);
+	}
+
+	private void showTabs(String pnr)
+	{
+		// setup Action Bar for tabs
+		final ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		if(actionBar.getTabCount() == 0)
+		{			
+			// add a new tab and set its title text and tab listener
+			actionBar.addTab(actionBar.newTab().setText(R.string.tab1)
+					.setTabListener(new MyTabListener(df)));
+
+			actionBar.addTab(actionBar.newTab().setText(R.string.tab2)
+					.setTabListener(new MyTabListener(MoreDetailsFragment.getInstance(pnr))));
+
+			/*actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
+					.setTabListener(new MyTabListener(this)));*/
+		}
+	}
+
+	private class MyTabListener implements ActionBar.TabListener {
+		private Fragment mFragment;
+
+		// Called to create an instance of the listener when adding a new tab
+		public MyTabListener(Fragment fragment) {
+			mFragment = fragment;
+		}
+
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			if(getFragmentManager() != null) // I have seen NPEs here :(
+			{
+				Fragment f = getFragmentManager().findFragmentById(R.id.details);
+				if(f != null && f.getId() != mFragment.getId())
+					ft.replace(R.id.details, mFragment, null);				
+			}
+		}
+
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			// do nothing
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
+
 
 	/*
 	@Override

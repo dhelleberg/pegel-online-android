@@ -32,6 +32,7 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 
 	int mCurCheckPosition = 0;	
 	private AbstractSelectRiver abstractSR;
+	private PegelApplication pegelApp;
 	
 	public static ListRiverFragment getInstance(String river, String mpoint, String pnr)
 	{
@@ -52,7 +53,7 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		super.onActivityCreated(savedInstanceState);
 
 		getActivity().setProgressBarIndeterminateVisibility(true);
-
+		this.pegelApp = (PegelApplication) getActivity().getApplication();
 		if (savedInstanceState != null) {
 			// Restore last state for checked position.
 			mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
@@ -106,7 +107,10 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		if(rivers != null)
 			setListAdapter(new ArrayAdapter<String>(getActivity(),R.layout.list_item, R.id.SequenceTextView01, rivers));
 		else
+		{
 			Toast.makeText(getActivity(),getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
+			pegelApp.tracker.trackEvent("ERROR-Visible", "ShowRivers-3", "Toast", 0);
+		}
 
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		getActivity().setProgressBarIndeterminateVisibility(false);
