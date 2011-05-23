@@ -22,11 +22,13 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MapActivity extends AbstractPegelDetailsActivity {
@@ -40,6 +42,13 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 		}
 	};
 	
+	// Create runnable for posting
+	final Runnable mUpdateNoMap = new Runnable() {
+		public void run() {
+			updateNoMapinUi();
+		}		
+	};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,8 +59,8 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 
 		this.pegelDetailHelper = new PegelDetailHelper(this);
 
-		this.pa = (PegelApplication) getApplication();		
-		pa.tracker.trackPageView("/PegelDataMapView");
+		this.pegelApp = (PegelApplication) getApplication();		
+		pegelApp.tracker.trackPageView("/PegelDataMapView");
 
 		this.pnr = getIntent().getStringExtra("pnr");
 		
@@ -70,6 +79,7 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 		
 		final ImageView map = (ImageView) findViewById(R.id.map_image);
 		final ViewTreeObserver vto = map.getViewTreeObserver();
+		// we need to let the layout finish first in order to get the correct size of the image, then request the map
 		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 		    public boolean onPreDraw() {
 		        int finalHeight = map.getMeasuredHeight();
@@ -87,7 +97,6 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 	}
 	
 	private int getSize() {
-		//Display display = getWindowManager().getDefaultDisplay();
 		ImageView map = (ImageView) findViewById(R.id.map_image);
 		int size = Math.min(map.getWidth(), map.getHeight());
 		return size;
@@ -100,13 +109,24 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 		img.startAnimation(fadeIn);				
 	}
 	
+	private void updateNoMapinUi() {
+		ImageView img = (ImageView) findViewById(R.id.map_image);
+		TextView tv = (TextView) findViewById(R.id.noMap);
+		img.setVisibility(View.GONE);		
+		Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.imagealpha);
+		tv.startAnimation(fadeIn);
+		tv.setVisibility(View.VISIBLE);
+	}
+		
+	
+	
 	// This method is called once a menu item is selected
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.m_refresh:
 			this.pegelDataProvider.refresh(pnr, null, null, null, pdrDataMap, getSize());
-			this.pa.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
+			this.pegelApp.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -124,8 +144,13 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 			case PegelDataProvider.STATUS_FINISHED:								
 				runOnUiThread(mUpdateDatenMap);
 				break;
+			case PegelDataProvider.STATUS_NO_MAP:
+				runOnUiThread(mUpdateNoMap);
+				pegelApp.tracker.trackEvent("Map", "NoMap", "Sorry", 0);
+				break;
 			default:
 				Toast.makeText(getApplicationContext(), getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
+				pegelApp.tracker.trackEvent("ERROR-Visible", "ShowMap", "Toast", 0);
 				break;
 			}
 			setProgressBarIndeterminateVisibility(false);
