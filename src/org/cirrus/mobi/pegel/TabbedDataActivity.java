@@ -6,7 +6,6 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 
 public class TabbedDataActivity extends TabActivity {
 
-	private PegelDataProvider abstractPegelDetail;
 	private boolean norefresh = false;
 
 	@Override
@@ -30,9 +28,9 @@ public class TabbedDataActivity extends TabActivity {
 		
 		setContentView(R.layout.tabbed_pegel_data);
 
-		this.abstractPegelDetail = PegelDataProvider.getInstance((PegelApplication) getApplication());
+		//initialize the Data Provider Singleton whith this activity
+		PegelDataProvider.getInstance((PegelApplication) getApplication());
 		
-		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost();  // The activity TabHost
 		TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 		Intent intent;  // Reusable Intent for each tab
