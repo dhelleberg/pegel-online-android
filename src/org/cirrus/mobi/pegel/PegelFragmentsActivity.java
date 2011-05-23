@@ -44,7 +44,8 @@ public class PegelFragmentsActivity extends Activity {
 
 	private String app_ver;
 	private PegelApplication pa;
-	private DetailDataFragment df;
+	private int index;
+
 
 	/** Called when the activity is first created. */
 	@Override
@@ -165,48 +166,49 @@ public class PegelFragmentsActivity extends Activity {
 
 	public void showDetails(String pnr, String river, String mpoint)
 	{
-		this.df = DetailDataFragment.getInstance(pnr, river, mpoint);			
-
-		if(getActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS)
-			showTabs(pnr);
-		else
+		showTabs(pnr, river, mpoint);
+		/*		else
 		{
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
-			transaction.replace(R.id.details, df);			
+			transaction.replace(R.id.details, DetailDataFragment.getInstance(pnr, river, mpoint));			
 			// Commit the transaction
 			transaction.commit();
 			//focus tab1
 			getActionBar().selectTab(getActionBar().getTabAt(0));
-		}
+		}*/
 	}
 
-	private void showTabs(String pnr)
+	private void showTabs(String pnr, String river, String mpoint)
 	{
 		// setup Action Bar for tabs
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		if(actionBar.getTabCount() == 0)
-		{			
-			// add a new tab and set its title text and tab listener
-			actionBar.addTab(actionBar.newTab().setText(R.string.tab1)
-					.setTabListener(new MyTabListener(df)));
+		actionBar.removeAllTabs();
 
-			actionBar.addTab(actionBar.newTab().setText(R.string.tab2)
-					.setTabListener(new MyTabListener(MoreDetailsFragment.getInstance(pnr))));
+		// add a new tab and set its title text and tab listener
+		actionBar.addTab(actionBar.newTab().setText(R.string.tab1)
+				.setTabListener(new MyTabListener(DetailDataFragment.getInstance(pnr, river, mpoint),0)),false);
 
-			actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
-					.setTabListener(new MyTabListener(SimpleMapFragment.getInstance(pnr))));
-		}
+		actionBar.addTab(actionBar.newTab().setText(R.string.tab2)
+				.setTabListener(new MyTabListener(MoreDetailsFragment.getInstance(pnr),1)),false);
+
+		actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
+				.setTabListener(new MyTabListener(SimpleMapFragment.getInstance(pnr),2)),false);
+		
+		actionBar.selectTab(actionBar.getTabAt(index));
+
 	}
 
 	private class MyTabListener implements ActionBar.TabListener {
 		private Fragment mFragment;
+		private int mindex;
 
 		// Called to create an instance of the listener when adding a new tab
-		public MyTabListener(Fragment fragment) {
+		public MyTabListener(Fragment fragment, int mindex) {
 			mFragment = fragment;
+			this.mindex = mindex;			
 		}
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
@@ -214,7 +216,10 @@ public class PegelFragmentsActivity extends Activity {
 			{
 				Fragment f = getFragmentManager().findFragmentById(R.id.details);
 				if(f != mFragment)
-					ft.replace(R.id.details, mFragment);				
+				{
+					ft.replace(R.id.details, mFragment);
+					index = this.mindex;
+				}
 			}
 		}
 
