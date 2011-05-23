@@ -115,19 +115,19 @@ public class PegelFragmentsActivity extends Activity {
 		case R.id.m_refresh:
 			DetailDataFragment df = (DetailDataFragment) getFragmentManager().findFragmentById(R.id.details);
 			df.refresh();
-			this.pa.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
+			this.pa.tracker.trackEvent("PegelDataView", "refresh", "refresh3", 1);
 			return true;
 		case R.id.m_feedback:
 			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 			emailIntent.setType("message/rfc822");
 			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"dominik.helleberg@googlemail.com"});
 			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pegel-Online Feedback" );  
-			this.pa.tracker.trackEvent("PegelDataView", "feedback", "feedback", 1);
+			this.pa.tracker.trackEvent("PegelDataView", "feedback", "feedback3", 1);
 			startActivity(Intent.createChooser(emailIntent, "Email senden..."));
 			return true;
 		case R.id.m_about:
 			showDialog(DIALOG_ABOUT);
-			this.pa.tracker.trackEvent("PegelDataView", "about", "about", 1);
+			this.pa.tracker.trackEvent("PegelDataView", "about", "about3", 1);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -162,18 +162,23 @@ public class PegelFragmentsActivity extends Activity {
 
 		return dialog;
 	}
-	
+
 	public void showDetails(String pnr, String river, String mpoint)
 	{
-			this.df = DetailDataFragment.getInstance(pnr, river, mpoint);			
-			
+		this.df = DetailDataFragment.getInstance(pnr, river, mpoint);			
+
+		if(getActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS)
+			showTabs(pnr);
+		else
+		{
 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
 			// Replace whatever is in the fragment_container view with this fragment,
 			transaction.replace(R.id.details, df);			
 			// Commit the transaction
 			transaction.commit();
-			if(getActionBar().getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS)
-				showTabs(pnr);
+			//focus tab1
+			getActionBar().selectTab(getActionBar().getTabAt(0));
+		}
 	}
 
 	private void showTabs(String pnr)
@@ -191,8 +196,8 @@ public class PegelFragmentsActivity extends Activity {
 			actionBar.addTab(actionBar.newTab().setText(R.string.tab2)
 					.setTabListener(new MyTabListener(MoreDetailsFragment.getInstance(pnr))));
 
-			/*actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
-					.setTabListener(new MyTabListener(this)));*/
+			actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
+					.setTabListener(new MyTabListener(SimpleMapFragment.getInstance(pnr))));
 		}
 	}
 
@@ -208,8 +213,8 @@ public class PegelFragmentsActivity extends Activity {
 			if(getFragmentManager() != null) // I have seen NPEs here :(
 			{
 				Fragment f = getFragmentManager().findFragmentById(R.id.details);
-				if(f != null && f.getId() != mFragment.getId())
-					ft.replace(R.id.details, mFragment, null);				
+				if(f != mFragment)
+					ft.replace(R.id.details, mFragment);				
 			}
 		}
 

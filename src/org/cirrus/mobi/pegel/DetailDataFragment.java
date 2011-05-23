@@ -19,10 +19,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,7 +35,7 @@ public class DetailDataFragment extends Fragment {
 	private PegelDataProvider pegelDataProvider;
 	private PegelDetailHelper pegelDetailHelper;
 
-	private DetailDataFragment() {// use getInstance!	
+	public DetailDataFragment() {// for Framework use	
 	}
 
 	public static DetailDataFragment getInstance(String pnr, String river, String mpoint) {
