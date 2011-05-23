@@ -20,7 +20,6 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 
 import org.cirrus.mobi.pegel.data.PointStore;
 
-import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;

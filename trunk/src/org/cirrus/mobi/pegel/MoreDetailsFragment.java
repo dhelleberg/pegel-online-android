@@ -50,7 +50,7 @@ public class MoreDetailsFragment extends Fragment {
 	public PegelApplication pegelApp;
 
 
-	private MoreDetailsFragment() { //use getInstance!
+	public MoreDetailsFragment() { //for Framework use
 
 	}
 	public static MoreDetailsFragment getInstance(String pnr)
@@ -69,11 +69,11 @@ public class MoreDetailsFragment extends Fragment {
 		pdrDataDetails = new PegelDataResultReciever(new Handler());
 		pdrDataDetails.setReceiver(new DataDetailHandler());
 		
+		this.pegelApp = (PegelApplication) getActivity().getApplication();
+		
 		this.pegelDataProvider = PegelDataProvider.getInstance((PegelApplication) getActivity().getApplication());
 		
 		this.pegelDataProvider.showData(getArguments().getString("pnr"), null, null, pdrDataDetails, null,0 );
-		
-		this.pegelApp = (PegelApplication) getActivity().getApplication();
 		
 		getActivity().setProgressBarIndeterminateVisibility(true);
 	}
@@ -119,15 +119,17 @@ public class MoreDetailsFragment extends Fragment {
 		public void onReceiveResult(int resultCode, final Bundle resultData) {
 			switch (resultCode) {
 			case PegelDataProvider.STATUS_FINISHED:
-				data  = resultData;				
-				getActivity().runOnUiThread(mUpdateDatenDetails);
+				data  = resultData;
+				if(getActivity() != null)
+					getActivity().runOnUiThread(mUpdateDatenDetails);
 				break;
 			default:
 				Toast.makeText(getActivity().getApplicationContext(), getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-				pegelApp.tracker.trackEvent("ERROR-Visible", "MoreDataDetail", "Toast", 0);
+				pegelApp.tracker.trackEvent("ERROR-Visible", "MoreDataDetail3", "Toast", 0);
 				break;
 			}
-			getActivity().setProgressBarIndeterminateVisibility(false);
+			if(getActivity() != null)
+				getActivity().setProgressBarIndeterminateVisibility(false);
 		}
 	}
 }
