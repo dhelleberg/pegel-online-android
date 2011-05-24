@@ -35,7 +35,6 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//import com.google.android.maps.MapActivity;
 
 public class PegelFragmentsActivity extends Activity {
 
@@ -70,17 +69,6 @@ public class PegelFragmentsActivity extends Activity {
 		else
 		{
 			lrf = ListRiverFragment.getInstance(null, null, null);
-			//show map as well
-			/*MapFragment mf = new MapFragment();
-			FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-			// Replace whatever is in the fragment_container view with this fragment,
-			// and add the transaction to the back stack
-			transaction.replace(R.id.details, mf);
-			transaction.addToBackStack(null);
-			// Commit the transaction
-			transaction.commit();*/
-
 		}
 		if(lrf != null)
 			getFragmentManager().beginTransaction().replace(R.id.ListRiverFragment, lrf).commit();
@@ -167,16 +155,7 @@ public class PegelFragmentsActivity extends Activity {
 	public void showDetails(String pnr, String river, String mpoint)
 	{
 		showTabs(pnr, river, mpoint);
-		/*		else
-		{
-			FragmentTransaction transaction = getFragmentManager().beginTransaction();
-			// Replace whatever is in the fragment_container view with this fragment,
-			transaction.replace(R.id.details, DetailDataFragment.getInstance(pnr, river, mpoint));			
-			// Commit the transaction
-			transaction.commit();
-			//focus tab1
-			getActionBar().selectTab(getActionBar().getTabAt(0));
-		}*/
+
 	}
 
 	private void showTabs(String pnr, String river, String mpoint)
@@ -229,18 +208,9 @@ public class PegelFragmentsActivity extends Activity {
 
 		@Override
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			// TODO Auto-generated method stub
+			// do nothing
 
 		}
 
 	}
-
-
-	/*
-	@Override
-	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
-		return false;
-	}*/
-
 }
