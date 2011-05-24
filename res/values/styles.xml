@@ -9,5 +9,8 @@
 	<style name="TableHeadline">
 		<item name="android:textStyle">bold</item>
 	</style>		
-			
+
+	<style name="TableEntry">
+		<!-- empty for default -->
+	</style>				
 </resources>

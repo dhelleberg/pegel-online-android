@@ -16,4 +16,5 @@
     <string name="pgview_pegel">PEG-</string>
     <string name="noMap">Sorry, für diese Mess-Station sind keine Koordinaten verfügbar :(</string>
     <string name="mapHeader">Karte</string>
+    <string name="moreDetailsHeader">Pegel-Werte</string>
 </resources>

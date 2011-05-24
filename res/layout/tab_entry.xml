@@ -5,6 +5,7 @@
 	<TextView android:text="@+id/tabText" android:id="@+id/tabTitle"
 		android:paddingLeft="10dip" android:paddingRight="5dip"
 		android:paddingTop="5dip"
+		android:layout_marginTop="5dip"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:gravity="top|center"
 		android:textColor="@drawable/tabs_selector">
