@@ -17,7 +17,7 @@
 		<FrameLayout
 			android:id="@+id/tab_line"
 			android:layout_width="fill_parent"
-			android:layout_height="1px"
+			android:layout_height="2dip"
 			android:background="@drawable/tab_bg_underline"/>			
 		<FrameLayout
 			android:id="@android:id/tabcontent"

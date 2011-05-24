@@ -9,13 +9,15 @@
 		android:id="@+id/tableTextP"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:padding="4dip"></TextView>
+		android:padding="4dip"
+		style="@style/TableEntry" ></TextView>
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:id="@+id/tableTextM"
 		android:text="xxx cm"
-		android:padding="4dip"></TextView>
+		android:padding="4dip"
+		style="@style/TableEntry" ></TextView>
 	<TextView
 		android:text="Aktueller Pegel"
 		android:id="@+id/tableTextD"
@@ -24,5 +26,6 @@
 		android:padding="4dip"
 		android:scrollHorizontally="false"
 		android:singleLine="false"
-		></TextView> <!--  android:scrollHorizontally="false" android:scrollHorizontally="false"-->
+		style="@style/TableEntry" 
+		></TextView> 
 </TableRow>
