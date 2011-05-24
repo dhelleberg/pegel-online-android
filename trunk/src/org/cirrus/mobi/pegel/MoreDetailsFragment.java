@@ -2,8 +2,6 @@ package org.cirrus.mobi.pegel;
 
 import java.util.Set;
 
-import org.cirrus.mobi.pegel.MoreDetailsActivity.DataDetailHandler;
-
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
