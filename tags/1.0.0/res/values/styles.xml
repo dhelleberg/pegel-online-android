@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="listViewActivatedStyle"/>
+	
+	<style name="DetailsHeadline" parent="@android:style/TextAppearance.Medium">
+		<item name="android:textStyle">bold</item>
+	</style>
+	
+	<style name="TableHeadline">
+		<item name="android:textStyle">bold</item>
+	</style>		
+
+	<style name="TableEntry">
+		<!-- empty for default -->
+	</style>				
+</resources>

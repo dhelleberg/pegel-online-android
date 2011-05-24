@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="org.cirrus.mobi.pegel" android:versionCode="8" android:versionName="1.0.0">
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+		android:name="PegelApplication" android:hardwareAccelerated="true" android:debuggable="false">
+		<activity android:name=".StartupActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".SelectMeasurePoint"></activity>
+		<activity android:name=".PegelDataView"></activity>
+		<activity android:name=".SelectRiver"></activity>
+
+		<receiver android:name=".widget.PegelWidgetProvider">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			</intent-filter>
+			<meta-data android:name="android.appwidget.provider"
+				android:resource="@xml/pegelwidgetinfo" />
+		</receiver>
+		<service android:name=".widget.PegelWidgetProvider$UpdateService" />
+		<activity android:name=".PegelFragmentsActivity"></activity>
+		<!-- <uses-library android:name="com.google.android.maps" android:required="true"></uses-library> -->
+		<activity android:name=".TabbedDataActivity"></activity>
+		<activity android:name=".MoreDetailsActivity"></activity>
+		<activity android:name=".MapActivity"></activity>
+	</application>
+
+	
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-sdk android:minSdkVersion="4"
+		android:maxSdkVersion="12" android:targetSdkVersion="12"></uses-sdk>
+</manifest> 
