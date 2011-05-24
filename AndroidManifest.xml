@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.cirrus.mobi.pegel" android:versionCode="7" android:versionName="0.9.3">
+	package="org.cirrus.mobi.pegel" android:versionCode="8" android:versionName="1.0.0">
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
 		android:name="PegelApplication" android:hardwareAccelerated="true" android:debuggable="false">
 		<activity android:name=".StartupActivity" android:label="@string/app_name">
@@ -33,5 +33,5 @@
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-sdk android:minSdkVersion="4"
-		android:maxSdkVersion="11" android:targetSdkVersion="11"></uses-sdk>
+		android:maxSdkVersion="12" android:targetSdkVersion="12"></uses-sdk>
 </manifest> 
