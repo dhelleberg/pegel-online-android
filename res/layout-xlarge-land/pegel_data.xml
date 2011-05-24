@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:id="@+id/pegel_data">
 	<TextView android:layout_width="fill_parent" android:id="@+id/data_headline"
 		android:layout_height="wrap_content" android:text="..."
 		android:padding="3dip" android:textSize="25sp" />
@@ -35,20 +36,18 @@
 		</TableRow>
 
 	</TableLayout>
+	<ImageView android:layout_width="fill_parent" android:id="@+id/data_image"
+		android:layout_height="fill_parent" android:layout_below="@id/data_table"
+		android:padding="3dip"></ImageView>
 	
 	<view
 	  class="org.cirrus.mobi.pegel.PegelGrafikView" 
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent" 
 	  android:id="@+id/PegelGrafikView" android:focusable="true" android:focusableInTouchMode="true" 
 	  android:layout_toRightOf="@id/data_table"
-	  android:layout_below="@id/data_headline"	  	  	  
-	  android:visibility="gone"/>
+	  android:layout_below="@id/data_headline"
+	  android:layout_alignParentRight="true"
+	  android:visibility="invisible"/>
 	  
-	  	<ImageView android:layout_width="wrap_content" android:id="@+id/data_image"		    
-		android:layout_height="wrap_content" android:layout_below="@id/data_headline" 
-		android:layout_alignTop="@id/data_table"
-		android:layout_alignParentRight="true"
-		android:layout_toRightOf="@id/PegelGrafikView"
-		android:paddingLeft="5dip" android:layout_centerVertical="false"></ImageView>
 </RelativeLayout>
