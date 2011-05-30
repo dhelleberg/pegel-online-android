@@ -11,7 +11,7 @@
 		android:id="@+id/data_table" android:layout_height="wrap_content"
 		android:layout_below="@id/data_headline" >
 		<TableRow>
-			<TextView android:text="Messung" android:padding="3dip"
+			<TextView android:text="@string/measure" android:padding="3dip"
 				android:textSize="20sp" />
 			<TextView android:text="..." android:gravity="left"
 				android:id="@+id/data_table_measure" android:padding="3dip"
@@ -19,7 +19,7 @@
 		</TableRow>
 
 		<TableRow>
-			<TextView android:text="Tendez" android:padding="3dip"
+			<TextView android:text="@string/tendency" android:padding="3dip"
 				android:textSize="20sp" />
 			<TextView android:text="..." android:gravity="left"
 				android:id="@+id/data_table_tendency" android:padding="3dip"
@@ -27,7 +27,7 @@
 		</TableRow>
 
 		<TableRow>
-			<TextView android:text="Zeit" android:padding="3dip"
+			<TextView android:text="@string/date" android:padding="3dip"
 				android:textSize="20sp" />
 			<TextView android:text="..." android:gravity="left"
 				android:id="@+id/data_table_time" android:padding="3dip"

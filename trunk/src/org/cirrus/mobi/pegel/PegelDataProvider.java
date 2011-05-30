@@ -295,17 +295,17 @@ public class PegelDataProvider {
 			int t = Integer.parseInt(data[1]);
 			switch (t) {
 			case 0:
-				tendency = "konstant";
+				tendency = pegelApp.getResources().getText(R.string.tendency_constant).toString();
 				break;
 			case 1:
-				tendency = "steigend";
+				tendency = pegelApp.getResources().getText(R.string.tendency_up).toString();
 				break;
 			case -1:
-				tendency = "fallend";
+				tendency = pegelApp.getResources().getText(R.string.tendency_down).toString();
 				break;
 
 			default:
-				tendency = "unbekannt";
+				tendency = pegelApp.getResources().getText(R.string.tendency_unknown).toString();
 				break;
 			}
 
