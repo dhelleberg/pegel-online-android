@@ -10,38 +10,43 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		style="@style/DetailsHeadline" />
-	<TableLayout
-		android:layout_height="wrap_content"
-		android:id="@+id/measurepointtable"
+	<ScrollView		
+		android:id="@+id/scroller"
 		android:layout_width="wrap_content"
-		android:shrinkColumns="2">
-		<TableRow
-			android:id="@+id/tableRow1Headline"
+		android:layout_height="wrap_content"
+		android:fillViewport="false">
+		<TableLayout
 			android:layout_height="wrap_content"
+			android:id="@+id/measurepointtable"
 			android:layout_width="wrap_content"
-			android:layout_gravity="center_vertical">
-			<TextView
-				style="@style/TableHeadline"
-				android:text="Wert"
-				android:id="@+id/textView2"
+			android:shrinkColumns="2">
+			<TableRow
+				android:id="@+id/tableRow1Headline"
 				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:padding="4dip"></TextView>
-			<TextView
-				style="@style/TableHeadline"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/textView3"
-				android:text="Daten"
-				android:padding="4dip"></TextView>
-			<TextView
-				style="@style/TableHeadline"
-				android:text="Beschreibung"
-				android:id="@+id/textView4"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:padding="4dip"></TextView>
-		</TableRow>
-	</TableLayout>
-	
+				android:layout_gravity="center_vertical">
+				<TextView
+					style="@style/TableHeadline"
+					android:text="Wert"
+					android:id="@+id/textView2"
+					android:layout_height="wrap_content"
+					android:layout_width="match_parent"
+					android:padding="4dip"></TextView>
+				<TextView
+					style="@style/TableHeadline"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/textView3"
+					android:text="Daten"
+					android:padding="4dip"></TextView>
+				<TextView
+					style="@style/TableHeadline"
+					android:text="Beschreibung"
+					android:id="@+id/textView4"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="4dip"></TextView>
+			</TableRow>
+		</TableLayout>
+	</ScrollView>
 </LinearLayout>
