@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style
+		name="listViewActivatedStyle">
+		<item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+	</style>
+		<style name="DetailsHeadline" parent="@android:style/TextAppearance.Medium">
+		<item name="android:textStyle">bold</item>
+		<item name="android:textSize">24sp</item>
+	</style>
+	
+	<style name="TableHeadline">
+		<item name="android:textStyle">bold</item>
+		<item name="android:textSize">18sp</item>
+	</style>		
+
+	<style name="TableEntry">
+		<item name="android:textSize">18sp</item>
+	</style>
+</resources>

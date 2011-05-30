@@ -1,0 +1,23 @@
+<RelativeLayout android:id="@+id/widget_layout"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@drawable/widget_bg" android:paddingLeft="18dip"
+	android:paddingRight="8dip" android:clickable="true">
+	<TextView android:layout_width="wrap_content" android:id="@+id/widget_head"
+		android:text="@string/widget_default" android:layout_alignParentTop="true"
+		android:layout_height="wrap_content" android:textColor="#ffffff"></TextView>
+	
+	<TextView android:layout_width="wrap_content" android:id="@+id/widget_data"
+		android:text="..." android:layout_below="@+id/widget_head"
+		android:layout_height="wrap_content"
+		android:textColor="#ffffff"></TextView>		
+
+	<TextView android:text="update..." 
+	android:layout_width="wrap_content" 
+	android:id="@+id/widget_update" 
+	android:textColor="#ffffff" 
+	android:gravity="right" 
+	android:paddingRight="5dip"
+	android:layout_height="wrap_content" android:layout_alignParentRight="true"
+	android:visibility="invisible"></TextView>
+</RelativeLayout>
