@@ -20,6 +20,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -64,6 +65,13 @@ public class PegelDataView extends AbstractPegelDetailsActivity {
 
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(getParent() != null)
+			return getParent().onKeyDown(keyCode, event);
+		else
+			return super.onKeyDown(keyCode, event);
+	}
 
 
 }

@@ -23,6 +23,7 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -131,6 +132,13 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 			setProgressBarIndeterminateVisibility(false);
 		}
 	}
-
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(getParent() != null)
+			return getParent().onKeyDown(keyCode, event);
+		else
+			return super.onKeyDown(keyCode, event);
+	}
 	
 }
