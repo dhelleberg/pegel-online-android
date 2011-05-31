@@ -21,6 +21,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -136,7 +137,6 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 	}
 
 	
-	
 	class MapHandler implements PegelDataResultReciever.Receiver
 	{
 		@Override
@@ -156,6 +156,14 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 			}
 			setProgressBarIndeterminateVisibility(false);
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(getParent() != null)
+			return getParent().onKeyDown(keyCode, event);
+		else
+			return super.onKeyDown(keyCode, event);
 	}
 
 }
