@@ -6,6 +6,7 @@ import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.SelectRiver;
 
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.Preference;
@@ -99,8 +100,9 @@ public class SelectRiversTest extends ActivityInstrumentationTestCase2<SelectRiv
 	}*/
 
 	public void testListContents() throws Exception {
-		if(mActivity.getListAdapter().isEmpty())		
-			Thread.sleep(2000);
+		getInstrumentation().waitForIdleSync();
+		if(mActivity.getListAdapter() == null || mActivity.getListAdapter().isEmpty())		
+			Thread.sleep(2000) ;//wait for rivers to be fetched
 		
 		ListView list = (ListView) mActivity.findViewById(android.R.id.list);
 		String river1 = (String) list.getAdapter().getItem(0);
