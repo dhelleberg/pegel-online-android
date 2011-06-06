@@ -110,7 +110,7 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 			AppWidgetManager mgr = AppWidgetManager.getInstance(this);			
 
 			PegelApplication pa = (PegelApplication) getApplication();
-			pa.tracker.trackEvent("WidgetView", "refresh", "refresh", 1);
+			pa.trackEvent("WidgetView", "refresh", "refresh", 1);
 
 			// Get the layout for the App Widget and attach an on-click listener to the button
 			RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.pegel_widget);
