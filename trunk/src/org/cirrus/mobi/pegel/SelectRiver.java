@@ -60,7 +60,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		}
 		else
 		{   //only fire tracker if we do not forward			
-			pegelApp.tracker.trackPageView("/SelectRiver");
+			pegelApp.trackPageView("/SelectRiver");
 		}
 		
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -89,7 +89,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		else
 		{
 			Toast.makeText(this,getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-			pegelApp.tracker.trackEvent("ERROR-Visible", "ShowRivers", "Toast", 1);
+			pegelApp.trackEvent("ERROR-Visible", "ShowRivers", "Toast", 1);
 		}		
 		setProgressBarIndeterminateVisibility(false);	
 	}

@@ -109,7 +109,7 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		else
 		{
 			Toast.makeText(getActivity(),getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
-			pegelApp.tracker.trackEvent("ERROR-Visible", "ShowRivers-3", "Toast", 1);
+			pegelApp.trackEvent("ERROR-Visible", "ShowRivers-3", "Toast", 1);
 		}
 
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);

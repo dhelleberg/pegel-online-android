@@ -70,19 +70,19 @@ public class AbstractPegelDetailsActivity extends Activity {
 		case R.id.m_refresh:
 			setProgressBarIndeterminateVisibility(true);
 			this.pegelDataProvider.refresh(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, 0);
-			this.pegelApp.tracker.trackEvent("PegelDataView", "refresh", "refresh", 1);
+			this.pegelApp.trackEvent("PegelDataView", "refresh", "refresh", 1);
 			return true;
 		case R.id.m_feedback:
 			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 			emailIntent.setType("message/rfc822");
 			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"dominik.helleberg@googlemail.com"});
 			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pegel-Online Feedback" );  
-			this.pegelApp.tracker.trackEvent("PegelDataView", "feedback", "feedback", 1);
+			this.pegelApp.trackEvent("PegelDataView", "feedback", "feedback", 1);
 			startActivity(Intent.createChooser(emailIntent, "Email senden..."));
 			return true;
 		case R.id.m_about:
 			showDialog(DIALOG_ABOUT);
-			this.pegelApp.tracker.trackEvent("PegelDataView", "about", "about", 1);
+			this.pegelApp.trackEvent("PegelDataView", "about", "about", 1);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

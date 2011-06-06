@@ -27,19 +27,29 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 import android.app.Application;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.Log;
 
 public class PegelApplication extends Application {
 	
+	private static final String TAG = "PegelApplication";
+
 	//for local testing
 //	public static final String host = "http://10.0.2.2:8888";
 	//for production
 	public static final String host = "http://pegel-online.appspot.com";
 	
 	private PointStore pointStore;
-	public GoogleAnalyticsTracker tracker;
+	private GoogleAnalyticsTracker tracker;
 
 	private Map<String, Drawable> imageCache = null;
 
+	private boolean emulator = false;
+
+	public boolean isEmulator()
+	{
+		return this.emulator ;
+	}
 
 	@Override
 	public void onCreate() {
@@ -48,7 +58,18 @@ public class PegelApplication extends Application {
 		this.pointStore = new PointStore();
 		
 		tracker = GoogleAnalyticsTracker.getInstance();
+		//detect emulator, 		
 		tracker.start("UA-1395561-4",30 ,this); //every 30 seconds the data is send to analytics
+		
+		if(Build.PRODUCT.equalsIgnoreCase("sdk") || Build.PRODUCT.equalsIgnoreCase("google_sdk"))
+		{
+			StringBuilder deviceInfo = new StringBuilder(Build.PRODUCT).append(' ').append(Build.MANUFACTURER).append(' ').append(Build.DEVICE);
+			Log.v(TAG, "Detected emulator, turn off tracker for: "+deviceInfo);
+			tracker.trackEvent("DEBUG", "On", deviceInfo.toString(), 1);
+			tracker.dispatch();
+			tracker.stop();
+			this.emulator = true;
+		}
 		
 		this.imageCache = new HashMap<String, Drawable>();
 	}
@@ -64,6 +85,21 @@ public class PegelApplication extends Application {
 
 	public Drawable getCachedDrawable(String key) {
 		return this.imageCache.get(key);
+	}
+
+	public void trackEvent(String string, String string2, String string3, int i) {
+		if(this.emulator)
+			Log.v(TAG, "dropping event, running on emulator "+string+string2+string3+i);
+		else
+			tracker.trackEvent(string, string2, string3, i);		
+	}
+
+	public void trackPageView(String string) {
+		if(this.emulator)
+			Log.v(TAG, "dropping pageView, running on emulator "+string);
+		else
+			tracker.trackPageView(string);
+		
 	}
 
 }
