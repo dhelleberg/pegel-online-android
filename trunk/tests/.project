@@ -3,6 +3,7 @@
 	<name>Pegel-OnlineTest</name>
 	<comment></comment>
 	<projects>
+		<project>Pegel-Online</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
