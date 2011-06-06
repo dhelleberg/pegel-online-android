@@ -40,7 +40,7 @@ public class PegelDataView extends AbstractPegelDetailsActivity {
 		setContentView(R.layout.pegel_data);	
 		
 		pegelApp = (PegelApplication) getApplication();
-		pegelApp.tracker.trackPageView("/PegelDataView");	
+		pegelApp.trackPageView("/PegelDataView");	
 		
 		this.pnr = getIntent().getStringExtra("pnr");
 		String river = getIntent().getStringExtra("river");
