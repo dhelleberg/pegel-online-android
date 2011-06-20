@@ -10,12 +10,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.test.ActivityInstrumentationTestCase2;
 
-public class ExampleTest extends ActivityInstrumentationTestCase2<SelectRiver>{
+public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 
 	private Solo solo;
 	private SelectRiver mActivity;
 
-	public ExampleTest() {
+	public UIBBTests() {
 		super("org.cirrus.mobi.pegel", SelectRiver.class);
 	}
 
@@ -34,25 +34,16 @@ public class ExampleTest extends ActivityInstrumentationTestCase2<SelectRiver>{
 		edit.clear();
 		edit.commit();
 	}
-	
-	 public void testRivers() throws Exception {
-		
-//		 solo.scrollDownList(8);
-//		 solo.getView(org.cirrus.mobi.pegel.R.id.)
-		 solo.waitForText("ALLER");
-//		 solo.drag(400, 100, 30, 30, 1);
-		 Assert.assertTrue(solo.searchText("RHEIN"));
-	 }
 	 
 	 public void testSelection() throws Exception {
+		 Assert.assertTrue(solo.waitForText("ALLER", 1, 8000));
 		 solo.clickOnText("RHEIN");
-		 Assert.assertTrue(solo.waitForText("BONN"));
+		 Assert.assertTrue(solo.waitForText("BONN", 1, 8000));
 		 solo.clickOnText("BONN");
 		 Assert.assertTrue(solo.waitForText("Tendenz"));
 		 solo.clickOnMenuItem("About");
 		 Assert.assertTrue(solo.waitForText("Dominik"));
 		 solo.goBack();
-		 
 	 }
 	
 	@Override
