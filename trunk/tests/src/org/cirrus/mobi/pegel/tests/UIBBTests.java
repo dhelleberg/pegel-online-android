@@ -76,13 +76,15 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 
 		String filename_pre = "screenshot";
 		String filename_suff = ".png";
-		String SNAPSHOTDIR = "shots";
+		String SNAPSHOTDIR = "/shots";
 		OutputStream outStream = null;
 		try {			
-			String dirname = Environment.getExternalStorageDirectory()+File.separator+SNAPSHOTDIR+File.separator;
+			String dirname = Environment.getExternalStorageDirectory().getPath()+SNAPSHOTDIR;
 			//check if directory exists
 			File dir = new File(dirname);
-			dir.mkdir();
+			if(!dir.exists())
+				dir.mkdir();
+			
 			File f = new File(dir, filename_pre+System.currentTimeMillis()+filename_suff);
 			f.createNewFile();
 			outStream = new FileOutputStream(f);
