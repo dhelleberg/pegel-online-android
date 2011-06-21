@@ -50,8 +50,8 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 		solo.clickOnText("BONN");
 		Assert.assertTrue(solo.waitForText("Tendenz"));
 		solo.clickOnMenuItem("About");
-		Assert.assertTrue(solo.waitForText("Dominik"));
-		
+		screenshot(solo.getCurrentActivity().getWindow().getDecorView());
+		Assert.assertTrue(solo.waitForText("Dominik"));		
 		screenshot(solo.getCurrentActivity().getWindow().getDecorView());
 		solo.goBack();
 	}
@@ -74,15 +74,29 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 		view.setDrawingCacheEnabled(true);
 		Bitmap screenshot = view.getDrawingCache(false);
 
-		String filename = "screenshot.png";
-		try {
-			File f = new File(Environment.getExternalStorageDirectory(),filename);
+		String filename_pre = "screenshot";
+		String filename_suff = ".png";
+		String SNAPSHOTDIR = "shots";
+		OutputStream outStream = null;
+		try {			
+			String dirname = Environment.getExternalStorageDirectory()+File.separator+SNAPSHOTDIR+File.separator;
+			//check if directory exists
+			File dir = new File(dirname);
+			dir.mkdir();
+			File f = new File(dir, filename_pre+System.currentTimeMillis()+filename_suff);
 			f.createNewFile();
-			OutputStream outStream = new FileOutputStream(f);
+			outStream = new FileOutputStream(f);
 			screenshot.compress(Bitmap.CompressFormat.PNG, 100, outStream);
 			outStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		finally
+		{
+			if(outStream != null)
+			{		
+				try {	outStream.close();	} catch (IOException e) {	e.printStackTrace(); }			
+			}
 		}
 		view.setDrawingCacheEnabled(false);
 	} 
