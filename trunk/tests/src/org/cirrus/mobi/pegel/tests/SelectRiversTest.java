@@ -45,13 +45,11 @@ public class SelectRiversTest extends ActivityInstrumentationTestCase2<SelectRiv
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
 		super.setUp();
-
-		mActivity = getActivity();
-		//clear Prefs 
-		clearPrefs();
 		
-		//restart activity
-		mActivity.finish();
+		//clear Prefs 
+		clearPrefs(getInstrumentation().getTargetContext());		
+
+		//restart activity				
 		mActivity = getActivity();
 
 		
@@ -99,11 +97,13 @@ public class SelectRiversTest extends ActivityInstrumentationTestCase2<SelectRiv
 		
 	}*/
 
+	//how to avoid auto-forwarding?
 	public void testListContents() throws Exception {
-		getInstrumentation().waitForIdleSync();
+		getInstrumentation().waitForIdleSync();		
+		
 		if(mActivity.getListAdapter() == null || mActivity.getListAdapter().isEmpty())		
 			Thread.sleep(2000) ;//wait for rivers to be fetched
-		
+		Assert.assertTrue(mActivity.hasWindowFocus());
 		ListView list = (ListView) mActivity.findViewById(android.R.id.list);
 		String river1 = (String) list.getAdapter().getItem(0);
 		Assert.assertTrue(river1.equals("ALLER"));
@@ -111,8 +111,8 @@ public class SelectRiversTest extends ActivityInstrumentationTestCase2<SelectRiv
 	
 
 
-	private void clearPrefs() {
-		SharedPreferences prefs = mActivity.getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+	private void clearPrefs(Context c) {
+		SharedPreferences prefs = c.getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.clear();
 		edit.commit();
