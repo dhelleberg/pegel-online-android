@@ -65,7 +65,7 @@ public class PointStore {
 	private static final String POINT_CACHE_FILE = "point_cache.json";
 	private static final String LAST_P_UPDATE = "lpu";
 	
-	private static final int DEFAULT_BUFFER = 131072; //128k
+	private static final int DEFAULT_BUFFER = 30720; //30k
 	private static final String LON = "lon";
 	private static final String LAT = "lat";
 
