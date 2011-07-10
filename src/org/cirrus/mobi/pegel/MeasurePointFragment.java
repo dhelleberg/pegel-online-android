@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import org.cirrus.mobi.pegel.data.PegelEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import android.app.ListFragment;
@@ -32,7 +33,7 @@ public class MeasurePointFragment extends ListFragment {
 
 	private static final String PREFS_NAME = "prefs";
 
-	private String[][] measure_points;
+	private PegelEntry[] entries;
 	
 	int mCurCheckPosition = -1;	
 
@@ -53,10 +54,10 @@ public class MeasurePointFragment extends ListFragment {
 
 		String[] plain_points = null;
 		try {
-			measure_points = ps.getMeasurePoints(getActivity(),getArguments().getString("river"));
-			plain_points = new String[measure_points.length];
+			entries = ps.getMeasurePoints(getActivity(),getArguments().getString("river"));
+			plain_points = new String[entries.length];
 			for (int i = 0; i < plain_points.length; i++) {
-				plain_points[i] = measure_points[i][0];
+				plain_points[i] = entries[i].getPegelname();
 			}
 
 		} catch (Exception e) {
@@ -91,13 +92,13 @@ public class MeasurePointFragment extends ListFragment {
 		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("river", getArguments().getString("river"));
-		editor.putString("pnr", this.measure_points[position][1]);
-		editor.putString("mpoint", this.measure_points[position][0]);
+		editor.putString("pnr", this.entries[position].getPegelnummer());
+		editor.putString("mpoint", this.entries[position].getPegelname());
 		editor.commit();
 
 		if(position !=  mCurCheckPosition)
 		{
-			((PegelFragmentsActivity) getActivity()).showDetails(this.measure_points[position][1], getArguments().getString("river") ,this.measure_points[position][0]);
+			((PegelFragmentsActivity) getActivity()).showDetails(this.entries[position].getPegelnummer(), getArguments().getString("river") ,this.entries[position].getPegelname());
 			mCurCheckPosition = position;
 		}
 		

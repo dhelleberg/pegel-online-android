@@ -19,6 +19,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import org.cirrus.mobi.pegel.data.PegelEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import android.app.ListActivity;
@@ -36,7 +37,7 @@ public class SelectMeasurePoint extends ListActivity {
 
 	private static final String PREFS_NAME = "prefs";
 
-	private String[][] measure_points;
+	private PegelEntry[] entries;
 	private String river;
 
 	/** Called when the activity is first created. */
@@ -50,10 +51,10 @@ public class SelectMeasurePoint extends ListActivity {
 		
 		String[] plain_points = null;
 		try {
-			measure_points = ps.getMeasurePoints(this,river);
-			plain_points = new String[measure_points.length];
+			entries = ps.getMeasurePoints(this,river);
+			plain_points = new String[entries.length];
 			for (int i = 0; i < plain_points.length; i++) {
-				plain_points[i] = measure_points[i][0];
+				plain_points[i] = entries[i].getPegelname();
 			}
 					
 		} catch (Exception e) {
@@ -75,14 +76,14 @@ public class SelectMeasurePoint extends ListActivity {
 		Intent i = new Intent();
 		i.setClass(getApplicationContext(),TabbedDataActivity.class);
 		i.putExtra("river", river);
-		i.putExtra("pnr", this.measure_points[position][1]);
-		i.putExtra("mpoint", this.measure_points[position][0]);
+		i.putExtra("pnr", this.entries[position].getPegelnummer());
+		i.putExtra("mpoint", this.entries[position].getPegelname());
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("river", river);
-		editor.putString("pnr", this.measure_points[position][1]);
-		editor.putString("mpoint", this.measure_points[position][0]);
+		editor.putString("pnr", this.entries[position].getPegelnummer());
+		editor.putString("mpoint", this.entries[position].getPegelname());
 		editor.commit();
 
 		startActivity(i);		

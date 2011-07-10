@@ -63,7 +63,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 			pegelApp.trackPageView("/SelectRiver");
 		}
 		
-		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);		
 		setContentView(R.layout.main);
 		setProgressBarIndeterminateVisibility(true);
 		
