@@ -1,6 +1,7 @@
 package org.cirrus.mobi.pegel.tests;
 
 import org.cirrus.mobi.pegel.PegelApplication;
+import org.cirrus.mobi.pegel.data.PegelEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import android.content.Context;
@@ -39,14 +40,14 @@ public class PegelApplicationTest extends ApplicationTestCase<PegelApplication> 
     
     public void testMPointsCache() throws Exception {
     	PointStore ps = mPegelApp.getPointStore();
-    	String[][]mpoints = ps.getMeasurePoints(this.mContext, "RHEIN");
+    	PegelEntry[]mpoints = ps.getMeasurePoints(this.mContext, "RHEIN");
     	assertTrue("Checking D\u00fcsseldorf in Measurepoints for RHEIN",contains(mpoints, "D\u00DCSSELDORF", "2750010"));
     }
 
     public void testMPointsUnCache() throws Exception {
     	PointStore ps = mPegelApp.getPointStore();
     	clearPrefs(mContext);
-    	String[][]mpoints = ps.getMeasurePoints(this.mContext, "RHEIN");
+    	PegelEntry[]mpoints = ps.getMeasurePoints(this.mContext, "RHEIN");
     	assertTrue("Checking D\u00fcsseldorf in Measurepoints for RHEIN", contains(mpoints, "D\u00DCSSELDORF", "2750010"));
     }
 
@@ -56,6 +57,14 @@ public class PegelApplicationTest extends ApplicationTestCase<PegelApplication> 
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.clear();
 		edit.commit();
+	}
+	
+	private boolean contains(PegelEntry[] entries, String match1, String match2) {
+		for (int i = 0; i < entries.length; i++) {
+			if(entries[i].getPegelname().equalsIgnoreCase(match1) && entries[i].getPegelnummer().equalsIgnoreCase(match2))
+				return true;
+		}
+		return false;
 	}
 	
     private boolean contains(String[] array, String match)
