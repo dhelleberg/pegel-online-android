@@ -25,14 +25,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.cirrus.mobi.pegel.PegelApplication;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -70,7 +74,8 @@ public class PointStore {
 	private static final String LAT = "lat";
 
 	//simple cache in memory
-	private JSONObject jo_points = null;
+	private Map<String, PegelEntry[]> riverPoints = null;
+	Type riverPointType = new TypeToken<Map<String, PegelEntry[]>>() {}.getType();
 
 	/**
 	 * Returns all available rivers
@@ -81,17 +86,18 @@ public class PointStore {
 	 */
 	public synchronized String[] getRivers(Context context) throws Exception
 	{
-		if(this.jo_points == null)
+		if(this.riverPoints == null)
 		{
 			String points = getPointData(context);
 			Log.v(TAG, "got points from store: "+points);
-			this.jo_points= new JSONObject(points);
+			Gson gson = new Gson();
+			riverPoints = gson.fromJson(points, riverPointType);
 		}
 		else
 			Log.v(TAG, "JSON already parsed...");
 
-		String[]rivers = new String[jo_points.length()];
-		Iterator<String> it  = jo_points.keys();
+		String[]rivers = new String[riverPoints.size()];
+		Iterator<String> it  = riverPoints.keySet().iterator();
 		int i = 0;
 		while (it.hasNext()) {
 			rivers[i] = it.next();
@@ -105,29 +111,22 @@ public class PointStore {
 	 * 
 	 * @param context
 	 * @param river - the rivername
-	 * @return String[][2] = {pegelname, pegelnummer};
+	 * @return {@link PegelEntry} = {pegelname, pegelnummer};
 	 * @throws Exception
 	 */
-	public synchronized String[][] getMeasurePoints(Context context, String river) throws Exception
+	public synchronized PegelEntry[] getMeasurePoints(Context context, String river) throws Exception
 	{
-		if(this.jo_points == null)
+		if(this.riverPoints == null)
 		{
 			String points = getPointData(context);
 			Log.v(TAG, "got points from store: "+points);
-			this.jo_points= new JSONObject(points);
+			Gson gson = new Gson();
+			riverPoints = gson.fromJson(points, riverPointType);
 		}
 		else
 			Log.v(TAG, "JSON already parsed...");
 
-		JSONArray measurepoints = (JSONArray) jo_points.get(river);
-		String[][]m_points = new String[measurepoints.length()][2];
-		for (int i = 0; i < measurepoints.length(); i++) {
-			JSONObject mp = measurepoints.getJSONObject(i);
-			m_points[i][0] = mp.getString(PEGELNAME);
-			m_points[i][1] = mp.getString(PEGELNUMMER);
-		}
-
-		return m_points;
+		return this.riverPoints.get(river);
 	}
 
 	/**
@@ -227,9 +226,9 @@ public class PointStore {
 	 * @return String[3] = { measure, tendency, time };
 	 * @throws Exception
 	 */
-	public String[] getPointData(String pnr) throws Exception
+	public MeasureEntry getPointData(String pnr) throws Exception
 	{
-		String[] results = new String[5];
+		MeasureEntry entry = null;
 
 		BufferedReader in = null;
 		try 
@@ -245,14 +244,9 @@ public class PointStore {
 				sb.append(inputLine);
 			}
 
-			JSONObject data = new JSONObject(sb.toString());
-			results[0] = data.getString(MESSUNG);
-			results[1] = data.getString(TENDENZ);
-			results[2] = data.getString(ZEIT);
-			if(data.has(LAT))
-				results[3] = data.getString(LAT);
-			if(data.has(LON))
-				results[4] = data.getString(LON);
+			Gson gson = new Gson();
+			entry = gson.fromJson(sb.toString(), MeasureEntry.class);
+			
 		}
 		finally
 		{
@@ -260,7 +254,7 @@ public class PointStore {
 				try { in.close(); } catch(Exception e) {}
 		}
 
-		return results;
+		return entry;
 	}
 
 	/**
@@ -286,9 +280,9 @@ public class PointStore {
 			{			
 				sb.append(inputLine);
 			}
-
-			JSONObject data = new JSONObject(sb.toString());
-			imageurl = data.getString(IMGURL);
+			Gson gson = new Gson();
+			ImageEntry entry = gson.fromJson(sb.toString(), ImageEntry.class);
+			imageurl = entry.getImgurl();
 		}
 		finally
 		{
@@ -305,8 +299,8 @@ public class PointStore {
 	 * @return	String[][4] = { name, description, unit, value };
 	 * @throws Exception
 	 */
-	public String[][] getMeasurePointDetails(Context context, String pegelNummer) throws Exception {
-		String[][] details = null;
+	public MeasureStationDetails[] getMeasurePointDetails(Context context, String pegelNummer) throws Exception {
+		MeasureStationDetails[] details = null;
 
 		//check the cache first
 		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
@@ -393,15 +387,9 @@ public class PointStore {
 			}
 		}
 		//extract data
-		JSONArray ja = new JSONArray(serverResp);
-		details = new String[ja.length()][4];
-		for (int i = 0; i < ja.length(); i++) {
-			JSONObject jo = (JSONObject) ja.get(i);
-			details[i][0] = jo.getString(NAME);
-			details[i][1] = jo.getString(DESCRIPTION);
-			details[i][2] = jo.getString(UNIT);
-			details[i][3] = jo.getString(VALUE);
-		}
+		Gson gson = new Gson();
+		details = gson.fromJson(serverResp, MeasureStationDetails[].class);
+		
 		
 		return details;
 	}

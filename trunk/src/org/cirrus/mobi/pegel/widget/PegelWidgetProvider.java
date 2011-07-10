@@ -21,6 +21,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.R;
 import org.cirrus.mobi.pegel.StartupActivity;
+import org.cirrus.mobi.pegel.data.MeasureEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import android.app.IntentService;
@@ -133,7 +134,7 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 				Log.v(TAG, "updateing widget text...");
 
 				PointStore ps = ((PegelApplication) getApplication()).getPointStore();
-				String[] data = null;
+				MeasureEntry data = null;
 				try {
 					data = ps.getPointData(pnr);
 				} catch (Exception e) {
@@ -150,9 +151,9 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 				{
 					Log.v(TAG, "got new data...");
 					StringBuilder measureText = new StringBuilder();
-					measureText.append("Messung: ").append(data[0]).append("\n");
-					measureText.append("Tendenz: ").append(getTendenz(data[1])).append("\n");					
-					measureText.append("Zeit: ").append(data[2]);
+					measureText.append("Messung: ").append(data.getMessung()).append("\n");
+					measureText.append("Tendenz: ").append(getTendenz(data.getTendenz())).append("\n");					
+					measureText.append("Zeit: ").append(data.getZeit());
 					updateViews.setTextViewText(R.id.widget_data, measureText);
 				}
 			}

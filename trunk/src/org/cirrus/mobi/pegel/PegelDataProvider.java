@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.cirrus.mobi.pegel.data.MeasureEntry;
+import org.cirrus.mobi.pegel.data.MeasureStationDetails;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import android.content.Context;
@@ -41,10 +43,10 @@ public class PegelDataProvider {
 	protected static final String MAPS_URL = "http://maps.google.com/maps/api/staticmap?";
 
 
-	private String[] data = null;
+	private MeasureEntry data = null;
 	protected String imgurl = null;
 
-	protected String[][] dataDetails = null;
+	protected MeasureStationDetails[] dataDetails = null;
 
 	private String pnr;
 
@@ -207,7 +209,7 @@ public class PegelDataProvider {
 			public void run() {
 				if((refresh || pegelApp.getCachedDrawable("map")== null) && pdrPegelMap != null )
 				{
-					String[]pdata = null;
+					MeasureEntry pdata = null;
 					PointStore ps = pegelApp.getPointStore();
 					try {
 						pdata = ps.getPointData(pnr);
@@ -221,15 +223,13 @@ public class PegelDataProvider {
 							pegelApp.trackEvent("ERROR", "getPointData-hidden", e.getMessage(), 1);
 						}
 					}
-					if(pdata != null && pdata[3] != null)
+					if(pdata != null && pdata.getLat() != null)
 					{
 
-						String lat = pdata[3];
-						String lon = pdata[4];
 						StringBuilder mapsUrl = new StringBuilder(MAPS_URL);
-						mapsUrl.append("center=").append(lat).append(',').append(lon);
+						mapsUrl.append("center=").append(pdata.getLat()).append(',').append(pdata.getLon());
 						mapsUrl.append("&zoom=12&size=").append(mapsize).append("x").append(mapsize).append("&sensor=false");
-						mapsUrl.append("&markers=color:blue|label:M|").append(lat).append(',').append(lon);
+						mapsUrl.append("&markers=color:blue|label:M|").append(pdata.getLat()).append(',').append(pdata.getLon());
 						Log.v(TAG, "will request map URL: "+mapsUrl.toString());
 
 						URL imgu;
@@ -290,9 +290,9 @@ public class PegelDataProvider {
 		updateing = false;
 		if(data != null && this.pdrPegel != null)
 		{
-			float measure = Float.parseFloat(data[0]);
+			float measure = Float.parseFloat(data.getMessung());
 			String tendency = "";
-			int t = Integer.parseInt(data[1]);
+			int t = Integer.parseInt(data.getTendenz());
 			switch (t) {
 			case 0:
 				tendency = pegelApp.getResources().getText(R.string.tendency_constant).toString();
@@ -312,12 +312,12 @@ public class PegelDataProvider {
 			Bundle b = new Bundle();
 			b.putString("tendency", tendency);
 			b.putFloat("pegel", measure);
-			b.putString("time", data[2].replace(' ', '\n'));
+			b.putString("time", data.getZeit().replace(' ', '\n'));
 			pdrPegel.send(STATUS_FINISHED, b);
 
 			SharedPreferences settings = pegelApp.getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
 			SharedPreferences.Editor edit = settings.edit();
-			edit.putString("measure", data[0]);
+			edit.putString("measure", data.getMessung());
 			edit.commit();
 		}
 		else //ERROR
@@ -334,7 +334,7 @@ public class PegelDataProvider {
 			Bundle bundle = new Bundle();
 			//extract data and put it into the PegelGrafikView
 			for (int i = 0; i < dataDetails.length; i++) {				
-				bundle.putStringArray(dataDetails[i][0], dataDetails[i]);
+				bundle.putStringArray(dataDetails[i].getName(), dataDetails[i].toStringArray());
 			}
 			pdrPegelDetail.send(STATUS_FINISHED, bundle);
 		}
