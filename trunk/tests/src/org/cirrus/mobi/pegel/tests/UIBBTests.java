@@ -1,22 +1,16 @@
 package org.cirrus.mobi.pegel.tests;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import junit.framework.Assert;
 
 import org.cirrus.mobi.pegel.SelectRiver;
+import org.cirrus.mobi.tests.tools.Screenshot;
 
-import com.jayway.android.robotium.solo.Solo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.View;
+
+import com.jayway.android.robotium.solo.Solo;
 
 public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 
@@ -50,9 +44,10 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 		solo.clickOnText("BONN");
 		Assert.assertTrue(solo.waitForText("Tendenz"));
 		solo.clickOnMenuItem("About");
-		screenshot(solo.getCurrentActivity().getWindow().getDecorView());
+
+		Screenshot.save_screenshot(solo.getCurrentActivity().getWindow());
+
 		Assert.assertTrue(solo.waitForText("Dominik"));		
-		screenshot(solo.getCurrentActivity().getWindow().getDecorView());
 		solo.goBack();
 	}
 
@@ -69,38 +64,5 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 		super.tearDown();
 
 	}
-
-	private static void screenshot(View view) {
-		view.setDrawingCacheEnabled(true);
-		Bitmap screenshot = view.getDrawingCache(false);
-
-		String filename_pre = "screenshot";
-		String filename_suff = ".png";
-		String SNAPSHOTDIR = "/shots";
-		OutputStream outStream = null;
-		try {			
-			String dirname = Environment.getExternalStorageDirectory().getPath()+SNAPSHOTDIR;
-			//check if directory exists
-			File dir = new File(dirname);
-			if(!dir.exists())
-				dir.mkdir();
-			
-			File f = new File(dir, filename_pre+System.currentTimeMillis()+filename_suff);
-			f.createNewFile();
-			outStream = new FileOutputStream(f);
-			screenshot.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-			outStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally
-		{
-			if(outStream != null)
-			{		
-				try {	outStream.close();	} catch (IOException e) {	e.printStackTrace(); }			
-			}
-		}
-		view.setDrawingCacheEnabled(false);
-	} 
 
 }
