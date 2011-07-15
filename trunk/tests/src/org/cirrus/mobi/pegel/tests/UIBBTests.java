@@ -76,7 +76,7 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 		}
 		catch(Exception e)
 		{
-			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow(), "ERROR"+e.getMessage());
+			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow(), "ERROR"+e.getMessage().trim());
 			throw e;
 		}
 	}
