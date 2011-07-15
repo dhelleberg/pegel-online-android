@@ -22,16 +22,18 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 	}
 
 	public void setUp() throws Exception {
-		mActivity = getActivity();
+		
 		clearPrefs();
-		//		mActivity.finish();
-		//		mActivity = getActivity();
+		
+		mActivity = getActivity();
+		
+	    getInstrumentation().waitForIdleSync();
 		solo = new Solo(getInstrumentation(), mActivity);
 
 	}
 
 	private void clearPrefs() {
-		SharedPreferences prefs = mActivity.getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences prefs = getInstrumentation().getTargetContext().getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.clear();
 		edit.commit();
@@ -47,10 +49,30 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 			Assert.assertTrue(solo.waitForText("Tendenz"));
 			solo.clickOnMenuItem("About");
 	
-			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow());
+			getInstrumentation().waitForIdleSync();
+			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow(), "messung");
 	
 			Assert.assertTrue(solo.waitForText("Dominik"));		
 			solo.goBack();
+			
+			solo.clickOnMenuItem("Refresh");
+			
+			solo.clickOnMenuItem("Feedback");
+			assertTrue(solo.waitForText("Email senden..."));
+			
+			solo.goBack();
+			
+			solo.clickOnText("Details");
+			assertTrue(solo.waitForText("TUGLW"));
+			getInstrumentation().waitForIdleSync();
+			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow(), "details");
+			
+			solo.clickOnText("Karte");
+			assertTrue(solo.waitForText("Karte"));
+			getInstrumentation().waitForIdleSync();
+			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow(), "karte");
+
+			
 		}
 		catch(Exception e)
 		{
