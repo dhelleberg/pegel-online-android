@@ -38,17 +38,25 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 	}
 
 	public void testSelection() throws Exception {
-		Assert.assertTrue(solo.waitForText("ALLER", 1, 8000));
-		solo.clickOnText("RHEIN");
-		Assert.assertTrue(solo.waitForText("BONN", 1, 8000));
-		solo.clickOnText("BONN");
-		Assert.assertTrue(solo.waitForText("Tendenz"));
-		solo.clickOnMenuItem("About");
-
-		Screenshot.save_screenshot(solo.getCurrentActivity().getWindow());
-
-		Assert.assertTrue(solo.waitForText("Dominik"));		
-		solo.goBack();
+		
+		try {
+			Assert.assertTrue(solo.waitForText("ALLER", 1, 8000));
+			solo.clickOnText("RHEIN");
+			Assert.assertTrue(solo.waitForText("BONN", 1, 8000));
+			solo.clickOnText("BONN");
+			Assert.assertTrue(solo.waitForText("Tendenz"));
+			solo.clickOnMenuItem("About");
+	
+			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow());
+	
+			Assert.assertTrue(solo.waitForText("Dominik"));		
+			solo.goBack();
+		}
+		catch(Exception e)
+		{
+			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow(), "ERROR"+e.getMessage());
+			throw e;
+		}
 	}
 
 	@Override
