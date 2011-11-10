@@ -16,29 +16,39 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 public class StartupActivity extends Activity {
-	
-	private static final int HONEYCOMB = 11;
-	
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		
+
 		Intent i = new Intent();
-		if(android.os.Build.VERSION.SDK_INT >= HONEYCOMB)
+
+		/**
+		 * Display Fragments only on large & xlarge screens
+		 */
+		if ((getResources().getConfiguration().screenLayout & 
+				Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
 			i.setClass(getApplicationContext(),PegelFragmentsActivity.class);
+		}
+		else if ((getResources().getConfiguration().screenLayout & 
+				Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+			i.setClass(getApplicationContext(),PegelFragmentsActivity.class);
+		}
 		else
 			i.setClass(getApplicationContext(), SelectRiver.class);
 
 		startActivity(i);		
-		
+
 	}
 
 }
