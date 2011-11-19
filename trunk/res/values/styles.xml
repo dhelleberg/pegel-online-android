@@ -12,5 +12,14 @@
 
 	<style name="TableEntry">
 		<!-- empty for default -->
-	</style>				
+	</style>
+	
+	<style name="WindowTitleBackground">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingLeft">5dip</item>
+    </style>
+    
+	<style name="PegelTheme" parent="android:Theme">            
+            <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+    </style>
 </resources>
