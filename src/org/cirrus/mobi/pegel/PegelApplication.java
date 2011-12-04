@@ -21,6 +21,8 @@ package org.cirrus.mobi.pegel;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -30,6 +32,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
+@ReportsCrashes(formKey = "dFJEeEZXX21LVERrSklSRDVsdG5GUmc6MQ")
 public class PegelApplication extends Application {
 	
 	private static final String TAG = "PegelApplication";
@@ -53,6 +56,8 @@ public class PegelApplication extends Application {
 
 	@Override
 	public void onCreate() {
+		ACRA.init(this);
+
 		super.onCreate();
 		
 		this.pointStore = new PointStore();
