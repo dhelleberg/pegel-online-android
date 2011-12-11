@@ -44,6 +44,7 @@ public class PegelFragmentsActivity extends Activity {
 	private String app_ver;
 	private PegelApplication pa;
 	private int index;
+	private ListRiverFragment lrf = null;
 
 
 	/** Called when the activity is first created. */
@@ -53,27 +54,31 @@ public class PegelFragmentsActivity extends Activity {
 
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
+		setContentView(R.layout.fragment_view);
+
 		//check if we have a saved preference, then we jump to detailview already
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		String river = settings.getString("river", "");		
 
-		ListRiverFragment lrf = null; 
-
-		if(river.length() > 0)
+		if(!findViewById(R.id.ListRiverFragment).isShown())
 		{
-			//saved preferences, show details
-			String pnr = settings.getString("pnr", "");
-			String mpoint = settings.getString("mpoint", "");			
-			lrf = ListRiverFragment.getInstance(river, mpoint, pnr);
+			if(this.lrf == null)
+			{
+				if(river.length() > 0)
+				{
+					//saved preferences, show details
+					String pnr = settings.getString("pnr", "");
+					String mpoint = settings.getString("mpoint", "");			
+					lrf = ListRiverFragment.getInstance(river, mpoint, pnr);
+				}
+				else
+				{
+					lrf = ListRiverFragment.getInstance(null, null, null);
+				}
+				if(lrf != null)
+					getFragmentManager().beginTransaction().replace(R.id.ListRiverFragment, lrf).commit();
+			}
 		}
-		else
-		{
-			lrf = ListRiverFragment.getInstance(null, null, null);
-		}
-		if(lrf != null)
-			getFragmentManager().beginTransaction().replace(R.id.ListRiverFragment, lrf).commit();
-
-		setContentView(R.layout.fragment_view);
 
 		this.pa = (PegelApplication) getApplication();
 		pa.trackPageView("/PegelFragmentsActivity");
@@ -85,6 +90,14 @@ public class PegelFragmentsActivity extends Activity {
 		}		
 	}
 
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		getFragmentManager().beginTransaction().remove(lrf).commit();
+		super.onSaveInstanceState(outState);
+			
+	}
 	//Menu Inflater action bar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -175,7 +188,7 @@ public class PegelFragmentsActivity extends Activity {
 
 		actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
 				.setTabListener(new MyTabListener(SimpleMapFragment.getInstance(pnr),2)),false);
-		
+
 		actionBar.selectTab(actionBar.getTabAt(index));
 
 	}
