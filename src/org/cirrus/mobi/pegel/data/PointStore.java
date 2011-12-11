@@ -65,6 +65,9 @@ public class PointStore {
 	private static final String POINT_DETAILS_URL = PegelApplication.host+"/pegelmeasurepointdetail?pn=";
 	private static final String POINT_DATA_URL = PegelApplication.host+"/pegeldata?pn=";
 	private static final String POINT_DATA_IMAGE_URL = PegelApplication.host+"/pegeldataimage?pn=";
+	
+	private static final String IMAGE_URL_SERVER_URL_1 = "http://www.pegelonline.wsv.de/webservices/rest/v1/locations/";
+	private static final String IMAGE_URL_SERVER_URL_2 = "/timeseries/W.png";
 
 	private static final String POINT_CACHE_FILE = "point_cache.json";
 	private static final String LAST_P_UPDATE = "lpu";
@@ -292,6 +295,22 @@ public class PointStore {
 		return imageurl;
 	}
 
+	/**
+	 * New implementation to get a image-URL for the so called "Ganglinie" 
+	 * Uses the new (undocumented) server-interface, no app-engine call needed anymore
+	 * @param pegelNummer
+	 * @return
+	 * @throws Exception
+	 */
+	
+	public String getImageURL(String pegelNummer) {
+		StringBuilder sb = new StringBuilder(IMAGE_URL_SERVER_URL_1);
+		sb.append(pegelNummer);
+		sb.append(IMAGE_URL_SERVER_URL_2);
+		
+		return sb.toString();
+	}
+	
 	/**
 	 * Returns details for a specific measure station like HSW etc.
 	 * @param context	the app context

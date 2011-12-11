@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
@@ -33,19 +34,23 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 	int mCurCheckPosition = 0;	
 	private AbstractSelectRiver abstractSR;
 	private PegelApplication pegelApp;
+	private Activity activity;
+	
+	private static ListRiverFragment lfr = null;
 	
 	public static ListRiverFragment getInstance(String river, String mpoint, String pnr)
 	{
-		ListRiverFragment lrf = new ListRiverFragment();
+		if(lfr == null)
+			lfr = new ListRiverFragment();
 		if(river != null)
 		{
 			Bundle args = new Bundle();
 			args.putString("river", river);
 			args.putString("mpoint", mpoint);
 			args.putString("pnr", pnr);
-			lrf.setArguments(args);
+			lfr.setArguments(args);
 		}		
-		return lrf;
+		return lfr;
 	}
 
 	@Override

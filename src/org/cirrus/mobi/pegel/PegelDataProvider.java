@@ -146,7 +146,7 @@ public class PegelDataProvider {
 			public void run() {
 				if((refresh || pegelApp.getCachedDrawable("pegel") == null) && pdrPegelImage != null )
 				{
-					PointStore ps = pegelApp.getPointStore();
+					/*PointStore ps = pegelApp.getPointStore();
 					try {
 						imgurl = ps.getURLData(pnr);
 					} catch (Exception e) {
@@ -158,7 +158,8 @@ public class PegelDataProvider {
 							Log.w(TAG, "Error fecthing data from server, giving up...", e);
 							pegelApp.trackEvent("ERROR", "getURLData-hidden", e.getMessage(), 1);
 						}
-					} 
+					} */
+					imgurl = pegelApp.getPointStore().getImageURL(pnr);
 					//fecht image 
 					URL imgu;
 					try {
