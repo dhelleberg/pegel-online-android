@@ -34,14 +34,13 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 	int mCurCheckPosition = 0;	
 	private AbstractSelectRiver abstractSR;
 	private PegelApplication pegelApp;
-	private Activity activity;
 	
-	private static ListRiverFragment lfr = null;
+	//private static ListRiverFragment lfr = null;
 	
 	public static ListRiverFragment getInstance(String river, String mpoint, String pnr)
 	{
-		if(lfr == null)
-			lfr = new ListRiverFragment();
+		//if(lfr == null)
+		ListRiverFragment lfr = new ListRiverFragment();
 		if(river != null)
 		{
 			Bundle args = new Bundle();
@@ -98,7 +97,7 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack
 			transaction.replace(R.id.MeasurePoints, mpf);
-			transaction.addToBackStack(null);
+			//transaction.addToBackStack(null);
 			// Commit the transaction
 			transaction.commit();
 			
