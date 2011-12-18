@@ -98,6 +98,7 @@ public class PegelFragmentsActivity extends Activity {
 		super.onSaveInstanceState(outState);
 			
 	}
+	
 	//Menu Inflater action bar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,7 +210,7 @@ public class PegelFragmentsActivity extends Activity {
 				Fragment f = getFragmentManager().findFragmentById(R.id.details);
 				if(f != mFragment)
 				{
-					ft.replace(R.id.details, mFragment);
+					ft.replace(R.id.details, mFragment);			
 					index = this.mindex;
 				}
 			}
