@@ -11,5 +11,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/android-test-tools.jar"/>
 	<classpathentry kind="src" path="/Android-Test-Tools"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
