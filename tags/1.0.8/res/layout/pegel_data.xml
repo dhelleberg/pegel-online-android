@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:id="@+id/pegel_data">
+	<TextView android:layout_width="fill_parent" android:id="@+id/data_headline"
+		android:layout_height="wrap_content" android:text="..."
+		android:padding="0dip" android:paddingTop="3dp" android:textSize="25sp" />
+
+	<TableLayout android:layout_width="wrap_content"
+		android:id="@+id/data_table" android:layout_height="wrap_content"
+		android:layout_below="@id/data_headline" >
+		<TableRow>
+			<TextView android:text="@string/measure" android:padding="1dip" android:paddingTop="3dp" android:paddingBottom="3dp"
+				android:textSize="20sp" />
+			<TextView android:text="..." android:gravity="left"
+				android:id="@+id/data_table_measure" android:padding="3dip"
+				android:textSize="20sp" />
+		</TableRow>
+
+		<TableRow>
+			<TextView android:text="@string/tendency" android:padding="1dip" android:paddingTop="3dp" android:paddingBottom="3dp"
+				android:textSize="20sp" />
+			<TextView android:text="..." android:gravity="left"
+				android:id="@+id/data_table_tendency" android:padding="3dip"
+				android:textSize="20sp" />
+		</TableRow>
+
+		<TableRow>
+			<TextView android:text="@string/date" android:padding="1dip" android:paddingTop="3dp" android:paddingBottom="3dp"
+				android:textSize="20sp" />
+			<TextView android:text="..." android:gravity="left"
+				android:id="@+id/data_table_time" android:padding="3dip"
+				android:textSize="20sp" android:lines="2"
+				android:singleLine="false" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+		</TableRow>
+
+	</TableLayout>
+	<ImageView android:layout_width="fill_parent" android:id="@+id/data_image"
+		android:layout_height="fill_parent" android:layout_below="@id/data_table"
+		android:padding="3dip"></ImageView>
+	
+	<view
+	  class="org.cirrus.mobi.pegel.PegelGrafikView" 
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent" 
+	  android:id="@+id/PegelGrafikView" android:focusable="true" android:focusableInTouchMode="true" 
+	  android:layout_toRightOf="@id/data_table"
+	  android:layout_below="@id/data_headline"
+	  android:layout_alignParentRight="true"
+	  android:visibility="invisible"/>
+	  
+</RelativeLayout>

@@ -1,0 +1,1 @@
+Simple client to display data

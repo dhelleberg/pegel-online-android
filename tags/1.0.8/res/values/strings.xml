@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="river_select">Wähle einen Fluss&#8230;</string>
+	<string name="app_name">Pegel-Online</string>
+	<string name="point_select">Wähle einen Messpunkt&#8230;</string>
+	<string name="widget_default">Bitte einen Fluss auswählen.</string>
+	<string name="about">Copyright 2011 Dominik Helleberg\n
+    This program comes with ABSOLUTELY NO WARRANTY; for details click here: http://bit.ly/gUGqFe\n
+    This is free software, and you are welcome to redistribute it
+    under certain conditions;\n\n
+    Die Daten basieren auf den Messungen des Bundesamtes für Verkehr, Bau und Stadtentwicklung\n
+    http://www.pegelonline.wsv.de/\n</string>
+    <string name="tab1">Messung</string>
+    <string name="tab2">Details</string>
+    <string name="tab3">Karte</string>
+    <string name="connection_error">Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!</string>
+    <string name="pgview_hsw">HSW-</string>
+    <string name="pgview_pegel">PEG-</string>
+    <string name="noMap">Sorry, für diese Mess-Station sind keine Koordinaten verfügbar :(</string>
+    <string name="mapHeader">Karte</string>
+    <string name="moreDetailsHeader">Pegel-Werte</string>
+    <string name="tendency">Tendenz</string>
+    <string name="measure">Messung</string>
+    <string name="date">Zeit</string>
+    <string name="tendency_up">steigend</string>
+    <string name="tendency_down">fallend</string>
+    <string name="tendency_constant">konstant</string>
+    <string name="tendency_unknown">unbekannt</string>
+    <string name="dialog_home_tip">Um sich diesen Pegel zu merken, drücken Sie zum verlassen einfach \'Home\' anstatt zurück. Die Applikation zeigt dann beim Starten immer direkt diesen Bildschirm an.</string>
+    <string name="dialog_home_tip_header">Tipp: Pegel speichern</string>
+    <string name="dialog_tip_button_ok">Ok</string>
+    <string name="table_value">Wert</string>
+    <string name="table_data">Daten</string>
+    <string name="table_description">Beschreibung</string>
+</resources>
