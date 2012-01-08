@@ -27,7 +27,7 @@
 				android:layout_gravity="center_vertical">
 				<TextView
 					style="@style/TableHeadline"
-					android:text="Wert"
+					android:text="@string/table_value"
 					android:id="@+id/textView2"
 					android:layout_height="wrap_content"
 					android:layout_width="match_parent"
@@ -37,11 +37,11 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:id="@+id/textView3"
-					android:text="Daten"
+					android:text="@string/table_data"
 					android:padding="4dip"></TextView>
 				<TextView
 					style="@style/TableHeadline"
-					android:text="Beschreibung"
+					android:text="@string/table_description"
 					android:id="@+id/textView4"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
