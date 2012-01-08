@@ -18,6 +18,10 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -62,6 +66,16 @@ public class PegelDataView extends AbstractPegelDetailsActivity {
 
 		setProgressBarIndeterminateVisibility(true);
 		this.pegelDataProvider.showData(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, 0);
+		
+		if(firstRunThisVersion)
+		{
+			showDialog(DIALOG_TIP);
+			this.pegelApp.trackEvent("PegelDataView", "firstrundialog", "show", 1);
+			SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_WORLD_WRITEABLE);
+			Editor edit = settings.edit();
+			edit.putBoolean("run_"+app_ver, true);
+			edit.commit();
+		}
 
 	}
 

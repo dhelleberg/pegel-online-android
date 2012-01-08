@@ -16,26 +16,30 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AbstractPegelDetailsActivity extends Activity {
+	protected static final int DIALOG_TIP = 2;
 
-	private static final int DIALOG_ABOUT = 1;
 
 	protected PegelApplication pegelApp;
-	private String app_ver;
+	protected String app_ver;
 
 	protected String pnr = null;
 
@@ -43,79 +47,64 @@ public class AbstractPegelDetailsActivity extends Activity {
 
 	protected PegelDetailHelper pegelDetailHelper;
 
-	
+	protected boolean firstRunThisVersion = false;
+
+	protected static final String PREFS_NAME_RUN = "prefs_run";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		try {
 			this.app_ver = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+
+			SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_WORLD_WRITEABLE);
+			if(settings.contains("run_"+app_ver))
+				firstRunThisVersion = false;
+			else
+				firstRunThisVersion = true;
+
 		} catch (NameNotFoundException e) {
 			this.app_ver = "unknown";
 		}
-	}
-	
-	//Menu Inflater for fixture selection
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.layout.detailmenu, menu);
-		return true;
+
 	}
 
-	// This method is called once a menu item is selected
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.m_refresh:
-			setProgressBarIndeterminateVisibility(true);
-			this.pegelDataProvider.refresh(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, 0);
-			this.pegelApp.trackEvent("PegelDataView", "refresh", "refresh", 1);
-			return true;
-		case R.id.m_feedback:
-			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-			emailIntent.setType("message/rfc822");
-			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"dominik.helleberg@googlemail.com"});
-			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pegel-Online Feedback" );  
-			this.pegelApp.trackEvent("PegelDataView", "feedback", "feedback", 1);
-			startActivity(Intent.createChooser(emailIntent, "Email senden..."));
-			return true;
-		case R.id.m_about:
-			showDialog(DIALOG_ABOUT);
-			this.pegelApp.trackEvent("PegelDataView", "about", "about", 1);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+	private Dialog createTipHomeDialog() {
 
-		}
+		final Dialog dialog = new Dialog(this);
+
+		dialog.setContentView(R.layout.tip_home_dialog);
+		dialog.setTitle(getResources().getText(R.string.dialog_home_tip_header));
+
+		Button okButton = (Button) dialog.findViewById(R.id.tip_home_button_ok);
+		okButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();				
+			}
+		});
+
+		return dialog;
 	}
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-	    Dialog dialog;
-	    switch(id) {
-	    case DIALOG_ABOUT:
-	        dialog = createAboutDialog();
-	        break;
-	    default:
-	        dialog = null;
-	    }
-	    return dialog;
-	}
-	
-	private Dialog createAboutDialog() {
-		
-		Dialog dialog = new Dialog(this);
-
-		dialog.setContentView(R.layout.about_dialog);
-		dialog.setTitle("About Pegel-Online v."+app_ver);
-
-		TextView text = (TextView) dialog.findViewById(R.id.about_d_text);
-		text.setText(R.string.about);
-		ImageView image = (ImageView) dialog.findViewById(R.id.about_d_logo);
-		image.setImageResource(R.drawable.icon);
-		
+		Dialog dialog;
+		switch(id) {
+		case DIALOG_TIP:
+			dialog = createTipHomeDialog();
+			break;	        
+		default:
+			dialog = null;
+		}
 		return dialog;
 	}
 
+	protected void refreshFromOptionsMenu()
+	{
+		setProgressBarIndeterminateVisibility(true);
+		this.pegelDataProvider.refresh(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, 0);
+		this.pegelApp.trackEvent("PegelDataView", "refresh", "refresh", 1);
+	}
 }
