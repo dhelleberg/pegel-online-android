@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="river_select">Wähle einen Fluss...</string>
+	<string name="river_select">Wähle einen Fluss&#8230;</string>
 	<string name="app_name">Pegel-Online</string>
-	<string name="point_select">Wähle einen Messpunkt...</string>
+	<string name="point_select">Wähle einen Messpunkt&#8230;</string>
 	<string name="widget_default">Bitte einen Fluss auswählen.</string>
 	<string name="about">Copyright 2011 Dominik Helleberg\n
     This program comes with ABSOLUTELY NO WARRANTY; for details click here: http://bit.ly/gUGqFe\n
@@ -26,4 +26,10 @@
     <string name="tendency_down">fallend</string>
     <string name="tendency_constant">konstant</string>
     <string name="tendency_unknown">unbekannt</string>
+    <string name="dialog_home_tip">Um sich diesen Pegel zu merken, drücken Sie zum verlassen einfach \'Home\' anstatt zurück. Die Applikation zeigt dann beim Starten immer direkt diesen Bildschirm an.</string>
+    <string name="dialog_home_tip_header">Tipp: Pegel speichern</string>
+    <string name="dialog_tip_button_ok">Ok</string>
+    <string name="table_value">Wert</string>
+    <string name="table_data">Daten</string>
+    <string name="table_description">Beschreibung</string>
 </resources>

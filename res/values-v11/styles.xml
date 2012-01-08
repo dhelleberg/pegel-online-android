@@ -20,7 +20,7 @@
     </style>
 
     <style name="PegelTheme" parent="android:Theme.Holo">
-        <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+        <!-- <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>-->
     </style>
 
 </resources>
