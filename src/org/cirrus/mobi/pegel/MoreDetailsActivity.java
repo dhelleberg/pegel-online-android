@@ -16,7 +16,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 import java.util.Set;
 
@@ -44,11 +44,11 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 
 	private PegelDataResultReciever pdrDataDetails;
 
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		setContentView(R.layout.more_details);
@@ -62,11 +62,11 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 
 		pdrDataDetails = new PegelDataResultReciever(new Handler());
 		pdrDataDetails.setReceiver(new DataDetailHandler());
-				
+
 		setProgressBarIndeterminateVisibility(true);
 		this.pegelDataProvider = PegelDataProvider.getInstance((PegelApplication) getApplication());		
 	}
-	
+
 	@Override
 	protected void onStart() {	
 		super.onStart();
@@ -80,41 +80,36 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 		if(tl.getChildCount() > 1)//clean up the rows
 			tl.removeViews(1, tl.getChildCount()-1);
 		for (String key : keys) {
-			
+
 			String[] dat = data.getStringArray(key);
-			
+
 			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View rowView = inflater.inflate(R.layout.table_row, null);
 
 			TextView tv = (TextView) rowView.findViewById(R.id.tableTextP);
 			tv.setText(dat[0]);
-			
+
 			TextView tv2 = (TextView) rowView.findViewById(R.id.tableTextM);
 			String value = (Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
 			tv2.setText(value);
-			
+
 			TextView tv3 = (TextView) rowView.findViewById(R.id.tableTextD);
 			tv3.setText(dat[1]);
-			
+
 			tl.addView(rowView);
 		}
 	}	
-	// This method is called once a menu item is selected
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.m_refresh:
-			setProgressBarIndeterminateVisibility(true);
-			this.pegelDataProvider.refresh(pnr, null, null, pdrDataDetails, null, 0);
-			this.pegelApp.trackEvent("MoreDetailsActivity", "refresh", "refresh", 1);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-
-		}
+	
+	
+	@Override	
+	public void refreshFromOptionsMenu()
+	{
+		setProgressBarIndeterminateVisibility(true);
+		this.pegelDataProvider.refresh(pnr, null, null, pdrDataDetails, null, 0);
+		this.pegelApp.trackEvent("MoreDetailsActivity", "refresh", "refresh", 1);
 	}
-	
-	
+
+
 	class DataDetailHandler implements PegelDataResultReciever.Receiver
 	{
 		@Override
@@ -132,7 +127,7 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 			setProgressBarIndeterminateVisibility(false);
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(getParent() != null)
@@ -140,5 +135,5 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 		else
 			return super.onKeyDown(keyCode, event);
 	}
-	
+
 }
