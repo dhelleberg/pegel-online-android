@@ -234,8 +234,6 @@ com.google.android.apps.analytics.CustomVariable:
     public static final int PAGE_SCOPE
     public static final int MAX_CUSTOM_VARIABLE_LENGTH
     public CustomVariable(int,java.lang.String,java.lang.String)
-com.google.android.apps.analytics.Dispatcher:
-    public abstract void stop()
 com.google.android.apps.analytics.Event:
     static final java.lang.String PAGEVIEW_EVENT_CATEGORY
     static final java.lang.String INSTALL_EVENT_CATEGORY
@@ -252,7 +250,6 @@ com.google.android.apps.analytics.GoogleAnalyticsTracker:
     public void start(java.lang.String,android.content.Context)
     com.google.android.apps.analytics.Dispatcher getDispatcher()
     public void setProductVersion(java.lang.String,java.lang.String)
-    public void stop()
     com.google.android.apps.analytics.EventStore getEventStore()
     public boolean setCustomVar(int,java.lang.String,java.lang.String,int)
     public boolean setCustomVar(int,java.lang.String,java.lang.String)
@@ -301,12 +298,236 @@ com.google.android.apps.analytics.PersistentEventStore:
     public java.lang.String getVisitorCustomVar(int)
 com.google.android.apps.analytics.PersistentEventStore$DataBaseHelper:
     public PersistentEventStore$DataBaseHelper(android.content.Context,java.lang.String)
+com.google.gson.BaseMapTypeAdapter:
+    33:34:protected static final com.google.gson.JsonElement serialize(com.google.gson.JsonSerializationContext,java.lang.Object,java.lang.reflect.Type)
+com.google.gson.Cache:
+    public abstract java.lang.Object removeElement(java.lang.Object)
+com.google.gson.CamelCaseSeparatorNamingPolicy
+com.google.gson.CircularReferenceException
+com.google.gson.CompositionFieldNamingPolicy
+com.google.gson.DefaultConstructorAllocator:
+    42:42:final boolean isInCache(java.lang.Class)
+com.google.gson.DefaultTypeAdapters:
+    251:251:static com.google.gson.ParameterizedTypeHandlerMap getDefaultSerializers()
+com.google.gson.DefaultTypeAdapters$BigDecimalTypeAdapter:
+    681:681:public com.google.gson.JsonElement serialize(java.math.BigDecimal,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    678:678:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$BigIntegerTypeAdapter:
+    707:707:public com.google.gson.JsonElement serialize(java.math.BigInteger,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    703:703:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$BooleanTypeAdapter:
+    1014:1014:public com.google.gson.JsonElement serialize(java.lang.Boolean,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    1011:1011:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$ByteTypeAdapter:
+    843:843:public com.google.gson.JsonElement serialize(java.lang.Byte,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    841:841:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$CharacterTypeAdapter:
+    946:946:public com.google.gson.JsonElement serialize(java.lang.Character,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    943:943:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$CollectionTypeAdapter:
+    628:647:public com.google.gson.JsonElement serialize(java.util.Collection,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    624:624:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$DefaultDateTypeAdapter:
+    318:319:DefaultTypeAdapters$DefaultDateTypeAdapter(java.lang.String)
+    322:323:DefaultTypeAdapters$DefaultDateTypeAdapter(int)
+    326:328:public DefaultTypeAdapters$DefaultDateTypeAdapter(int,int)
+    340:343:public com.google.gson.JsonElement serialize(java.util.Date,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    307:307:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$DefaultInetAddressAdapter:
+    510:510:public com.google.gson.JsonElement serialize(java.net.InetAddress,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    496:496:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$DefaultJavaSqlDateTypeAdapter:
+    399:402:public com.google.gson.JsonElement serialize(java.sql.Date,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    390:390:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$DefaultTimeTypeAdapter:
+    435:438:public com.google.gson.JsonElement serialize(java.sql.Time,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    429:429:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$DoubleSerializer:
+    912:919:public com.google.gson.JsonElement serialize(java.lang.Double,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    904:904:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$EnumTypeAdapter:
+    518:518:public com.google.gson.JsonElement serialize(java.lang.Enum,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    514:514:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$FloatSerializer:
+    873:880:public com.google.gson.JsonElement serialize(java.lang.Float,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    865:865:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$GregorianCalendarTypeAdapter:
+    private static final java.lang.String YEAR
+    private static final java.lang.String MONTH
+    private static final java.lang.String DAY_OF_MONTH
+    private static final java.lang.String HOUR_OF_DAY
+    private static final java.lang.String MINUTE
+    private static final java.lang.String SECOND
+    468:475:public com.google.gson.JsonElement serialize(java.util.GregorianCalendar,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    456:456:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$IntegerTypeAdapter:
+    794:794:public com.google.gson.JsonElement serialize(java.lang.Integer,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    791:791:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$LocaleTypeAdapter:
+    590:590:public com.google.gson.JsonElement serialize(java.util.Locale,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    587:587:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$LongSerializer:
+    762:762:public com.google.gson.JsonElement serialize(java.lang.Long,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    754:754:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$NumberTypeAdapter:
+    732:732:public com.google.gson.JsonElement serialize(java.lang.Number,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    729:729:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$ShortTypeAdapter:
+    819:819:public com.google.gson.JsonElement serialize(java.lang.Short,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    816:816:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$StringBufferTypeAdapter:
+    997:997:public com.google.gson.JsonElement serialize(java.lang.StringBuffer,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    994:994:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$StringBuilderTypeAdapter:
+    980:980:public com.google.gson.JsonElement serialize(java.lang.StringBuilder,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    977:977:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$StringTypeAdapter:
+    963:963:public com.google.gson.JsonElement serialize(java.lang.String,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    960:960:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$UriTypeAdapter:
+    555:555:public com.google.gson.JsonElement serialize(java.net.URI,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    553:553:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$UrlTypeAdapter:
+    535:535:public com.google.gson.JsonElement serialize(java.net.URL,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    533:533:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DefaultTypeAdapters$UuidTypeAdapter:
+    573:573:public com.google.gson.JsonElement serialize(java.util.UUID,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    571:571:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.DelegatingJsonElementVisitor
+com.google.gson.ExposeAnnotationDeserializationExclusionStrategy
+com.google.gson.ExposeAnnotationSerializationExclusionStrategy
+com.google.gson.FieldAttributes:
+    private static final java.lang.String MAX_CACHE_PROPERTY_NAME
+    89:89:public java.lang.Class getDeclaringClass()
+    204:204:java.lang.Object get(java.lang.Object)
+    221:221:java.lang.reflect.Field getFieldObject()
+com.google.gson.FieldNamingPolicy
+com.google.gson.FieldNamingStrategy
+com.google.gson.FieldNamingStrategy2Adapter
+com.google.gson.Gson:
+    static final boolean DEFAULT_JSON_NON_EXECUTABLE
+    private static final java.lang.String JSON_NON_EXECUTABLE_PREFIX
+    194:197:public com.google.gson.JsonElement toJsonTree(java.lang.Object)
+    217:220:public com.google.gson.JsonElement toJsonTree(java.lang.Object,java.lang.reflect.Type)
+    237:240:public java.lang.String toJson(java.lang.Object)
+    259:261:public java.lang.String toJson(java.lang.Object,java.lang.reflect.Type)
+    279:284:public void toJson(java.lang.Object,java.lang.Appendable)
+    303:305:public void toJson(java.lang.Object,java.lang.reflect.Type,java.lang.Appendable)
+    313:314:public void toJson(java.lang.Object,java.lang.reflect.Type,com.google.gson.stream.JsonWriter)
+    324:326:public java.lang.String toJson(com.google.gson.JsonElement)
+    339:350:public void toJson(com.google.gson.JsonElement,java.lang.Appendable)
+    357:369:public void toJson(com.google.gson.JsonElement,com.google.gson.stream.JsonWriter)
+    440:443:public java.lang.Object fromJson(java.io.Reader,java.lang.Class)
+    521:522:public java.lang.Object fromJson(com.google.gson.JsonElement,java.lang.Class)
+com.google.gson.GsonBuilder
+com.google.gson.InnerClassExclusionStrategy
+com.google.gson.JsonArray:
+    63:64:public void addAll(com.google.gson.JsonArray)
+    70:71:void reverse()
+com.google.gson.JsonElement:
+    129:132:public com.google.gson.JsonNull getAsJsonNull()
+com.google.gson.JsonElementVisitor
+com.google.gson.JsonIOException:
+    private static final long serialVersionUID
+com.google.gson.JsonObject:
+    71:71:public com.google.gson.JsonElement remove(java.lang.String)
+    82:83:public void addProperty(java.lang.String,java.lang.String)
+    93:94:public void addProperty(java.lang.String,java.lang.Number)
+    104:105:public void addProperty(java.lang.String,java.lang.Boolean)
+    115:116:public void addProperty(java.lang.String,java.lang.Character)
+    125:125:private com.google.gson.JsonElement createJsonElement(java.lang.Object)
+    145:145:public boolean has(java.lang.String)
+    169:169:public com.google.gson.JsonPrimitive getAsJsonPrimitive(java.lang.String)
+    179:179:public com.google.gson.JsonArray getAsJsonArray(java.lang.String)
+    189:189:public com.google.gson.JsonObject getAsJsonObject(java.lang.String)
+com.google.gson.JsonParseException:
+    static final long serialVersionUID
+com.google.gson.JsonParser
+com.google.gson.JsonPrimitive:
+    76:78:public JsonPrimitive(java.lang.Character)
+    86:88:JsonPrimitive(java.lang.Object)
+com.google.gson.JsonSerializationContext
+com.google.gson.JsonSerializationContextDefault
+com.google.gson.JsonSerializationVisitor
+com.google.gson.JsonSerializer
+com.google.gson.JsonStreamParser
+com.google.gson.JsonSyntaxException:
+    private static final long serialVersionUID
+com.google.gson.JsonTreeNavigator
+com.google.gson.LongSerializationPolicy:
+    56:56:public com.google.gson.JsonElement serialize(java.lang.Long)
+com.google.gson.LongSerializationPolicy$DefaultStrategy:
+    65:65:public com.google.gson.JsonElement serialize(java.lang.Long)
+com.google.gson.LongSerializationPolicy$Strategy:
+    public abstract com.google.gson.JsonElement serialize(java.lang.Long)
+com.google.gson.LongSerializationPolicy$StringStrategy:
+    71:71:public com.google.gson.JsonElement serialize(java.lang.Long)
+com.google.gson.LowerCamelCaseSeparatorNamingPolicy
+com.google.gson.LowerCaseNamingPolicy
+com.google.gson.LruCache:
+    private static final long serialVersionUID
+    50:50:public synchronized java.lang.Object removeElement(java.lang.Object)
+com.google.gson.MapAsArrayTypeAdapter
+com.google.gson.MapTypeAdapter:
+    37:57:public com.google.gson.JsonElement serialize(java.util.Map,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+    33:33:public com.google.gson.JsonElement serialize(java.lang.Object,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)
+com.google.gson.MemoryRefStack
+com.google.gson.ModifyFirstLetterNamingPolicy
+com.google.gson.ModifyFirstLetterNamingPolicy$LetterModifier
+com.google.gson.ObjectTypePair:
+    142:142:public boolean isPreserveType()
+com.google.gson.Primitives:
+    82:82:public static boolean isWrapperType(java.lang.Class)
+com.google.gson.Streams:
+    101:143:static void write(com.google.gson.JsonElement,boolean,com.google.gson.stream.JsonWriter)
+    146:146:static java.io.Writer writerForAppendable(java.lang.Appendable)
+com.google.gson.Streams$AppendableWriter
+com.google.gson.Streams$AppendableWriter$CurrentWrite
+com.google.gson.UpperCamelCaseSeparatorNamingPolicy
+com.google.gson.UpperCaseNamingPolicy
+com.google.gson.VersionConstants
+com.google.gson.VersionExclusionStrategy
+com.google.gson.annotations.Expose
+com.google.gson.annotations.Since
+com.google.gson.annotations.Until
+com.google.gson.internal.$Gson$Preconditions:
+    47:50:public static void checkState(boolean)
+com.google.gson.internal.$Gson$Types$GenericArrayTypeImpl:
+    private static final long serialVersionUID
+com.google.gson.internal.$Gson$Types$ParameterizedTypeImpl:
+    private static final long serialVersionUID
+com.google.gson.internal.$Gson$Types$WildcardTypeImpl:
+    private static final long serialVersionUID
+com.google.gson.reflect.TypeToken:
+    72:76:TypeToken(java.lang.reflect.Type)
+    96:96:public final java.lang.Class getRawType()
+    114:114:public boolean isAssignableFrom(java.lang.Class)
+    125:142:public boolean isAssignableFrom(java.lang.reflect.Type)
+    155:155:public boolean isAssignableFrom(com.google.gson.reflect.TypeToken)
+    163:180:private static boolean isAssignableFrom(java.lang.reflect.Type,java.lang.reflect.GenericArrayType)
+    190:233:private static boolean isAssignableFrom(java.lang.reflect.Type,java.lang.reflect.ParameterizedType,java.util.Map)
+    242:252:private static boolean typeEquals(java.lang.reflect.ParameterizedType,java.lang.reflect.ParameterizedType,java.util.Map)
+    259:267:private static java.lang.AssertionError buildUnexpectedTypeError(java.lang.reflect.Type,java.lang.Class[])
+    276:276:private static boolean matches(java.lang.reflect.Type,java.lang.reflect.Type,java.util.Map)
+    299:299:public static com.google.gson.reflect.TypeToken get(java.lang.reflect.Type)
+    306:306:public static com.google.gson.reflect.TypeToken get(java.lang.Class)
+com.google.gson.stream.JsonReader:
+    526:542:public double nextDouble()
+    556:577:public long nextLong()
+    591:612:public int nextInt()
+    633:647:public void skipValue()
+com.google.gson.stream.JsonWriter
+com.google.gson.stream.JsonWriter$1
+com.google.gson.stream.MalformedJsonException:
+    private static final long serialVersionUID
 org.cirrus.mobi.pegel.AbstractPegelDetailsActivity:
     private static final int DIALOG_ABOUT
 org.cirrus.mobi.pegel.MeasurePointFragment:
     private static final java.lang.String PREFS_NAME
 org.cirrus.mobi.pegel.PegelApplication:
+    private static final java.lang.String TAG
     public static final java.lang.String host
+    51:51:public boolean isEmulator()
 org.cirrus.mobi.pegel.PegelDataProvider:
     protected static final java.lang.String TAG
     public static final int STATUS_ERROR
@@ -345,8 +566,17 @@ org.cirrus.mobi.pegel.SelectRiver:
     private static final java.lang.String PREFS_NAME
 org.cirrus.mobi.pegel.SimpleMapFragment:
     93:95:private int getSize()
-org.cirrus.mobi.pegel.StartupActivity:
-    private static final int HONEYCOMB
+org.cirrus.mobi.pegel.data.ImageEntry:
+    8:10:public ImageEntry(java.lang.String)
+org.cirrus.mobi.pegel.data.MeasureEntry:
+    11:17:public MeasureEntry(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+org.cirrus.mobi.pegel.data.MeasureStationDetails:
+    12:17:public MeasureStationDetails(java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+    24:24:public java.lang.String getDescription()
+    28:28:public java.lang.String getUnit()
+    32:32:public java.lang.String getValue()
+org.cirrus.mobi.pegel.data.PegelEntry:
+    10:13:public PegelEntry(java.lang.String,java.lang.String)
 org.cirrus.mobi.pegel.data.PointStore:
     private static final java.lang.String VALUE
     private static final java.lang.String UNIT
@@ -376,106 +606,3 @@ org.cirrus.mobi.pegel.widget.PegelWidgetProvider:
     public static final java.lang.String REFRESH_ACTION
 org.cirrus.mobi.pegel.widget.PegelWidgetProvider$UpdateService:
     private static final java.lang.String TAG
-org.json.CDL
-org.json.Cookie
-org.json.CookieList
-org.json.HTTP
-org.json.HTTPTokener
-org.json.JSONArray:
-    208:218:public boolean getBoolean(int)
-    231:237:public double getDouble(int)
-    251:257:public int getInt(int)
-    271:275:public org.json.JSONArray getJSONArray(int)
-    306:312:public long getLong(int)
-    325:326:public java.lang.String getString(int)
-    336:336:public boolean isNull(int)
-    393:393:public boolean optBoolean(int)
-    408:410:public boolean optBoolean(int,boolean)
-    424:424:public double optDouble(int)
-    439:441:public double optDouble(int,double)
-    455:455:public int optInt(int)
-    469:471:public int optInt(int,int)
-    483:484:public org.json.JSONArray optJSONArray(int)
-    497:498:public org.json.JSONObject optJSONObject(int)
-    511:511:public long optLong(int)
-    525:527:public long optLong(int,long)
-    541:541:public java.lang.String optString(int)
-    554:555:public java.lang.String optString(int,java.lang.String)
-    566:567:public org.json.JSONArray put(boolean)
-    578:579:public org.json.JSONArray put(java.util.Collection)
-    591:594:public org.json.JSONArray put(double)
-    605:606:public org.json.JSONArray put(int)
-    617:618:public org.json.JSONArray put(long)
-    629:630:public org.json.JSONArray put(java.util.Map)
-    657:658:public org.json.JSONArray put(int,boolean)
-    672:673:public org.json.JSONArray put(int,java.util.Collection)
-    688:689:public org.json.JSONArray put(int,double)
-    703:704:public org.json.JSONArray put(int,int)
-    718:719:public org.json.JSONArray put(int,long)
-    733:734:public org.json.JSONArray put(int,java.util.Map)
-    751:763:public org.json.JSONArray put(int,java.lang.Object)
-    774:776:public java.lang.Object remove(int)
-    790:797:public org.json.JSONObject toJSONObject(org.json.JSONArray)
-    833:833:public java.lang.String toString(int)
-    848:876:java.lang.String toString(int,int)
-    891:913:public java.io.Writer write(java.io.Writer)
-org.json.JSONException:
-    private static final long serialVersionUID
-org.json.JSONML
-org.json.JSONObject:
-    163:170:public JSONObject(org.json.JSONObject,java.lang.String[])
-    289:298:public JSONObject(java.lang.Object,java.lang.String[])
-    322:352:public JSONObject(java.lang.String,java.util.Locale)
-    369:379:public org.json.JSONObject accumulate(java.lang.String,java.lang.Object)
-    395:405:public org.json.JSONObject append(java.lang.String,java.lang.Object)
-    416:432:public static java.lang.String doubleToString(double)
-    465:475:public boolean getBoolean(java.lang.String)
-    488:494:public double getDouble(java.lang.String)
-    509:515:public int getInt(java.lang.String)
-    530:534:public org.json.JSONArray getJSONArray(java.lang.String)
-    548:552:public org.json.JSONObject getJSONObject(java.lang.String)
-    566:572:public long getLong(java.lang.String)
-    584:595:public static java.lang.String[] getNames(org.json.JSONObject)
-    605:618:public static java.lang.String[] getNames(java.lang.Object)
-    655:669:public org.json.JSONObject increment(java.lang.String)
-    681:681:public boolean isNull(java.lang.String)
-    712:717:public org.json.JSONArray names()
-    768:768:public boolean optBoolean(java.lang.String)
-    783:785:public boolean optBoolean(java.lang.String,boolean)
-    800:800:public double optDouble(java.lang.String)
-    816:818:public double optDouble(java.lang.String,double)
-    833:833:public int optInt(java.lang.String)
-    849:851:public int optInt(java.lang.String,int)
-    865:866:public org.json.JSONArray optJSONArray(java.lang.String)
-    879:880:public org.json.JSONObject optJSONObject(java.lang.String)
-    894:894:public long optLong(java.lang.String)
-    910:912:public long optLong(java.lang.String,long)
-    926:926:public java.lang.String optString(java.lang.String)
-    939:940:public java.lang.String optString(java.lang.String,java.lang.String)
-    1000:1001:public org.json.JSONObject put(java.lang.String,boolean)
-    1014:1015:public org.json.JSONObject put(java.lang.String,java.util.Collection)
-    1028:1029:public org.json.JSONObject put(java.lang.String,double)
-    1042:1043:public org.json.JSONObject put(java.lang.String,int)
-    1056:1057:public org.json.JSONObject put(java.lang.String,long)
-    1070:1071:public org.json.JSONObject put(java.lang.String,java.util.Map)
-    1131:1134:public org.json.JSONObject putOpt(java.lang.String,java.lang.Object)
-    1220:1220:public java.util.Iterator sortedKeys()
-    1311:1318:public org.json.JSONArray toJSONArray(org.json.JSONArray)
-    1368:1368:public java.lang.String toString(int)
-    1387:1425:java.lang.String toString(int,int)
-    1502:1535:static java.lang.String valueToString(java.lang.Object,int,int)
-    1600:1624:public java.io.Writer write(java.io.Writer)
-org.json.JSONStringer
-org.json.JSONTokener:
-    73:74:public JSONTokener(java.io.InputStream)
-    110:119:public static int dehexchar(char)
-    133:138:public boolean more()
-    187:192:public char next(char)
-    308:309:public java.lang.String nextTo(char)
-    330:331:public java.lang.String nextTo(java.lang.String)
-    402:421:public char skipTo(char)
-org.json.JSONWriter
-org.json.Test
-org.json.Test$Beany
-org.json.XML
-org.json.XMLTokener
