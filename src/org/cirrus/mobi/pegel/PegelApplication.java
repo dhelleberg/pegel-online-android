@@ -38,7 +38,7 @@ public class PegelApplication extends Application {
 	private static final String TAG = "PegelApplication";
 
 	//for local testing
-//	public static final String host = "http://10.0.2.2:8888";
+	//public static final String host = "http://10.0.2.2:8888";
 	//for production
 	public static final String host = "http://pegel-online.appspot.com";
 	

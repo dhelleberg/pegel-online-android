@@ -73,6 +73,14 @@ public class TabbedDataActivity extends TabActivity {
 		spec = tabHost.newTabSpec("measure").setIndicator(tab).setContent(intent);
 		tabHost.addTab(spec);
 
+		intent = new Intent().setClass(this, DataDetailsActivity.class);
+		intent.putExtras(getIntent());
+		tab = vi.inflate(R.layout.tab_entry, null);
+		t = (TextView) tab.findViewById(R.id.tabTitle);
+		t.setText(R.string.tab4);	    
+		spec = tabHost.newTabSpec("data").setIndicator(tab).setContent(intent);
+		tabHost.addTab(spec);
+		
 		intent = new Intent().setClass(this, MoreDetailsActivity.class);
 		intent.putExtras(getIntent());
 		tab = vi.inflate(R.layout.tab_entry, null);
