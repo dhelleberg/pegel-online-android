@@ -23,9 +23,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -63,6 +65,7 @@ public class PointStore {
 	
 	private static final String POINT_STORE_URL = PegelApplication.host+"/pegelmeasurepoints";
 	private static final String POINT_DETAILS_URL = PegelApplication.host+"/pegelmeasurepointdetail?pn=";
+	private static final String POINT_ALL_DATA_URL = PegelApplication.host+"/pegelmoredata?pn=";
 	private static final String POINT_DATA_URL = PegelApplication.host+"/pegeldata?pn=";
 	private static final String POINT_DATA_IMAGE_URL = PegelApplication.host+"/pegeldataimage?pn=";
 	
@@ -411,5 +414,37 @@ public class PointStore {
 		
 		
 		return details;
+	}
+
+	
+	public MeasurePointDataDetails[] getMeasurePointDataDetails(
+			Context applicationContext, String pnr) throws Exception {
+		
+		MeasurePointDataDetails[] mpdd = null;
+		BufferedReader in = null;
+		try {
+			URL url = new URL(POINT_ALL_DATA_URL+pnr);
+			URLConnection urlConnection = url.openConnection();
+
+			in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), Charset.forName("ISO-8859-1")), DEFAULT_BUFFER);
+
+			String inputLine;
+			StringBuilder sb = new StringBuilder();
+			while ((inputLine = in.readLine()) != null)
+			{			
+				sb.append(inputLine);
+			}
+
+			Gson gson = new Gson();
+			mpdd = gson.fromJson(sb.toString(), MeasurePointDataDetails[].class);
+			
+		} 
+		finally
+		{
+			if(in != null)
+				try { in.close(); } catch(Exception e) {}
+		}
+
+		return mpdd;
 	}
 }

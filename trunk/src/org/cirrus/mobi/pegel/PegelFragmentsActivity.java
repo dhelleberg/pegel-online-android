@@ -184,11 +184,14 @@ public class PegelFragmentsActivity extends Activity {
 		actionBar.addTab(actionBar.newTab().setText(R.string.tab1)
 				.setTabListener(new MyTabListener(DetailDataFragment.getInstance(pnr, river, mpoint),0)),false);
 
+		actionBar.addTab(actionBar.newTab().setText(R.string.tab4)
+				.setTabListener(new MyTabListener(RealDetailsFragment.getInstance(pnr),1)),false);
+
 		actionBar.addTab(actionBar.newTab().setText(R.string.tab2)
-				.setTabListener(new MyTabListener(MoreDetailsFragment.getInstance(pnr),1)),false);
+				.setTabListener(new MyTabListener(MoreDetailsFragment.getInstance(pnr),2)),false);
 
 		actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
-				.setTabListener(new MyTabListener(SimpleMapFragment.getInstance(pnr),2)),false);
+				.setTabListener(new MyTabListener(SimpleMapFragment.getInstance(pnr),3)),false);
 
 		actionBar.selectTab(actionBar.getTabAt(index));
 

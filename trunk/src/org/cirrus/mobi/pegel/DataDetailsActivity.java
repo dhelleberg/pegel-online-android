@@ -1,23 +1,5 @@
 package org.cirrus.mobi.pegel;
 
-/*	Copyright (C) 2011	Dominik Helleberg
-
-This file is part of pegel-online.
-
-pegel-online is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-pegel-online is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 import java.util.Set;
 
 import android.content.Context;
@@ -25,14 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
+public class DataDetailsActivity extends AbstractPegelDetailsActivity {
 
 	// Create runnable for posting
 	final Runnable mUpdateDatenDetails = new Runnable() {
@@ -51,12 +32,12 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		setContentView(R.layout.more_details);
+		setContentView(R.layout.data_details);
 
 		this.pegelDetailHelper = new PegelDetailHelper(this);
 
 		this.pegelApp = (PegelApplication) getApplication();		
-		pegelApp.trackPageView("/PegelDataDetailsView");
+		pegelApp.trackPageView("/PegelRealDataDetailsView");
 
 		this.pnr = getIntent().getStringExtra("pnr");
 
@@ -70,31 +51,32 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 	@Override
 	protected void onStart() {	
 		super.onStart();
-		this.pegelDataProvider.showData(pnr, null, null, pdrDataDetails, null,null, 0 );
+		this.pegelDataProvider.showData(pnr, null, null, null, null, pdrDataDetails,0 );
 	}
 
 
 	protected void updateDataDetailInUi() {	
 		Set<String> keys = data.keySet();
-		TableLayout tl = (TableLayout) findViewById(R.id.measurepointtable);
+		TableLayout tl = (TableLayout) findViewById(R.id.datatable);
 		if(tl.getChildCount() > 1)//clean up the rows
 			tl.removeViews(1, tl.getChildCount()-1);
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		for (String key : keys) {
 
 			String[] dat = data.getStringArray(key);
-
-			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.table_row, null);
+			
+			View rowView = inflater.inflate(R.layout.table_data_row, null);
 
 			TextView tv = (TextView) rowView.findViewById(R.id.tableTextP);
 			tv.setText(dat[0]);
 
 			TextView tv2 = (TextView) rowView.findViewById(R.id.tableTextM);
-			String value = (Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
+			String value = dat[1];//(Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
 			tv2.setText(value);
 
 			TextView tv3 = (TextView) rowView.findViewById(R.id.tableTextD);
-			tv3.setText(dat[1]);
+			tv3.setText(dat[2]);
 
 			tl.addView(rowView);
 		}
@@ -105,7 +87,7 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 	public void refreshFromOptionsMenu()
 	{
 		setProgressBarIndeterminateVisibility(true);
-		this.pegelDataProvider.refresh(pnr, null, null, pdrDataDetails, null,null, 0);
+		this.pegelDataProvider.refresh(pnr, null, null, null, null, pdrDataDetails, 0);
 		this.pegelApp.trackEvent("MoreDetailsActivity", "refresh", "refresh", 1);
 	}
 

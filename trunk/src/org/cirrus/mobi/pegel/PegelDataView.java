@@ -65,7 +65,7 @@ public class PegelDataView extends AbstractPegelDetailsActivity {
 		this.pegelDetailHelper = new PegelDetailHelper(this);
 
 		setProgressBarIndeterminateVisibility(true);
-		this.pegelDataProvider.showData(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, 0);
+		this.pegelDataProvider.showData(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, pegelDetailHelper.pdrRealDataDetails, 0);
 		
 		if(firstRunThisVersion)
 		{

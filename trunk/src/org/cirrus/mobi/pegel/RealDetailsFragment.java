@@ -32,7 +32,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
-public class MoreDetailsFragment extends Fragment {
+public class RealDetailsFragment extends Fragment {
 
 	// Create runnable for posting
 	final Runnable mUpdateDatenDetails = new Runnable() {
@@ -48,12 +48,12 @@ public class MoreDetailsFragment extends Fragment {
 	public PegelApplication pegelApp;
 
 
-	public MoreDetailsFragment() { //for Framework use
+	public RealDetailsFragment() { //for Framework use
 
 	}
-	public static MoreDetailsFragment getInstance(String pnr)
+	public static RealDetailsFragment getInstance(String pnr)
 	{
-		MoreDetailsFragment mdf = new MoreDetailsFragment();
+		RealDetailsFragment mdf = new RealDetailsFragment();
 		Bundle args = new Bundle();
 		args.putString("pnr", pnr);
 		mdf.setArguments(args);
@@ -71,7 +71,7 @@ public class MoreDetailsFragment extends Fragment {
 		
 		this.pegelDataProvider = PegelDataProvider.getInstance((PegelApplication) getActivity().getApplication());
 		
-		this.pegelDataProvider.showData(getArguments().getString("pnr"), null, null, pdrDataDetails, null, null,0 );
+		this.pegelDataProvider.showData(getArguments().getString("pnr"), null, null, null, null, pdrDataDetails,0 );
 		
 		getActivity().setProgressBarIndeterminateVisibility(true);
 	}
@@ -81,35 +81,37 @@ public class MoreDetailsFragment extends Fragment {
 			ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		
-		View moreDetailsView  = inflater.inflate(R.layout.more_details, container, false);
+		View moreDetailsView  = inflater.inflate(R.layout.data_details, container, false);
 		
 		return moreDetailsView;
 	}
+
 	protected void updateDataDetailInUi() {	
 		Set<String> keys = data.keySet();
-		TableLayout tl = (TableLayout) getActivity().findViewById(R.id.measurepointtable);
+		TableLayout tl = (TableLayout) getActivity().findViewById(R.id.datatable);
 		if(tl.getChildCount() > 1)//clean up the rows
 			tl.removeViews(1, tl.getChildCount()-1);
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		for (String key : keys) {
-			
+
 			String[] dat = data.getStringArray(key);
 			
-			LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.table_row, null);
+			View rowView = inflater.inflate(R.layout.table_data_row, null);
 
 			TextView tv = (TextView) rowView.findViewById(R.id.tableTextP);
 			tv.setText(dat[0]);
-			
+
 			TextView tv2 = (TextView) rowView.findViewById(R.id.tableTextM);
-			String value = (Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
+			String value = dat[1];//(Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
 			tv2.setText(value);
-			
+
 			TextView tv3 = (TextView) rowView.findViewById(R.id.tableTextD);
-			tv3.setText(dat[1]);
-			
+			tv3.setText(dat[2]);
+
 			tl.addView(rowView);
 		}
-	}
+	}	
 	
 	class DataDetailHandler implements PegelDataResultReciever.Receiver
 	{

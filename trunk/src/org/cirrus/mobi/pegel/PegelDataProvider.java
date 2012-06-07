@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.cirrus.mobi.pegel.data.MeasureEntry;
+import org.cirrus.mobi.pegel.data.MeasurePointDataDetails;
 import org.cirrus.mobi.pegel.data.MeasureStationDetails;
 import org.cirrus.mobi.pegel.data.PointStore;
 
@@ -47,6 +48,7 @@ public class PegelDataProvider {
 	protected String imgurl = null;
 
 	protected MeasureStationDetails[] dataDetails = null;
+	protected MeasurePointDataDetails[] realDataDetails = null;
 
 	private String pnr;
 
@@ -59,8 +61,11 @@ public class PegelDataProvider {
 	private PegelDataResultReciever pdrPegelDetail;
 	private PegelDataResultReciever pdrPegelImage;
 	private PegelDataResultReciever pdrPegelMap;
+	private PegelDataResultReciever pdrPegelDaten;
 
+	
 	private int mapsize;
+
 
 	private static PegelDataProvider abstractPegelDetail = null; 
 
@@ -79,6 +84,7 @@ public class PegelDataProvider {
 			PegelDataResultReciever pdrPegelImage, 
 			PegelDataResultReciever pdrPegelDetails,
 			PegelDataResultReciever pdrPegelMap,
+			PegelDataResultReciever pdrPegelDaten,
 			int mapsize)
 	{
 		if(updateing)
@@ -90,6 +96,7 @@ public class PegelDataProvider {
 		this.pdrPegelImage = pdrPegelImage;
 		this.pdrPegelDetail = pdrPegelDetails;
 		this.pdrPegelMap = pdrPegelMap;
+		this.pdrPegelDaten = pdrPegelDaten;
 		this.mapsize = mapsize;
 		this.pnr = pnr;
 		this.fetchData(refresh);
@@ -99,6 +106,7 @@ public class PegelDataProvider {
 			PegelDataResultReciever pdrPegelImage, 
 			PegelDataResultReciever pdrPegelDetails,
 			PegelDataResultReciever pdrPegelMap,
+			PegelDataResultReciever pdrPegelDaten,
 			int mapsize) {
 		if(updateing)
 			return;
@@ -106,6 +114,7 @@ public class PegelDataProvider {
 		this.pdrPegelImage = pdrPegelImage;
 		this.pdrPegelDetail = pdrPegelDetails;
 		this.pdrPegelMap = pdrPegelMap;
+		this.pdrPegelDaten = pdrPegelDaten;
 		this.mapsize = mapsize;
 		this.pnr = pnr;
 		this.fetchData(true);
@@ -160,6 +169,7 @@ public class PegelDataProvider {
 						}
 					} */
 					imgurl = pegelApp.getPointStore().getImageURL(pnr);
+					Log.v(TAG, "Got image URL: " +imgurl);
 					//fecht image 
 					URL imgu;
 					try {
@@ -201,6 +211,31 @@ public class PegelDataProvider {
 			}
 		};
 		t3.start();
+		
+		//fetch details of the measure point
+		// Fire off a thread to do some work that we shouldn't do directly in the UI thread
+		Thread t5 = new Thread() {
+			public void run() {
+				if((refresh || realDataDetails == null) && pdrPegelDaten != null )
+				{
+					PointStore ps = pegelApp.getPointStore();
+					try {
+						realDataDetails = ps.getMeasurePointDataDetails(pegelApp.getApplicationContext(), pnr);
+					} catch (Exception e) {
+						Log.w(TAG, "Error fecthing data from server, retry...", e);					
+						pegelApp.trackEvent("ERROR", "getMeasurePointDataDetails-hidden", e.getMessage(), 1);
+						try {
+							realDataDetails = ps.getMeasurePointDataDetails(pegelApp.getApplicationContext(), pnr);
+						} catch (Exception e1) {
+							Log.w(TAG, "Error fecthing data from server, giving up...", e);
+							pegelApp.trackEvent("ERROR", "getMeasurePointDataDetails-hidden", e.getMessage(), 1);
+						}
+					}
+				}
+				updateDataDetails();
+			}
+		};
+		t5.start();
 
 		//fetch details of the measure point
 		// Fire off a thread to do some work that we shouldn't do directly in the UI thread
@@ -343,6 +378,24 @@ public class PegelDataProvider {
 		{
 			if(pdrPegelDetail != null)
 				pdrPegelDetail.send(STATUS_ERROR, Bundle.EMPTY);			
+		}
+	}
+	
+	private void updateDataDetails() {
+		updateing = false;
+		if(this.realDataDetails != null && pdrPegelDaten != null)
+		{
+			Bundle bundle = new Bundle();
+			//extract data and put it into the PegelGrafikView
+			for (int i = 0; i < realDataDetails.length; i++) {				
+				bundle.putStringArray(realDataDetails[i].dataType, realDataDetails[i].toStringArray());
+			}
+			pdrPegelDaten.send(STATUS_FINISHED, bundle);
+		}
+		else
+		{
+			if(pdrPegelDaten != null)
+				pdrPegelDaten.send(STATUS_ERROR, Bundle.EMPTY);			
 		}
 	}
 

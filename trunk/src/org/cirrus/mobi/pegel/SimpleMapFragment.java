@@ -79,7 +79,7 @@ public class SimpleMapFragment extends Fragment {
 		        int finalHeight = map.getMeasuredHeight();
 		        int finalWidth = map.getMeasuredWidth();
 		        int size = Math.min(finalHeight, finalWidth);
-		        pegelDataProvider.showData(getArguments().getString("pnr"), null, null, null, pdrDataMap, size );
+		        pegelDataProvider.showData(getArguments().getString("pnr"), null, null, null, pdrDataMap,null, size );
 		        
 		        final ViewTreeObserver vto = map.getViewTreeObserver();
 		        vto.removeOnPreDrawListener(this);

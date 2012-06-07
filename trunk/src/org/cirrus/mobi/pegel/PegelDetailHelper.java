@@ -35,6 +35,7 @@ public class PegelDetailHelper {
 	protected PegelDataResultReciever pdrData;
 	protected PegelDataResultReciever pdrImage;
 	protected PegelDataResultReciever pdrDataDetails;
+	protected PegelDataResultReciever pdrRealDataDetails;
 
 	// Need handler for callbacks to the UI thread
 	final Handler mHandler = new Handler();

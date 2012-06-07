@@ -86,7 +86,7 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 				int finalHeight = map.getMeasuredHeight();
 				int finalWidth = map.getMeasuredWidth();
 				int size = Math.min(finalHeight, finalWidth);
-				pegelDataProvider.showData(pnr, null, null, null, pdrDataMap, size );
+				pegelDataProvider.showData(pnr, null, null, null, pdrDataMap,null, size );
 
 				final ViewTreeObserver vto = map.getViewTreeObserver();
 				vto.removeOnPreDrawListener(this);
@@ -125,7 +125,7 @@ public class MapActivity extends AbstractPegelDetailsActivity {
 	public void refreshFromOptionsMenu()
 	{
 		setProgressBarIndeterminateVisibility(true);
-		this.pegelDataProvider.refresh(pnr, null, null, null, pdrDataMap, getSize());
+		this.pegelDataProvider.refresh(pnr, null, null, null, pdrDataMap, null, getSize());
 		this.pegelApp.trackEvent("MapActivity", "refresh", "refresh", 1);
 	}
 
