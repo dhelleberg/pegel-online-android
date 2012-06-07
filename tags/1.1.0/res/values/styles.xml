@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="listViewActivatedStyle"/>
+	
+	<style name="DetailsHeadline" parent="@android:style/TextAppearance.Medium">
+		<item name="android:textStyle">bold</item>
+	</style>
+	
+	<style name="TableHeadline">
+		<item name="android:textStyle">bold</item>
+	</style>		
+
+	<style name="TableEntry">
+		<!-- empty for default -->
+	</style>
+	
+	<style name="WindowTitleBackground">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingLeft">5dip</item>
+    </style>
+    
+	<style name="PegelTheme" parent="android:Theme">            
+            <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+    </style>
+</resources>

@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/tip_home_d_layout"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:padding="10dp"
+              >
+
+    <ImageView
+        android:id="@+id/tip_home_d_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_menu_home" />
+
+    <TextView
+        android:id="@+id/tip_home_d_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tip_home_d_logo"
+        android:text="@string/dialog_home_tip"
+        android:textColor="#FFF" 
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/tip_home_button_ok"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tip_home_d_text"
+        android:layout_centerHorizontal="true"
+        android:text="@string/dialog_tip_button_ok" />
+
+</RelativeLayout>
