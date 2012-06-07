@@ -13,12 +13,14 @@
     <string name="tab1">Messung</string>
     <string name="tab2">Details</string>
     <string name="tab3">Karte</string>
+    <string name="tab4">Daten</string>
     <string name="connection_error">Verbindungsfehler zum Server, kann die Daten nicht laden, bitte später nochmal probieren. Sorry!</string>
     <string name="pgview_hsw">HSW-</string>
     <string name="pgview_pegel">PEG-</string>
     <string name="noMap">Sorry, für diese Mess-Station sind keine Koordinaten verfügbar :(</string>
     <string name="mapHeader">Karte</string>
     <string name="moreDetailsHeader">Pegel-Werte</string>
+    <string name="dataDetailsHeader">Messwerte am Pegel</string>
     <string name="tendency">Tendenz</string>
     <string name="measure">Messung</string>
     <string name="date">Zeit</string>
@@ -32,4 +34,6 @@
     <string name="table_value">Wert</string>
     <string name="table_data">Daten</string>
     <string name="table_description">Beschreibung</string>
+    <string name="table_time">Zeit</string>
+    <string name="table_type">Typ</string>
 </resources>
