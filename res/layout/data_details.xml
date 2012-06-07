@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<TextView
+		android:text="@string/dataDetailsHeader"
+		android:id="@+id/textView1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		style="@style/DetailsHeadline" />
+	<ScrollView		
+		android:id="@+id/scroller"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fillViewport="false">
+		<TableLayout
+			android:layout_height="wrap_content"
+			android:id="@+id/datatable"
+			android:layout_width="wrap_content"
+			android:shrinkColumns="0,2"
+			android:stretchColumns="*"
+			>
+			<TableRow
+				android:id="@+id/tableRow1Headline"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_vertical">
+				<TextView
+					style="@style/TableHeadline"
+					android:text="@string/table_type"
+					android:id="@+id/textView2"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:padding="0dip"></TextView>
+				<TextView
+					style="@style/TableHeadline"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/textView3"
+					android:text="@string/table_value"
+					android:padding="0dip"></TextView>
+				<TextView
+					style="@style/TableHeadline"
+					android:text="@string/table_time"
+					android:id="@+id/textView4"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="0dip"></TextView>
+			</TableRow>
+		</TableLayout>
+	</ScrollView>
+</LinearLayout>
