@@ -16,18 +16,17 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -36,13 +35,12 @@ import java.util.Map;
 
 import org.cirrus.mobi.pegel.PegelApplication;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class PointStore {
 
@@ -61,20 +59,20 @@ public class PointStore {
 
 	private static final String PREFS_NAME = "store";
 
-	private static final long POINT_CACHE_TIME = (96*60*60*1000); //four days
-	
+	private static final long POINT_CACHE_TIME = (2*60*60*1000); //2 hours
+
 	private static final String POINT_STORE_URL = PegelApplication.host+"/pegelmeasurepoints";
 	private static final String POINT_DETAILS_URL = PegelApplication.host+"/pegelmeasurepointdetail?pn=";
 	private static final String POINT_ALL_DATA_URL = PegelApplication.host+"/pegelmoredata?pn=";
 	private static final String POINT_DATA_URL = PegelApplication.host+"/pegeldata?pn=";
 	private static final String POINT_DATA_IMAGE_URL = PegelApplication.host+"/pegeldataimage?pn=";
-	
+
 	private static final String IMAGE_URL_SERVER_URL_1 = "http://www.pegelonline.wsv.de/webservices/rest/v1/locations/";
 	private static final String IMAGE_URL_SERVER_URL_2 = "/timeseries/W.png";
 
 	private static final String POINT_CACHE_FILE = "point_cache.json";
 	private static final String LAST_P_UPDATE = "lpu";
-	
+
 	private static final int DEFAULT_BUFFER = 30720; //30k
 	private static final String LON = "lon";
 	private static final String LAT = "lat";
@@ -188,8 +186,8 @@ public class PointStore {
 			{
 				if(in != null)
 					try {	in.close(); } catch(Exception ex){ }
-					if(fileWriter != null)
-						try {	fileWriter.close(); } catch(Exception ex){ }
+				if(fileWriter != null)
+					try {	fileWriter.close(); } catch(Exception ex){ }
 			}
 		}
 		else
@@ -240,19 +238,29 @@ public class PointStore {
 		try 
 		{
 			URL url = new URL(POINT_DATA_URL+pnr);
-			URLConnection urlConnection = url.openConnection();
-			in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), Charset.forName("ISO-8859-1")), DEFAULT_BUFFER);
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			if(urlConnection.getResponseCode() == 200)
+			{
+				in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), Charset.forName("ISO-8859-1")), DEFAULT_BUFFER);
 
-			String inputLine;
-			StringBuilder sb = new StringBuilder();
-			while ((inputLine = in.readLine()) != null)
-			{			
-				sb.append(inputLine);
+				String inputLine;
+				StringBuilder sb = new StringBuilder();
+				while ((inputLine = in.readLine()) != null)
+				{			
+					sb.append(inputLine);
+				}
+
+				Gson gson = new Gson();
+				entry = gson.fromJson(sb.toString(), MeasureEntry.class);
+				entry.status = MeasureEntry.STATUS_OK;
 			}
-
-			Gson gson = new Gson();
-			entry = gson.fromJson(sb.toString(), MeasureEntry.class);
-			
+			else if(urlConnection.getResponseCode() == 404)
+			{
+				//this pegel number is no longer valid, we need to invalidate our cache an
+				//force a new choice :(
+				entry = new MeasureEntry(pnr, null, null, null, null);
+				entry.status = MeasureEntry.STATUS_NOT_FOUND;
+			}
 		}
 		finally
 		{
@@ -262,6 +270,7 @@ public class PointStore {
 
 		return entry;
 	}
+
 
 	/**
 	 * Return the url where to fetch the image for the "ganglinie" from
@@ -305,15 +314,15 @@ public class PointStore {
 	 * @return
 	 * @throws Exception
 	 */
-	
+
 	public String getImageURL(String pegelNummer) {
 		StringBuilder sb = new StringBuilder(IMAGE_URL_SERVER_URL_1);
 		sb.append(pegelNummer);
 		sb.append(IMAGE_URL_SERVER_URL_2);
-		
+
 		return sb.toString();
 	}
-	
+
 	/**
 	 * Returns details for a specific measure station like HSW etc.
 	 * @param context	the app context
@@ -411,15 +420,15 @@ public class PointStore {
 		//extract data
 		Gson gson = new Gson();
 		details = gson.fromJson(serverResp, MeasureStationDetails[].class);
-		
-		
+
+
 		return details;
 	}
 
-	
+
 	public MeasurePointDataDetails[] getMeasurePointDataDetails(
 			Context applicationContext, String pnr) throws Exception {
-		
+
 		MeasurePointDataDetails[] mpdd = null;
 		BufferedReader in = null;
 		try {
@@ -437,7 +446,7 @@ public class PointStore {
 
 			Gson gson = new Gson();
 			mpdd = gson.fromJson(sb.toString(), MeasurePointDataDetails[].class);
-			
+
 		} 
 		finally
 		{
@@ -447,4 +456,16 @@ public class PointStore {
 
 		return mpdd;
 	}
+	
+	public void clearPointCache(Context context) {
+		File cacheFile = new File(context.getCacheDir(), POINT_CACHE_FILE);
+		if(cacheFile.exists())
+			cacheFile.delete();
+		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.remove(LAST_P_UPDATE);
+		editor.commit();
+		
+	}
+
 }

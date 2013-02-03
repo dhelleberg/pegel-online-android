@@ -2,9 +2,11 @@ package org.cirrus.mobi.pegel;
 
 import org.cirrus.mobi.pegel.widget.PegelWidgetProvider.UpdateService;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -16,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -27,35 +28,36 @@ public class TabbedDataActivity extends TabActivity {
 	private String app_ver;
 	private PegelApplication pegelApp;
 	private PegelDataProvider pegelDataProvider;
-	
+
 	private static final int DIALOG_ABOUT = 1;
+	private static final int DIALOG_NOT_FOUND = 2;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		try {
 			this.app_ver = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
-						
+
 		} catch (NameNotFoundException e) {
 			this.app_ver = "unknown";
 		}
-	
-		
+
+
 		this.pegelApp = (PegelApplication) getApplication();
 		this.pegelDataProvider = PegelDataProvider.getInstance(pegelApp);
-		
+
 
 		super.onCreate(savedInstanceState);
 
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setProgressBarIndeterminateVisibility(true);
-		
+
 		setContentView(R.layout.tabbed_pegel_data);
 
 		//initialize the Data Provider Singleton whith this activity
 		PegelDataProvider.getInstance((PegelApplication) getApplication());
-		
+
 		TabHost tabHost = getTabHost();  // The activity TabHost
 		TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 		Intent intent;  // Reusable Intent for each tab
@@ -80,7 +82,7 @@ public class TabbedDataActivity extends TabActivity {
 		t.setText(R.string.tab4);	    
 		spec = tabHost.newTabSpec("data").setIndicator(tab).setContent(intent);
 		tabHost.addTab(spec);
-		
+
 		intent = new Intent().setClass(this, MoreDetailsActivity.class);
 		intent.putExtras(getIntent());
 		tab = vi.inflate(R.layout.tab_entry, null);
@@ -107,11 +109,11 @@ public class TabbedDataActivity extends TabActivity {
 			edit.clear();
 			edit.commit();
 			this.norefresh = true; //do not refresh service
-			
+
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
@@ -120,7 +122,7 @@ public class TabbedDataActivity extends TabActivity {
 			this.startService(new Intent(this, UpdateService.class));
 		norefresh = false;
 	}
-	
+
 	//Menu Inflater for fixture selection
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,7 +130,7 @@ public class TabbedDataActivity extends TabActivity {
 		inflater.inflate(R.layout.detailmenu, menu);
 		return true;
 	}
-	
+
 	// This method is called once a menu item is selected
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -156,22 +158,43 @@ public class TabbedDataActivity extends TabActivity {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-	    Dialog dialog;
-	    switch(id) {
-	    case DIALOG_ABOUT:
-	        dialog = createAboutDialog();
-	        break;       
-	    default:
-	        dialog = null;
-	    }
-	    return dialog;
+		Dialog dialog;
+		switch(id) {
+		case DIALOG_ABOUT:
+			dialog = createAboutDialog();
+			break;
+		case DIALOG_NOT_FOUND:
+			dialog = createNotFoundDialog();
+			break;
+		default:
+			dialog = null;
+		}
+		return dialog;
 	}
 
-	
 
-	
+
+
+	private Dialog createNotFoundDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.pegelNotFound)
+		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				//delete preferences
+				SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+				SharedPreferences.Editor edit = settings.edit();
+				edit.clear();
+				edit.commit();
+				//go back
+				Intent i = new Intent(TabbedDataActivity.this, StartupActivity.class);
+				startActivity(i);
+			}
+		});
+
+		return builder.create();
+	}
 	private Dialog createAboutDialog() {
-		
+
 		final Dialog dialog = new Dialog(this);
 
 		dialog.setContentView(R.layout.about_dialog);
@@ -181,8 +204,11 @@ public class TabbedDataActivity extends TabActivity {
 		text.setText(R.string.about);
 		ImageView image = (ImageView) dialog.findViewById(R.id.about_d_logo);
 		image.setImageResource(R.drawable.icon);
-		
+
 		return dialog;
+	}
+	public void showNotFoundDialog() {
+		showDialog(this.DIALOG_NOT_FOUND);		
 	}
 
 }

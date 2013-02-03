@@ -87,5 +87,12 @@ public class PegelDataView extends AbstractPegelDetailsActivity {
 			return super.onKeyDown(keyCode, event);
 	}
 
+	public void pegelNotFound() {
+		this.pegelApp.getPointStore().clearPointCache(this);
+		if(getParent() != null && getParent() instanceof TabbedDataActivity)
+			((TabbedDataActivity)getParent()).showNotFoundDialog();
+		
+	}
+
 
 }

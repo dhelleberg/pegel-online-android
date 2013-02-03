@@ -137,6 +137,13 @@ public class PegelDetailHelper {
 				time = resultData.getString("time");
 				activity.runOnUiThread(mUpdateDaten);
 				break;
+			case PegelDataProvider.STATUS_NOTFOUND:
+				data = null;
+				if(activity instanceof PegelFragmentsActivity)
+					((PegelFragmentsActivity)activity).pegelNotFound();
+				else if(activity instanceof PegelDataView)
+					((PegelDataView)activity).pegelNotFound();
+				
 			default:
 				Toast.makeText(activity, activity.getResources().getText(R.string.connection_error), Toast.LENGTH_LONG).show();
 				pegelApp.trackEvent("ERROR-Visible", "Data", "Toast", 1);

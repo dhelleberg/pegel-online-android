@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -29,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+@TargetApi(11)
 public class ListRiverFragment extends ListFragment implements RiverCallBack {
 
 	int mCurCheckPosition = 0;	

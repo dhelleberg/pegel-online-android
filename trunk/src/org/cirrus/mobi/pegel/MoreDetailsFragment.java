@@ -2,6 +2,7 @@ package org.cirrus.mobi.pegel;
 
 import java.util.Set;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
+@TargetApi(11)
 public class MoreDetailsFragment extends Fragment {
 
 	// Create runnable for posting
