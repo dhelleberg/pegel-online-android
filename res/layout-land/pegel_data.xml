@@ -45,11 +45,13 @@
 	  android:layout_toRightOf="@id/data_table"
 	  android:layout_below="@id/data_headline"	  	  	  
 	  android:visibility="gone"/>
-	  
-	  	<ImageView android:layout_width="wrap_content" android:id="@+id/data_image"		    
-		android:layout_height="wrap_content" android:layout_below="@id/data_headline" 
-		android:layout_alignTop="@id/data_table"
-		android:layout_alignParentRight="true"
-		android:layout_toRightOf="@id/PegelGrafikView"
-		android:paddingLeft="5dip" android:layout_centerVertical="false"></ImageView>
+
+	  	<ImageView
+	  	    android:id="@+id/data_image"
+	  	    android:layout_width="wrap_content"
+	  	    android:layout_height="wrap_content"
+	  	    android:layout_alignParentLeft="true"
+	  	    android:layout_below="@+id/data_table"
+	  	    android:paddingLeft="5dip" />
+
 </RelativeLayout>

@@ -17,13 +17,16 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -36,10 +39,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+@TargetApi(11)
 public class PegelFragmentsActivity extends Activity {
 
 	private static final String PREFS_NAME = "prefs";
 	private static final int DIALOG_ABOUT = 1;
+	private static final int DIALOG_NOT_FOUND = 2;
 
 	private String app_ver;
 	private PegelApplication pa;
@@ -96,9 +101,9 @@ public class PegelFragmentsActivity extends Activity {
 		// TODO Auto-generated method stub
 		getFragmentManager().beginTransaction().remove(lrf).commit();
 		super.onSaveInstanceState(outState);
-			
+
 	}
-	
+
 	//Menu Inflater action bar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,11 +150,37 @@ public class PegelFragmentsActivity extends Activity {
 		case DIALOG_ABOUT:
 			dialog = createAboutDialog();
 			break;
+		case DIALOG_NOT_FOUND:
+			dialog = createNotFoundDialog();
+			break;
+
 		default:
 			dialog = null;
 		}
 		return dialog;
 	}
+
+
+	private Dialog createNotFoundDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.pegelNotFound)
+		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				//delete preferences
+				SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+				SharedPreferences.Editor edit = settings.edit();
+				edit.clear();
+				edit.commit();
+				//clear selection, remove fragments
+				Intent i = new Intent(PegelFragmentsActivity.this, PegelFragmentsActivity.class);
+				startActivity(i);
+				
+			}
+		});
+
+		return builder.create();
+	}
+
 
 	private Dialog createAboutDialog() {
 
@@ -169,7 +200,6 @@ public class PegelFragmentsActivity extends Activity {
 	public void showDetails(String pnr, String river, String mpoint)
 	{
 		showTabs(pnr, river, mpoint);
-
 	}
 
 	private void showTabs(String pnr, String river, String mpoint)
@@ -229,5 +259,9 @@ public class PegelFragmentsActivity extends Activity {
 
 		}
 
+	}
+
+	public void pegelNotFound() {
+		showDialog(this.DIALOG_NOT_FOUND);
 	}
 }

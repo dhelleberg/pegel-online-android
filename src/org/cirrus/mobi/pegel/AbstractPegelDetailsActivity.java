@@ -88,6 +88,7 @@ public class AbstractPegelDetailsActivity extends Activity {
 		return dialog;
 	}
 
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;

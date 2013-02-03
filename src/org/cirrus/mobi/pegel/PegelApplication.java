@@ -1,7 +1,7 @@
 package org.cirrus.mobi.pegel;
 
 /*	Copyright (C) 2011	Dominik Helleberg
-	
+
 	This file is part of pegel-online.
 
     pegel-online is free software: you can redistribute it and/or modify
@@ -22,28 +22,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.acra.ACRA;
+import org.acra.ACRAConfiguration;
 import org.acra.annotation.ReportsCrashes;
 import org.cirrus.mobi.pegel.data.PointStore;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
+
+
 
 import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
-@ReportsCrashes(formKey = "dFJEeEZXX21LVERrSklSRDVsdG5GUmc6MQ")
+@ReportsCrashes(formKey = "")
 public class PegelApplication extends Application {
-	
+
 	private static final String TAG = "PegelApplication";
 
 	//for local testing
-	//public static final String host = "http://10.0.2.2:8888";
+//	public static final String host = "http://10.0.2.2:8888";
 	//for production
 	public static final String host = "http://pegel-online.appspot.com";
-	
+
 	private PointStore pointStore;
-	private GoogleAnalyticsTracker tracker;
+	private Tracker tracker;
+	private EasyTracker easytracker;
 
 	private Map<String, Drawable> imageCache = null;
 
@@ -56,29 +61,36 @@ public class PegelApplication extends Application {
 
 	@Override
 	public void onCreate() {
+		ACRAConfiguration config=ACRA.getNewDefaultConfig(this);
+		config.setFormUri(getString(R.string.acra_form_uri));
+		config.setFormUriBasicAuthLogin(getString(R.string.acra_form_user));
+		config.setFormUriBasicAuthPassword(getString(R.string.acra_form_pwd));
+		ACRA.setConfig(config);
 		ACRA.init(this);
 
 		super.onCreate();
-		
+
+		easytracker = EasyTracker.getInstance();
+		easytracker.setContext(this);
+		tracker = EasyTracker.getInstance().getTracker();
+
 		this.pointStore = new PointStore();
+
 		
-		tracker = GoogleAnalyticsTracker.getInstance();
-		//detect emulator, 		
-		tracker.start("UA-1395561-4",30 ,this); //every 30 seconds the data is send to analytics
-		
+
+		//detect emulator, 						
 		if(Build.PRODUCT.equalsIgnoreCase("sdk") || Build.PRODUCT.equalsIgnoreCase("google_sdk"))
 		{
 			StringBuilder deviceInfo = new StringBuilder(Build.PRODUCT).append(' ').append(Build.MANUFACTURER).append(' ').append(Build.DEVICE);
 			Log.v(TAG, "Detected emulator, turn off tracker for: "+deviceInfo);
-			tracker.trackEvent("DEBUG", "On", deviceInfo.toString(), 1);
-			tracker.dispatch();
-			tracker.stop();
+			tracker.sendEvent("DEBUG", "On", deviceInfo.toString(), (long) 1);		
+			tracker.close();
 			this.emulator = true;
 		}
-		
+
 		this.imageCache = new HashMap<String, Drawable>();
 	}
-	
+
 	public PointStore getPointStore()
 	{
 		return this.pointStore;
@@ -96,15 +108,15 @@ public class PegelApplication extends Application {
 		if(this.emulator)
 			Log.v(TAG, "dropping event, running on emulator "+string+string2+string3+i);
 		else
-			tracker.trackEvent(string, string2, string3, i);		
+			tracker.sendEvent(string, string2, string3, (long) i);		
 	}
 
 	public void trackPageView(String string) {
 		if(this.emulator)
 			Log.v(TAG, "dropping pageView, running on emulator "+string);
 		else
-			tracker.trackPageView(string);
-		
+			tracker.sendView(string);
+
 	}
 
 }

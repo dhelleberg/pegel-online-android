@@ -21,6 +21,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 import org.cirrus.mobi.pegel.data.PegelEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
 
+import android.annotation.TargetApi;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+@TargetApi(11)
 public class MeasurePointFragment extends ListFragment {
 
 	private static final String PREFS_NAME = "prefs";

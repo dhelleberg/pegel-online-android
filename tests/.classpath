@@ -11,5 +11,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/android-test-tools.jar"/>
 	<classpathentry kind="src" path="/Android-Test-Tools"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

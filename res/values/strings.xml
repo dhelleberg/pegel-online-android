@@ -36,4 +36,6 @@
     <string name="table_description">Beschreibung</string>
     <string name="table_time">Zeit</string>
     <string name="table_type">Typ</string>
+    <string name="ok">OK</string>
+    <string name="pegelNotFound">Der Pegel ist leider ungültig, bitte wählen Sie einen neuen Pegel aus</string>
 </resources>

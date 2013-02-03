@@ -19,6 +19,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 /**
  * Detailed View of the data
  */
+@TargetApi(11)
 public class DetailDataFragment extends Fragment {
 
 	private PegelDataProvider pegelDataProvider;

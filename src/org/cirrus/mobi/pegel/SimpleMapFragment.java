@@ -1,5 +1,6 @@
 package org.cirrus.mobi.pegel;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@TargetApi(11)
 public class SimpleMapFragment extends Fragment {
 
 	private PegelDataResultReciever pdrDataMap;	

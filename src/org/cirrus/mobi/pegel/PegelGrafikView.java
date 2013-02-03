@@ -57,7 +57,7 @@ public class PegelGrafikView extends View{
 	private Paint linePaintAdditionalPaint;
 	private String hsw_string;
 	private String pegel_string;
-	
+	private RectF rect = new RectF();
 	
 
 	public PegelGrafikView(Context context, AttributeSet set) {
@@ -110,6 +110,11 @@ public class PegelGrafikView extends View{
 		this.scalefactor = getContext().getResources().getDisplayMetrics().density;
 		Log.v(TAG, "Scale factor:" +scalefactor);
 
+		if(isInEditMode())
+		{
+			this.setHSW(50f);
+			this.setMeasure(25f);
+		}
 	}
 
 	public void setHSW(float hsw)
@@ -189,24 +194,31 @@ public class PegelGrafikView extends View{
 		canvas.translate(PADDING_LEFT, PADDING_TOP);
 		
 		//draw bg
-		canvas.drawRect(new RectF(1, 1, boxwidth, boxheight), boxBg);
+		rect.set(1, 1, boxwidth, boxheight);
+		canvas.drawRect(rect, boxBg);
 				
 		//draw hsw
 		if(hsw != 0f)
 		{	
 			if(pegel < hsw)
-				canvas.drawRect(new RectF(1, hswpixel, boxwidth, GRADIENT_LENGTH), this.gradientBoxPaint);
+			{
+				rect.set(1, hswpixel, boxwidth, GRADIENT_LENGTH);
+				canvas.drawRect(rect, this.gradientBoxPaint);
+			}
 			else
 			{
-				canvas.drawRect(new RectF(1, pegelpixel, boxwidth, hswpixel),this.linePaintHSW);
-				canvas.drawRect(new RectF(1, hswpixel, boxwidth, hswpixel+GRADIENT_LENGTH), this.gradientBoxPaint);
+				rect.set(1,pegelpixel, boxwidth, hswpixel);
+				canvas.drawRect(rect,this.linePaintHSW);
+				rect.set(1, hswpixel, boxwidth, hswpixel+GRADIENT_LENGTH);
+				canvas.drawRect(rect, this.gradientBoxPaint);
 			}
 		}
 
 		//draw miniRects
 		for(int i = 0; i < (boxheight/8); i++)
-		{
-			canvas.drawRect(new RectF(1, 1+(i*8), 12, 1+(i*8)+4),miniRectPaint);
+		{			
+			rect.set(1, 1+(i*8), 12, 1+(i*8)+4);
+			canvas.drawRect(rect, miniRectPaint);
 		}
 		//draw box		
 		canvas.drawLine(1, 1, boxwidth,1, linePaintBox);

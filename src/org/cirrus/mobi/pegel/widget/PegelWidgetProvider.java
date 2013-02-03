@@ -16,7 +16,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.R;
@@ -75,7 +75,7 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 		Log.v(TAG, "on deleted");		
 	}
 
-	
+
 	@Override
 	public void onEnabled(Context ctxt)
 	{
@@ -149,12 +149,23 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 				}
 				if(data !=null)
 				{
-					Log.v(TAG, "got new data...");
-					StringBuilder measureText = new StringBuilder();
-					measureText.append("Messung: ").append(data.getMessung()).append("\n");
-					measureText.append("Tendenz: ").append(getTendenz(data.getTendenz())).append("\n");					
-					measureText.append("Zeit: ").append(data.getZeit());
-					updateViews.setTextViewText(R.id.widget_data, measureText);
+					if(data.getStatus() == MeasureEntry.STATUS_OK)
+					{
+						Log.v(TAG, "got new data...");
+						StringBuilder measureText = new StringBuilder();
+						measureText.append("Messung: ").append(data.getMessung()).append("\n");
+						measureText.append("Tendenz: ").append(getTendenz(data.getTendenz())).append("\n");					
+						measureText.append("Zeit: ").append(data.getZeit());
+						updateViews.setTextViewText(R.id.widget_data, measureText);
+					}
+					else if(data.getStatus() == MeasureEntry.STATUS_NOT_FOUND)
+					{
+						//show main Application and let the user select a river
+						Intent i = new Intent(this, StartupActivity.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						startActivity(i);
+			
+					}
 				}
 			}
 			else
@@ -164,8 +175,8 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(i);
 			}
-			
-			
+
+
 			//register Intent to update on click, that will be passed to the "onRevieve" method of the PegelWidgetProvider who call us then
 			Intent i=new Intent(this, PegelWidgetProvider.class);
 			i.setAction(REFRESH_ACTION);

@@ -40,8 +40,11 @@ public class PegelDataProvider {
 	public static final int STATUS_ERROR = 0x2;
 	public static final int STATUS_FINISHED = 0x3;
 	public static final int STATUS_NO_MAP = 0x4;
-
+	public static final int STATUS_NOTFOUND = 0x5;
+	
 	protected static final String MAPS_URL = "http://maps.google.com/maps/api/staticmap?";
+
+	
 
 
 	private MeasureEntry data = null;
@@ -324,7 +327,7 @@ public class PegelDataProvider {
 	protected void updateData() {
 
 		updateing = false;
-		if(data != null && this.pdrPegel != null)
+		if(data != null && this.pdrPegel != null && data.getStatus() == MeasureEntry.STATUS_OK)
 		{
 			float measure = Float.parseFloat(data.getMessung());
 			String tendency = "";
@@ -349,6 +352,7 @@ public class PegelDataProvider {
 			b.putString("tendency", tendency);
 			b.putFloat("pegel", measure);
 			b.putString("time", data.getZeit().replace(' ', '\n'));
+			Log.v(TAG, "!!!!!!!!!!!!!");
 			pdrPegel.send(STATUS_FINISHED, b);
 
 			SharedPreferences settings = pegelApp.getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
@@ -358,8 +362,12 @@ public class PegelDataProvider {
 		}
 		else //ERROR
 		{
-			if(pdrPegel != null)
+			if(data != null && data.getStatus() == MeasureEntry.STATUS_NOT_FOUND && pdrPegel != null)
+				pdrPegel.send(STATUS_NOTFOUND, Bundle.EMPTY);
+			else if(pdrPegel != null)
 				pdrPegel.send(STATUS_ERROR, Bundle.EMPTY);
+			
+				
 		}
 	}
 
