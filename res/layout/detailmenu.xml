@@ -20,4 +20,10 @@
         android:title="About">
     </item>
 
+	<item
+        android:id="@+id/m_donate"
+        android:icon="@drawable/ic_action_like"
+        android:title="Spenden">
+    </item>
+    
 </menu>

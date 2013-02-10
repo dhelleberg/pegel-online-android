@@ -150,6 +150,10 @@ public class TabbedDataActivity extends TabActivity {
 			showDialog(DIALOG_ABOUT);
 			this.pegelApp.trackEvent("PegelDataView", "about", "about", 1);
 			return true;
+		case R.id.m_donate:
+			//TODO:start Intent
+			this.pegelApp.trackEvent("PegelDataView", "donate", "donate", 1);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 
@@ -207,6 +211,8 @@ public class TabbedDataActivity extends TabActivity {
 
 		return dialog;
 	}
+	
+
 	public void showNotFoundDialog() {
 		showDialog(this.DIALOG_NOT_FOUND);		
 	}
