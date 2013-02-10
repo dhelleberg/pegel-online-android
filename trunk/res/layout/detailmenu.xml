@@ -3,20 +3,20 @@
 
     <item
         android:id="@+id/m_refresh"
-        android:icon="@drawable/refresh"
+        android:icon="@drawable/ic_action_reload"
         android:showAsAction="ifRoom"
         android:title="Refresh">
     </item>
 
     <item
         android:id="@+id/m_feedback"
-        android:icon="@drawable/edit"
+        android:icon="@drawable/ic_action_edit"
         android:title="Feedback">
     </item>
 
     <item
         android:id="@+id/m_about"
-        android:icon="@drawable/details"
+        android:icon="@drawable/ic_action_info"
         android:title="About">
     </item>
 
