@@ -19,6 +19,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import org.acra.ACRA;
 import org.cirrus.mobi.pegel.data.PegelEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
 
@@ -57,9 +58,19 @@ public class SelectMeasurePoint extends ListActivity {
 				plain_points[i] = entries[i].getPegelname();
 			}
 					
-		} catch (Exception e) {
-			//TODO: Error handling
+		} catch (Exception e) {			
+			ACRA.getErrorReporter().putCustomData("river", river);
+			ACRA.getErrorReporter().putCustomData("reason", "Exception during getMeasurePoints()");
+			ACRA.getErrorReporter().handleException(e);
 		}		
+		if(plain_points == null)
+		{
+			ACRA.getErrorReporter().putCustomData("river", river);
+			ACRA.getErrorReporter().putCustomData("reason", "River Points are null??");
+			ACRA.getErrorReporter().handleException(null);
+			plain_points = new String[0];
+		}
+		
 		setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, plain_points));
 		
 		TextView head = (TextView) findViewById(R.id.list_head);
