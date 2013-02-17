@@ -77,6 +77,10 @@
             android:name="org.cirrus.mobi.pegel.DonateActivity"
             android:label="@string/title_activity_donate" >
         </activity>
+        <activity
+            android:name="org.cirrus.mobi.pegel.DonateThanksActivity"
+            android:label="@string/title_activity_donate_thanks" >
+        </activity>
     </application>
 
 </manifest>

@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cirrus.mobi.pegel.util.IabHelper;
+import org.cirrus.mobi.pegel.util.IabHelper.OnConsumeFinishedListener;
+import org.cirrus.mobi.pegel.util.IabHelper.OnIabPurchaseFinishedListener;
 import org.cirrus.mobi.pegel.util.IabResult;
 import org.cirrus.mobi.pegel.util.Inventory;
+import org.cirrus.mobi.pegel.util.Purchase;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,19 +21,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class DonateActivity extends Activity implements OnItemSelectedListener {
+public class DonateActivity extends Activity implements OnItemSelectedListener, OnIabPurchaseFinishedListener, OnConsumeFinishedListener {
 
 	private static final String TAG = "DonateActivity";
-	protected static final String SKU_DONATE_PEGEL_1 = "sku_donate_pegel_1";
-	protected static final String SKU_DONATE_PEGEL_2 = "sku_donate_pegel_2";
-	protected static final String SKU_DONATE_PEGEL_3 = "sku_donate_pegel_3";
+	protected static final String[] SKUS = {"sku_donate_pegel_1","sku_donate_pegel_2","sku_donate_pegel_3"};
+	private static final int REQ_CODE = 100;
 	private IabHelper mHelper;
 	private PegelApplication pa;
 	private Spinner mSpinner;
 	private Button mButton;
 	private DonateActivity mContext;
 	private int selectedItem;
-	
+	private Inventory mInventory = null;
+
+	private ArrayAdapter<String> mAdapter;	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +51,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 		mContext = this;
 
 		mHelper = new IabHelper(this, getString(R.string.lkey));
+
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
 			public void onIabSetupFinished(IabResult result) {
 				if (!result.isSuccess()) {
@@ -56,43 +63,59 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 				{
 					//query items
 					List<String> additionalSkuList = new ArrayList<String>();
-					additionalSkuList.add(SKU_DONATE_PEGEL_1);
-					additionalSkuList.add(SKU_DONATE_PEGEL_2);
-					additionalSkuList.add(SKU_DONATE_PEGEL_3);
+					for (int i = 0; i < SKUS.length; i++) {
+						additionalSkuList.add(SKUS[i]);
+					}
 					mHelper.queryInventoryAsync(true, additionalSkuList, mQueryFinishedListener);
 
 				}
 
 			}
 		});
+
+		this.mButton.setOnClickListener(new  View.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				//start purchase flow
+				mHelper.launchPurchaseFlow(DonateActivity.this, SKUS[selectedItem], REQ_CODE+selectedItem, DonateActivity.this);				
+			}
+
+		});
+
+
+
 	}
 
 
 	IabHelper.QueryInventoryFinishedListener 
 	mQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
+
+
+		
+
 		public void onQueryInventoryFinished(IabResult result, Inventory inventory)   
 		{
 			if (result.isFailure()) {
 				// handle error
 				return;
 			}
+			mInventory = inventory;
 			// update the UI
-			String price_1 = inventory.getSkuDetails(SKU_DONATE_PEGEL_1).getPrice();
-			String price_2 = inventory.getSkuDetails(SKU_DONATE_PEGEL_2).getPrice();
-			String price_3 = inventory.getSkuDetails(SKU_DONATE_PEGEL_3).getPrice();
 			if(mSpinner != null)
 			{
-				String[] donateItems = new String[3];
-				donateItems[0] = String.format(mContext.getString(R.string.donate_1), price_1);
-				donateItems[1] = String.format(mContext.getString(R.string.donate_2), price_2);
-				donateItems[2] = String.format(mContext.getString(R.string.donate_3), price_3);
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(DonateActivity.this, android.R.layout.simple_spinner_item, donateItems);
-				mSpinner.setAdapter(adapter); 
+				
+				String[] donateItems = new String[SKUS.length];
+				for (int i = 0; i < SKUS.length; i++) {
+					donateItems[i] = String.format(mContext.getString(R.string.donate_1), inventory.getSkuDetails(SKUS[i]).getPrice()); 
+				}
+				mAdapter = new ArrayAdapter<String>(DonateActivity.this, android.R.layout.simple_spinner_item, donateItems);
+				mSpinner.setAdapter(mAdapter); 
 				mButton.setEnabled(true);
 			}
 		}
 	};
-	
+
 
 	@Override
 	public void onDestroy() {
@@ -107,12 +130,35 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 			long id) {
 		this.selectedItem = pos;
 		Log.d(TAG, "Select: "+selectedItem);
+
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onIabPurchaseFinished(IabResult result, Purchase info) {
+		if (result.isFailure()) {
+			Log.d(TAG, "Error purchasing: " + result);
+			return;
+		}      
+		else
+		{
+			//consume purchase
+			mHelper.consumeAsync(mInventory.getPurchase(info.getSku()),  this);
+		}
+
+
+	}
+
+	@Override
+	public void onConsumeFinished(Purchase purchase, IabResult result) {
+		//forward to thanks
+		Intent i = new Intent(this, DonateThanksActivity.class);
+		startActivity(i);
 	}
 
 }

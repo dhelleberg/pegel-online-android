@@ -44,7 +44,10 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="donate_button_text">Spenden!</string>
-	<string name="donate_1">Kleine Spende: %1s</string>
-	<string name="donate_2">Spende: %1s</string>
-	<string name="donate_3">Grosse Spende: %1s</string>
+    <string name="donate_1">Kleine Spende: %1s</string>
+    <string name="donate_2">Spende: %1s</string>
+    <string name="donate_3">Grosse Spende: %1s</string>
+    <string name="title_activity_donate_thanks">DonateThanksActivity</string>
+    <string name="thanks">Danke!</string>
+
 </resources>
