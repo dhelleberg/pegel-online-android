@@ -151,8 +151,9 @@ public class TabbedDataActivity extends TabActivity {
 			this.pegelApp.trackEvent("PegelDataView", "about", "about", 1);
 			return true;
 		case R.id.m_donate:
-			//TODO:start Intent
+			Intent i = new Intent(this, DonateActivity.class);			
 			this.pegelApp.trackEvent("PegelDataView", "donate", "donate", 1);
+			startActivity(i);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
