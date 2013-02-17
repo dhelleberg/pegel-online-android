@@ -20,9 +20,9 @@ import android.widget.Spinner;
 public class DonateActivity extends Activity implements OnItemSelectedListener {
 
 	private static final String TAG = "DonateActivity";
-	protected static final String SKU_DONATE_PEGEL_1 = "SKU_DONATE_PEGEL_1";
-	protected static final String SKU_DONATE_PEGEL_2 = "SKU_DONATE_PEGEL_2";
-	protected static final String SKU_DONATE_PEGEL_3 = "SKU_DONATE_PEGEL_3";
+	protected static final String SKU_DONATE_PEGEL_1 = "sku_donate_pegel_1";
+	protected static final String SKU_DONATE_PEGEL_2 = "sku_donate_pegel_2";
+	protected static final String SKU_DONATE_PEGEL_3 = "sku_donate_pegel_3";
 	private IabHelper mHelper;
 	private PegelApplication pa;
 	private Spinner mSpinner;
@@ -96,6 +96,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 
 	@Override
 	public void onDestroy() {
+		super.onDestroy();
 		if (mHelper != null) 
 			mHelper.dispose();
 		mHelper = null;
