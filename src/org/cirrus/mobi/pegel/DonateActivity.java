@@ -109,7 +109,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener, 
 				for (int i = 0; i < SKUS.length; i++) {
 					donateItems[i] = String.format(mContext.getString(R.string.donate_1), inventory.getSkuDetails(SKUS[i]).getPrice()); 
 				}
-				mAdapter = new ArrayAdapter<String>(DonateActivity.this, android.R.layout.simple_spinner_item, donateItems);
+				mAdapter = new ArrayAdapter<String>(DonateActivity.this, R.layout.donate_item, donateItems);
 				mSpinner.setAdapter(mAdapter); 
 				mButton.setEnabled(true);
 			}
