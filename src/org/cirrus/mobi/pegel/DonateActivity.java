@@ -33,7 +33,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 	private DonateActivity mContext;
 	private int selectedItem;
 	private Inventory mInventory = null;
-	
+
 
 	private ArrayAdapter<String> mAdapter;	
 
@@ -89,7 +89,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 
 	IabHelper.QueryInventoryFinishedListener 
 	mQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
-		
+
 		public void onQueryInventoryFinished(IabResult result, Inventory inventory)   
 		{
 			if (result.isFailure()) {
@@ -100,10 +100,10 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 			// update the UI
 			if(mSpinner != null)
 			{
-				
+
 				String[] donateItems = new String[SKUS.length];
 				for (int i = 0; i < SKUS.length; i++) {
-					
+
 					donateItems[i] = inventory.getSkuDetails(SKUS[i]).getTitle()+" "+inventory.getSkuDetails(SKUS[i]).getPrice(); 
 				}
 				mAdapter = new ArrayAdapter<String>(DonateActivity.this, R.layout.donate_item, donateItems);
@@ -118,7 +118,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 					Log.v(TAG, "Unconsumed purchase pending! Start consumption "+purchase);
 					mHelper.consumeAsync(purchase, silentConsumer);
 				}
-						
+
 			}
 		}
 	};
@@ -136,7 +136,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,
 			long id) {
 		this.selectedItem = pos;
-		Log.d(TAG, "Select: "+selectedItem);
+		Log.i(TAG, "Select: "+selectedItem);
 
 	}
 
@@ -145,46 +145,61 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	OnIabPurchaseFinishedListener purchaseListener = new OnIabPurchaseFinishedListener() {
-		
+
 		@Override
 		public void onIabPurchaseFinished(IabResult result, Purchase info) {
 			// TODO Auto-generated method stub
-			Log.d(TAG, "Purchased! " + result+ "info: "+info);
+			Log.e(TAG, "Purchased! " + result+ "info: "+info);
 			if (result.isFailure()) {
-				Log.d(TAG, "Error purchasing: " + result);
+				Log.e(TAG, "Error purchasing: " + result);
 				return;
 			}      
 			else
 			{
 				//consume purchase
+				Log.e(TAG, "now consuming purchase...");
 				mHelper.consumeAsync(mInventory.getPurchase(info.getSku()),  consumeListener);
 			}
 
 		}
 	};
-	
-	OnConsumeFinishedListener consumeListener = new OnConsumeFinishedListener() {
-		
-			@Override
-			public void onConsumeFinished(Purchase purchase, IabResult result) {
-				//forward to thanks
-				Intent i = new Intent(mContext, DonateThanksActivity.class);
-				startActivity(i);
-			}
 
-			
+	OnConsumeFinishedListener consumeListener = new OnConsumeFinishedListener() {
+
+		@Override
+		public void onConsumeFinished(Purchase purchase, IabResult result) {
+			//forward to thanks
+			Log.e(TAG, "consume done... forward to Thanks Activity....");
+			Intent i = new Intent(mContext, DonateThanksActivity.class);
+			startActivity(i);
+		}
+
+
 	};
-	
+
 	OnConsumeFinishedListener silentConsumer = new OnConsumeFinishedListener() {
-		
+
 		@Override
 		public void onConsumeFinished(Purchase purchase, IabResult result) {
 			Log.v(TAG, "Consumed... silent!");
-			
+			Log.e(TAG, "SILENCE!");
 		}
 	};
-	
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Pass on the activity result to the helper for handling
+		if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+			// not handled, so handle it ourselves (here's where you'd
+			// perform any handling of activity results not related to in-app
+			// billing...
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			Log.d(TAG, "onActivityResult handled by IABUtil.");
+		}
+
+	}
 }
