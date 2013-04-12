@@ -127,7 +127,7 @@ public class TabbedDataActivity extends TabActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.layout.detailmenu, menu);
+		inflater.inflate(R.menu.detailmenu, menu);
 		return true;
 	}
 
