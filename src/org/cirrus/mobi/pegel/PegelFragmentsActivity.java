@@ -108,7 +108,7 @@ public class PegelFragmentsActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.layout.detailmenu, menu);
+		inflater.inflate(R.menu.detailmenu, menu);
 		Fragment f = getFragmentManager().findFragmentById(R.id.details); 
 		//check if the pegel-details are shown, only then show the refresh action
 		if( (!(f instanceof DetailDataFragment)) || f.isRemoving())
@@ -137,6 +137,12 @@ public class PegelFragmentsActivity extends Activity {
 			showDialog(DIALOG_ABOUT);
 			this.pa.trackEvent("PegelDataView", "about", "about3", 1);
 			return true;
+		case R.id.m_donate:
+			Intent i = new Intent(this, DonateActivity.class);			
+			this.pa.trackEvent("PegelDataView", "donate", "donate", 1);
+			startActivity(i);
+			return true;
+			
 		default:
 			return super.onOptionsItemSelected(item);
 

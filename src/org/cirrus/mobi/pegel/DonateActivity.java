@@ -21,7 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class DonateActivity extends Activity implements OnItemSelectedListener, OnIabPurchaseFinishedListener, OnConsumeFinishedListener {
+public class DonateActivity extends Activity implements OnItemSelectedListener {
 
 	private static final String TAG = "DonateActivity";
 	protected static final String[] SKUS = {"sku_donate_pegel_1","sku_donate_pegel_2","sku_donate_pegel_3"};
@@ -33,6 +33,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener, 
 	private DonateActivity mContext;
 	private int selectedItem;
 	private Inventory mInventory = null;
+	
 
 	private ArrayAdapter<String> mAdapter;	
 
@@ -78,22 +79,17 @@ public class DonateActivity extends Activity implements OnItemSelectedListener, 
 			@Override
 			public void onClick(View v) {
 				//start purchase flow
-				mHelper.launchPurchaseFlow(DonateActivity.this, SKUS[selectedItem], REQ_CODE+selectedItem, DonateActivity.this);				
+				mHelper.launchPurchaseFlow(DonateActivity.this, SKUS[selectedItem], REQ_CODE+selectedItem, purchaseListener, "");				
 			}
 
 		});
-
-
 
 	}
 
 
 	IabHelper.QueryInventoryFinishedListener 
 	mQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
-
-
 		
-
 		public void onQueryInventoryFinished(IabResult result, Inventory inventory)   
 		{
 			if (result.isFailure()) {
@@ -107,11 +103,22 @@ public class DonateActivity extends Activity implements OnItemSelectedListener, 
 				
 				String[] donateItems = new String[SKUS.length];
 				for (int i = 0; i < SKUS.length; i++) {
-					donateItems[i] = String.format(mContext.getString(R.string.donate_1), inventory.getSkuDetails(SKUS[i]).getPrice()); 
+					
+					donateItems[i] = inventory.getSkuDetails(SKUS[i]).getTitle()+" "+inventory.getSkuDetails(SKUS[i]).getPrice(); 
 				}
 				mAdapter = new ArrayAdapter<String>(DonateActivity.this, R.layout.donate_item, donateItems);
 				mSpinner.setAdapter(mAdapter); 
 				mButton.setEnabled(true);
+			}
+			//do we have uncosumed purchases? then: CONSUME!
+			for (int i = 0; i < SKUS.length; i++) {
+				Purchase purchase = inventory.getPurchase(SKUS[i]);
+				if(purchase != null)
+				{
+					Log.v(TAG, "Unconsumed purchase pending! Start consumption "+purchase);
+					mHelper.consumeAsync(purchase, silentConsumer);
+				}
+						
 			}
 		}
 	};
@@ -138,27 +145,46 @@ public class DonateActivity extends Activity implements OnItemSelectedListener, 
 		// TODO Auto-generated method stub
 
 	}
+	
+	OnIabPurchaseFinishedListener purchaseListener = new OnIabPurchaseFinishedListener() {
+		
+		@Override
+		public void onIabPurchaseFinished(IabResult result, Purchase info) {
+			// TODO Auto-generated method stub
+			Log.d(TAG, "Purchased! " + result+ "info: "+info);
+			if (result.isFailure()) {
+				Log.d(TAG, "Error purchasing: " + result);
+				return;
+			}      
+			else
+			{
+				//consume purchase
+				mHelper.consumeAsync(mInventory.getPurchase(info.getSku()),  consumeListener);
+			}
 
-	@Override
-	public void onIabPurchaseFinished(IabResult result, Purchase info) {
-		if (result.isFailure()) {
-			Log.d(TAG, "Error purchasing: " + result);
-			return;
-		}      
-		else
-		{
-			//consume purchase
-			mHelper.consumeAsync(mInventory.getPurchase(info.getSku()),  this);
 		}
+	};
+	
+	OnConsumeFinishedListener consumeListener = new OnConsumeFinishedListener() {
+		
+			@Override
+			public void onConsumeFinished(Purchase purchase, IabResult result) {
+				//forward to thanks
+				Intent i = new Intent(mContext, DonateThanksActivity.class);
+				startActivity(i);
+			}
 
-
-	}
-
-	@Override
-	public void onConsumeFinished(Purchase purchase, IabResult result) {
-		//forward to thanks
-		Intent i = new Intent(this, DonateThanksActivity.class);
-		startActivity(i);
-	}
+			
+	};
+	
+	OnConsumeFinishedListener silentConsumer = new OnConsumeFinishedListener() {
+		
+		@Override
+		public void onConsumeFinished(Purchase purchase, IabResult result) {
+			Log.v(TAG, "Consumed... silent!");
+			
+		}
+	};
+	
 
 }
