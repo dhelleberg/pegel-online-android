@@ -49,9 +49,10 @@
 	  	<ImageView
 	  	    android:id="@+id/data_image"
 	  	    android:layout_width="@dimen/pegel_image_land_width"
-	  	    android:layout_height="match_parent"
-	  	    android:layout_alignParentRight="true"
-	  	    android:layout_alignTop="@+id/data_table"
+	  	    android:layout_height="wrap_content"
+	  	    android:layout_below="@+id/data_table"
+	  	    android:layout_alignParentLeft="true"
+	  	    
 	  	    android:paddingLeft="5dip" />
 
 </RelativeLayout>
