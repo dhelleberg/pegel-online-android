@@ -121,7 +121,7 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		getActivity().setProgressBarIndeterminateVisibility(false);
 		
-		if(getArguments() != null && getArguments().getString("river") != null)
+		if(getArguments() != null && getArguments().getString("river") != null && getListAdapter() != null)
 		{
 			int pos = ((ArrayAdapter<String>) (getListAdapter())).getPosition(getArguments().getString("river"));
 			this.showDetails( pos );
