@@ -49,5 +49,7 @@
     <string name="donate_3">Grosse Spende: %1s</string>
     <string name="title_activity_donate_thanks">Danke!!</string>
     <string name="thanks">Danke!</string>
+    <string name="donate_progress_dialog_title">Spendenoptionen...</string>
+    <string name="donate_progress_dialog_message">…werden geladen</string>
 
 </resources>

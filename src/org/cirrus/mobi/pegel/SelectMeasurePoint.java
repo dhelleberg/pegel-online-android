@@ -27,6 +27,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -47,38 +48,21 @@ public class SelectMeasurePoint extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		PointStore ps = ((PegelApplication) getApplication()).getPointStore();
 		this.river = getIntent().getStringExtra("river");
 		
-		String[] plain_points = null;
-		try {
-			entries = ps.getMeasurePoints(this,river);
-			plain_points = new String[entries.length];
-			for (int i = 0; i < plain_points.length; i++) {
-				plain_points[i] = entries[i].getPegelname();
-			}
-					
-		} catch (Exception e) {			
-			ACRA.getErrorReporter().putCustomData("river", river);
-			ACRA.getErrorReporter().putCustomData("reason", "Exception during getMeasurePoints()");
-			ACRA.getErrorReporter().handleException(e);
-		}		
-		if(plain_points == null)
-		{
-			ACRA.getErrorReporter().putCustomData("river", river);
-			ACRA.getErrorReporter().putCustomData("reason", "River Points are null??");
-			ACRA.getErrorReporter().handleException(null);
-			plain_points = new String[0];
-		}
-		
-		setListAdapter(new ArrayAdapter<String>(this,R.layout.list_item, R.id.SequenceTextView01, plain_points));
-		
 		TextView head = (TextView) findViewById(R.id.list_head);
-		head.setText(river);
-		
+		head.setText(river);	
+				
 		PegelApplication pa = (PegelApplication) getApplication();
 		pa.trackPageView("/SelectMeasurePoint");
 
+	}
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		PointsLoader ps = new PointsLoader();
+		ps.execute();
 	}
 
 
@@ -99,5 +83,44 @@ public class SelectMeasurePoint extends ListActivity {
 
 		startActivity(i);		
 	}
+	
+	class PointsLoader extends AsyncTask<Void, Void, Void>
+	{
+		PointStore ps = ((PegelApplication) getApplication()).getPointStore();
+		String[] plain_points = null;
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			try {
+				entries = ps.getMeasurePoints(SelectMeasurePoint.this ,river);
+				plain_points = new String[entries.length];
+				for (int i = 0; i < plain_points.length; i++) {
+					plain_points[i] = entries[i].getPegelname();
+				}
+						
+			} catch (Exception e) {			
+				ACRA.getErrorReporter().putCustomData("river", river);
+				ACRA.getErrorReporter().putCustomData("reason", "Exception during getMeasurePoints()");
+				ACRA.getErrorReporter().handleException(e);
+			}		
+			if(plain_points == null)
+			{
+				ACRA.getErrorReporter().putCustomData("river", river);
+				ACRA.getErrorReporter().putCustomData("reason", "River Points are null??");
+				ACRA.getErrorReporter().handleException(null);
+				plain_points = new String[0];
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			setListAdapter(new ArrayAdapter<String>(SelectMeasurePoint.this,R.layout.list_item, R.id.SequenceTextView01, plain_points));
+		}
+		
+	}
+	
 
 }

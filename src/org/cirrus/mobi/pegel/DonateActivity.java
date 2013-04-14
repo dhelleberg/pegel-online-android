@@ -11,6 +11,7 @@ import org.cirrus.mobi.pegel.util.Inventory;
 import org.cirrus.mobi.pegel.util.Purchase;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +35,7 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 	private int selectedItem;
 	private Inventory mInventory = null;
 
-
+	ProgressDialog progress;
 	private ArrayAdapter<String> mAdapter;	
 
 	@Override
@@ -68,7 +69,8 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 						additionalSkuList.add(SKUS[i]);
 					}
 					mHelper.queryInventoryAsync(true, additionalSkuList, mQueryFinishedListener);
-
+					progress = ProgressDialog.show(DonateActivity.this, getString(R.string.donate_progress_dialog_title),
+						    getString(R.string.donate_progress_dialog_message), true);
 				}
 
 			}
@@ -79,7 +81,8 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 			@Override
 			public void onClick(View v) {
 				//start purchase flow
-				mHelper.launchPurchaseFlow(DonateActivity.this, SKUS[selectedItem], REQ_CODE+selectedItem, purchaseListener, "");				
+				mHelper.launchPurchaseFlow(DonateActivity.this, SKUS[selectedItem], REQ_CODE+selectedItem, purchaseListener, "");
+				pa.trackEvent("Donate-Start", "Start Purchase", SKUS[selectedItem], 1);
 			}
 
 		});
@@ -92,8 +95,10 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 
 		public void onQueryInventoryFinished(IabResult result, Inventory inventory)   
 		{
+			progress.dismiss();
 			if (result.isFailure()) {
 				// handle error
+				pa.trackEvent("Donate-Error", "Could not query inventor", result.getMessage(), 1);
 				return;
 			}
 			mInventory = inventory;
@@ -152,8 +157,10 @@ public class DonateActivity extends Activity implements OnItemSelectedListener {
 		public void onIabPurchaseFinished(IabResult result, Purchase info) {
 			// TODO Auto-generated method stub
 			Log.e(TAG, "Purchased! " + result+ "info: "+info);
+			pa.trackEvent("Donate-Purchase", "Purchase Done", SKUS[selectedItem]+" "+info, 1);
 			if (result.isFailure()) {
 				Log.e(TAG, "Error purchasing: " + result);
+				pa.trackEvent("Purchase-ERROR", "Purchase ERROR"+result.getMessage(), SKUS[selectedItem]+" "+info, 1);
 				return;
 			}      
 			else
