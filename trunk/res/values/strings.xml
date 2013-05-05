@@ -51,5 +51,7 @@
     <string name="thanks">Danke!</string>
     <string name="donate_progress_dialog_title">Spendenoptionen...</string>
     <string name="donate_progress_dialog_message">…werden geladen</string>
+    <string name="extension_title">Pegel-Online</string>
+    <string name="extension_description">Zeigt den aktuell gewählten Pegelstand an.</string>
 
 </resources>

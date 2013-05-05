@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.cirrus.mobi.pegel"
     android:installLocation="internalOnly"
-    android:versionCode="22"
-    android:versionName="1.2.3" >
+    android:versionCode="23"
+    android:versionName="1.2.4" >
 
     <!--
     only for testing, comment out before release !!!!!!!!!!!!! 
@@ -81,6 +81,23 @@
             android:name="org.cirrus.mobi.pegel.DonateThanksActivity"
             android:label="@string/title_activity_donate_thanks" >
         </activity>
+
+        <service
+            android:name=".DashClockExtensionService"
+            android:icon="@drawable/icon"
+            android:label="@string/extension_title"
+            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
+            <intent-filter>
+                <action android:name="com.google.android.apps.dashclock.Extension" />
+            </intent-filter>
+
+            <meta-data
+                android:name="protocolVersion"
+                android:value="1" />
+            <meta-data
+                android:name="description"
+                android:value="@string/extension_description" />
+        </service>
     </application>
 
 </manifest>
