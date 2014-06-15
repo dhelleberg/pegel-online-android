@@ -99,7 +99,7 @@ public class RealDetailsFragment extends Fragment {
 
 			String[] dat = data.getStringArray(key);
 			
-			View rowView = inflater.inflate(R.layout.table_data_row, null);
+			View rowView = inflater.inflate(R.layout.table_data_row, tl,false);
 
 			TextView tv = (TextView) rowView.findViewById(R.id.tableTextP);
 			tv.setText(dat[0]);
