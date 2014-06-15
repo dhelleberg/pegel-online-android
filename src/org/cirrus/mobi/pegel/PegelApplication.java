@@ -27,6 +27,7 @@ import org.acra.annotation.ReportsCrashes;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 
 
@@ -72,7 +73,9 @@ public class PegelApplication extends Application {
 
 		easytracker = EasyTracker.getInstance();
 		easytracker.setContext(this);
-		tracker = EasyTracker.getInstance().getTracker();
+		GoogleAnalytics myInstance = GoogleAnalytics.getInstance(this);
+		tracker = myInstance.getDefaultTracker();
+
 
 		this.pointStore = new PointStore();
 

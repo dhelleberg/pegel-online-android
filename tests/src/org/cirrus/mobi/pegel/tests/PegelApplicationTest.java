@@ -19,7 +19,7 @@ public class PegelApplicationTest extends ApplicationTestCase<PegelApplication> 
 	
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
+//		super.setUp();
     	createApplication();
     	this.mPegelApp = getApplication();
     	this.mContext = getSystemContext();		

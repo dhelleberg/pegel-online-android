@@ -40,7 +40,7 @@
 	<view
 	  class="org.cirrus.mobi.pegel.PegelGrafikView" 
 	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content" 
+	  android:layout_height="wrap_content"
 	  android:id="@+id/PegelGrafikView" android:focusable="true" android:focusableInTouchMode="true" 
 	  android:layout_toRightOf="@id/data_table"
 	  android:layout_below="@id/data_headline"	  	  	  

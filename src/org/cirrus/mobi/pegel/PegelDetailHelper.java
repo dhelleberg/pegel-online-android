@@ -110,12 +110,16 @@ public class PegelDetailHelper {
 	}
 	
 	protected void updateDataInUi() {
-		
-		((TextView) activity.findViewById(R.id.data_table_measure)).setText(pegel+"");
-		PegelGrafikView pgv = (PegelGrafikView) activity.findViewById(R.id.PegelGrafikView);
-		pgv.setMeasure(pegel);
-		((TextView) activity.findViewById(R.id.data_table_tendency)).setText(tendency);
-		((TextView) activity.findViewById(R.id.data_table_time)).setText(time);
+
+        TextView textView = (TextView) activity.findViewById(R.id.data_table_measure);
+		if(textView != null)
+        {
+            textView.setText(pegel+"");
+            PegelGrafikView pgv = (PegelGrafikView) activity.findViewById(R.id.PegelGrafikView);
+            pgv.setMeasure(pegel);
+            ((TextView) activity.findViewById(R.id.data_table_tendency)).setText(tendency);
+            ((TextView) activity.findViewById(R.id.data_table_time)).setText(time);
+        }
 	}
 
 	protected void updateImageInUi() {

@@ -33,6 +33,8 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import org.cirrus.mobi.pegel.PegelApplication;
 
 import android.content.Context;
@@ -81,7 +83,8 @@ public class PointStore {
 	private Map<String, PegelEntry[]> riverPoints = null;
 	Type riverPointType = new TypeToken<Map<String, PegelEntry[]>>() {}.getType();
 
-	/**
+
+    /**
 	 * Returns all available rivers
 	 * 
 	 * @param context
@@ -145,8 +148,10 @@ public class PointStore {
 		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		long lastUpdate = settings.getLong(LAST_P_UPDATE, 0);
 
+        boolean isConnected = isConnected(context);
+
 		String points = "";
-		if( (System.currentTimeMillis() - POINT_CACHE_TIME) > lastUpdate )
+		if( (System.currentTimeMillis() - POINT_CACHE_TIME) > lastUpdate && isConnected)
 		{
 			Log.v(TAG, "Cache invalid, re-fetch points from server!");
 			File cacheFile = new File(context.getCacheDir(), POINT_CACHE_FILE);
@@ -223,7 +228,15 @@ public class PointStore {
 		return points;
 	}
 
-	/**
+    private boolean isConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo aNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if(aNetworkInfo != null && aNetworkInfo.isConnected())
+            return true;
+        return false;
+    }
+
+    /**
 	 * Returns the measure details for a point 
 	 * 
 	 * @param pnr
