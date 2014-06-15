@@ -84,7 +84,7 @@ public class MoreDetailsActivity extends AbstractPegelDetailsActivity {
 			String[] dat = data.getStringArray(key);
 
 			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.table_row, null);
+			View rowView = inflater.inflate(R.layout.table_row, tl, false);
 
 			TextView tv = (TextView) rowView.findViewById(R.id.tableTextP);
 			tv.setText(dat[0]);

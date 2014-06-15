@@ -97,7 +97,7 @@ public class MoreDetailsFragment extends Fragment {
 			String[] dat = data.getStringArray(key);
 			
 			LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View rowView = inflater.inflate(R.layout.table_row, null);
+			View rowView = inflater.inflate(R.layout.table_row, tl, false);
 
 			TextView tv = (TextView) rowView.findViewById(R.id.tableTextP);
 			tv.setText(dat[0]);
