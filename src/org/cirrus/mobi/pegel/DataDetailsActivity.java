@@ -73,8 +73,8 @@ public class DataDetailsActivity extends AbstractPegelDetailsActivity {
 
 			TextView tv2 = (TextView) rowView.findViewById(R.id.tableTextM);
 			String value = dat[1];//(Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
-            if(value.length() > 8)
-                value = value.substring(0,8);
+            if(value.length() > 6)
+                value = value.substring(0,6);
 			tv2.setText(value);
 
 			TextView tv3 = (TextView) rowView.findViewById(R.id.tableTextD);
