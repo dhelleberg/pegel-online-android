@@ -18,14 +18,14 @@
 		<TableLayout
 			android:layout_height="wrap_content"
 			android:id="@+id/datatable"
-			android:layout_width="wrap_content"
-			android:shrinkColumns="0,2"
+			android:layout_width="match_parent"
+			android:shrinkColumns="2"
 			android:stretchColumns="*"
 			>
 			<TableRow
 				android:id="@+id/tableRow1Headline"
 				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_gravity="center_vertical">
 				<TextView
 					style="@style/TableHeadline"
