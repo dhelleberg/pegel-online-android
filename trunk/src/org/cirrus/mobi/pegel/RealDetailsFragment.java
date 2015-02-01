@@ -106,7 +106,10 @@ public class RealDetailsFragment extends Fragment {
 
 			TextView tv2 = (TextView) rowView.findViewById(R.id.tableTextM);
 			String value = dat[1];//(Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
-			tv2.setText(value);
+            if(value.length() > 8)
+                value = value.substring(0,8);
+
+            tv2.setText(value);
 
 			TextView tv3 = (TextView) rowView.findViewById(R.id.tableTextD);
 			tv3.setText(dat[2]);
