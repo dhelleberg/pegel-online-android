@@ -19,7 +19,7 @@
 			android:layout_height="wrap_content"
 			android:id="@+id/datatable"
 			android:layout_width="match_parent"
-			android:shrinkColumns="2"
+			android:shrinkColumns="0,2"
 			android:stretchColumns="*"
 			>
 			<TableRow
