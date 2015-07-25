@@ -105,8 +105,6 @@ public class AbstractPegelDetailsActivity extends AppCompatActivity {
 
 	protected void refreshFromOptionsMenu()
 	{
-		setProgressBarIndeterminateVisibility(true);
-		this.pegelDataProvider.refresh(pnr, pegelDetailHelper.pdrData, pegelDetailHelper.pdrImage, pegelDetailHelper.pdrDataDetails, null, pegelDetailHelper.pdrRealDataDetails, 0);
 		this.pegelApp.trackEvent("PegelDataView", "refresh", "refresh", 1);
 	}
 }
