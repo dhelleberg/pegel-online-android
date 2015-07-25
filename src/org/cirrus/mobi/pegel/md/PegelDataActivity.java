@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import org.cirrus.mobi.pegel.AbstractPegelDetailsActivity;
 import org.cirrus.mobi.pegel.PegelApplication;
@@ -24,6 +29,7 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
     private PagerAdapter mPagerAdapter;
     private String mpoint;
     private String river;
+    private TabLayout mtabLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,16 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
         mPagerAdapter = new PegelDetailsTabsAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pegel_data_pager);
         mPager.setAdapter(mPagerAdapter);
+        mtabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         pegelApp = (PegelApplication) getApplication();
 
@@ -50,6 +65,14 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
             edit.putBoolean("run_"+app_ver, true);
             edit.commit();
         }
+    }
+
+    //Menu Inflater for fixture selection
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detailmenu, menu);
+        return true;
     }
 
     class PegelDetailsTabsAdapter extends FragmentPagerAdapter {

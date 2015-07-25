@@ -2,3 +2,7 @@
 build
 .idea
 pegel-online-android.iml
+local.properties
+.gradle
+acra.xml
+vending.xml
