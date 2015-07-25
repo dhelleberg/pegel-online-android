@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.TextView;
@@ -39,10 +40,10 @@ public class PegelDataView extends AbstractPegelDetailsActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
-		setContentView(R.layout.pegel_data);	
-		
+//		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+		setContentView(R.layout.pegel_data);
+
 		pegelApp = (PegelApplication) getApplication();
 		pegelApp.trackPageView("/PegelDataView");	
 		

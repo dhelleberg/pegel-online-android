@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +35,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AbstractPegelDetailsActivity extends Activity {
+public class AbstractPegelDetailsActivity extends AppCompatActivity {
 	protected static final int DIALOG_TIP = 2;
 
 
@@ -81,7 +82,7 @@ public class AbstractPegelDetailsActivity extends Activity {
 		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dialog.dismiss();				
+				dialog.dismiss();
 			}
 		});
 

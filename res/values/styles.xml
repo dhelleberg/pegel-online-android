@@ -22,4 +22,12 @@
 	<style name="PegelTheme" parent="android:Theme">            
             <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
     </style>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">#2196F3</item>
+		<item name="colorPrimaryDark">#1565C0</item>
+		<item name="colorAccent">#E91E63</item>
+	</style>
 </resources>

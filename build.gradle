@@ -1,11 +1,16 @@
 import groovy.swing.SwingBuilder
+repositories {
+    jcenter()
+}
 
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
+
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.1.+'
     }
 }
 apply plugin: 'android'
@@ -13,6 +18,10 @@ apply plugin: 'android'
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     androidTestCompile fileTree(dir: 'libs-test', include: '*.jar')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:design:22.2.0'
+    compile 'io.reactivex:rxandroid:0.25.0'
 }
 
 
@@ -59,8 +68,8 @@ android {
             keyPassword ''
         }
     }
-    compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    compileSdkVersion 22
+    buildToolsVersion '23.0.0 rc3'
     defaultConfig {
         testApplicationId "org.cirrus.mobi.pegel.tests"
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
@@ -70,6 +79,7 @@ android {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
+
             resources.srcDirs = ['src']
             aidl.srcDirs = ['src']
             renderscript.srcDirs = ['src']
@@ -81,6 +91,11 @@ android {
             resources.srcDirs = ['tests/src']
 
         }
+        test {
+            java {
+                srcDir 'java-tests'
+            }
+        }
 
     }
     productFlavors {
@@ -91,3 +106,4 @@ android {
         }
     }
 }
+

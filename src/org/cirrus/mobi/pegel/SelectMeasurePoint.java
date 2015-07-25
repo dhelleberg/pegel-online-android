@@ -22,6 +22,7 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 import org.acra.ACRA;
 import org.cirrus.mobi.pegel.data.PegelEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
+import org.cirrus.mobi.pegel.md.PegelDataActivity;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -69,7 +70,7 @@ public class SelectMeasurePoint extends ListActivity {
 	//listView handler
 	public void onListItemClick(ListView parent, View v, int position, long id) { 
 		Intent i = new Intent();
-		i.setClass(getApplicationContext(),TabbedDataActivity.class);
+		i.setClass(getApplicationContext(), PegelDataActivity.class);
 		i.putExtra("river", river);
 		i.putExtra("pnr", this.entries[position].getPegelnummer());
 		i.putExtra("mpoint", this.entries[position].getPegelname());

@@ -44,6 +44,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import rx.Observable;
+import rx.functions.Func0;
+
 public class PointStore {
 
 	private static final String VALUE = "value";
@@ -479,6 +482,20 @@ public class PointStore {
 		editor.remove(LAST_P_UPDATE);
 		editor.commit();
 		
+	}
+
+	public Observable<MeasureEntry> getMeasureEntry(final String pnr) {
+		return Observable.defer(new Func0<Observable<MeasureEntry>>() {
+			@Override
+			public Observable<MeasureEntry> call() {
+				try {
+					MeasureEntry measureEntry = getPointData(pnr);
+					return Observable.just(measureEntry);
+				} catch (Exception e) {
+					return Observable.error(e);
+				}
+			}
+		});
 	}
 
 }

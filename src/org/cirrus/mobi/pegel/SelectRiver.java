@@ -30,6 +30,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.cirrus.mobi.pegel.md.PegelDataActivity;
+
 public class SelectRiver extends ListActivity implements RiverCallBack{
 
 	private static final String PREFS_NAME = "prefs";
@@ -52,7 +54,8 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		{
 			Intent i = new Intent();
 			
-			i.setClass(getApplicationContext(),TabbedDataActivity.class);
+			i.setClass(getApplicationContext(),PegelDataActivity
+					.class);
 			i.putExtra("river", river);
 			i.putExtra("pnr", settings.getString("pnr", ""));
 			i.putExtra("mpoint", settings.getString("mpoint", ""));

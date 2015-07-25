@@ -14,6 +14,7 @@
 		android:paddingRight="8dp"
 		android:paddingTop="0px"
 		android:id="@+id/lin_pegeldata1">
+
 		<TabWidget
 			android:id="@android:id/tabs"
 			android:layout_width="fill_parent"
