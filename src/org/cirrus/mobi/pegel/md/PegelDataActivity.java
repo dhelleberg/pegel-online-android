@@ -86,6 +86,18 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
         return true;
     }
 
+    @Override
+    protected void refreshFromOptionsMenu() {
+        super.refreshFromOptionsMenu();
+        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pegel_data_pager + ":" + mPager.getCurrentItem());
+        switch (mPager.getCurrentItem()) {
+            case 0:
+                ((PegelDataFragment)currentFragment).loadData(true);
+        }
+
+
+    }
+
     // This method is called once a menu item is selected
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -13,10 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.cirrus.mobi.pegel.PegelApplication;
-import org.cirrus.mobi.pegel.PegelDataProvider;
-import org.cirrus.mobi.pegel.PegelDetailHelper;
 import org.cirrus.mobi.pegel.PegelGrafikView;
 import org.cirrus.mobi.pegel.R;
 import org.cirrus.mobi.pegel.data.MeasureEntry;
@@ -36,6 +35,7 @@ public class PegelDataFragment extends Fragment {
     private static final String MPOINT = "MPOINT";
     private static final String TAG = "PegelDataFragment";
     private PointStore mPointStore;
+
     private TextView mTextViewMeasure;
     private PegelGrafikView mPegelGraphicsView;
     private TextView mTextViewTime;
@@ -91,7 +91,11 @@ public class PegelDataFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mPointStore.getMeasureEntry(getArguments().getString(PNR_NR))
+        loadData(false);
+    }
+
+    public void loadData(final boolean forceRefresh) {
+        mPointStore.getMeasureEntry(getArguments().getString(PNR_NR), forceRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MeasureEntry>() {
@@ -112,6 +116,7 @@ public class PegelDataFragment extends Fragment {
                             mTextViewMeasure.setText(measureEntry.getMessung());
                             mTextViewTendency.setText(getTendency(measureEntry.getTendenz()));
                             mTextViewTime.setText(measureEntry.getZeit());
+                            mPegelGraphicsView.setMeasure(Float.parseFloat(measureEntry.getMessung()));
                         }
                     }
                 });
@@ -129,11 +134,21 @@ public class PegelDataFragment extends Fragment {
                     @Override
                     public void onNext(String s) {
                         if(isResumed()) {
-                            Glide.with(PegelDataFragment.this).load(s).into(mPegelDataImageView);
+                            Log.d(TAG, "Loading image: " + s);
+                            if(forceRefresh)
+                                Glide.with(PegelDataFragment.this).load(s)
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .skipMemoryCache(true)
+                                        .into(mPegelDataImageView);
+                            else
+                                Glide.with(PegelDataFragment.this).load(s)
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .into(mPegelDataImageView);
                         }
                     }
                 });
     }
+
 
     private String getTendency(String tendencyNr) {
         String tendency = "";

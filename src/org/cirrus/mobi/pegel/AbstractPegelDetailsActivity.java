@@ -106,5 +106,6 @@ public class AbstractPegelDetailsActivity extends AppCompatActivity {
 	protected void refreshFromOptionsMenu()
 	{
 		this.pegelApp.trackEvent("PegelDataView", "refresh", "refresh", 1);
+
 	}
 }
