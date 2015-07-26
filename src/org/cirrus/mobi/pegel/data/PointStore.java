@@ -23,6 +23,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
@@ -33,6 +34,7 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import org.cirrus.mobi.pegel.PegelApplication;
@@ -490,7 +492,7 @@ public class PointStore {
 			public Observable<MeasureEntry> call() {
 				try {
 					MeasureEntry measureEntry = getPointData(pnr);
-					if(measureEntry.status == MeasureEntry.STATUS_NOT_FOUND || measureEntry == null)
+					if(measureEntry == null)
 						return Observable.error(new Exception("Point Not found!"));
 
 					return Observable.just(measureEntry);
@@ -500,6 +502,18 @@ public class PointStore {
 				}
 			}
 		});
+	}
+
+	public Observable<String> getMeasureLineImageURL(final String pnr) {
+		return Observable.defer(new Func0<Observable<String>>() {
+			@Override
+			public Observable<String> call() {
+				final String imgurl = getImageURL(pnr);
+				Log.v(TAG, "Got image URL: " +imgurl);
+				return Observable.just(imgurl);
+			}
+		});
+
 	}
 
 }

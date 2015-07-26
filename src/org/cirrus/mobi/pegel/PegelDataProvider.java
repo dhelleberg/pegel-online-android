@@ -352,7 +352,6 @@ public class PegelDataProvider {
 			b.putString("tendency", tendency);
 			b.putFloat("pegel", measure);
 			b.putString("time", data.getZeit().replace(' ', '\n'));
-			Log.v(TAG, "!!!!!!!!!!!!!");
 			pdrPegel.send(STATUS_FINISHED, b);
 
 			SharedPreferences settings = pegelApp.getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);

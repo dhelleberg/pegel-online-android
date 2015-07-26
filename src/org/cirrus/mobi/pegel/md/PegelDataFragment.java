@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.PegelDataProvider;
@@ -38,6 +41,7 @@ public class PegelDataFragment extends Fragment {
     private TextView mTextViewTime;
     private TextView mTextViewTendency;
     private View mRooView;
+    private ImageView mPegelDataImageView;
 
     public PegelDataFragment() {
     }
@@ -71,6 +75,7 @@ public class PegelDataFragment extends Fragment {
         mTextViewTendency = (TextView) mRooView.findViewById(R.id.data_table_tendency);
         mTextViewTime= (TextView) mRooView.findViewById(R.id.data_table_time);
         mPegelGraphicsView = (PegelGrafikView) mRooView.findViewById(R.id.PegelGrafikView);
+        mPegelDataImageView = (ImageView) mRooView.findViewById(R.id.data_image);
 
         return mRooView;
 
@@ -91,7 +96,8 @@ public class PegelDataFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MeasureEntry>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                    }
 
                     @Override
                     public void onError(Throwable e) {
@@ -99,13 +105,31 @@ public class PegelDataFragment extends Fragment {
                         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.primary));
                         snackbar.show();
                     }
+
                     @Override
                     public void onNext(MeasureEntry measureEntry) {
+                        if (isResumed()) {
+                            mTextViewMeasure.setText(measureEntry.getMessung());
+                            mTextViewTendency.setText(getTendency(measureEntry.getTendenz()));
+                            mTextViewTime.setText(measureEntry.getZeit());
+                        }
+                    }
+                });
+
+        mPointStore.getMeasureLineImageURL(getArguments().getString(PNR_NR))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onCompleted() {}
+
+                    @Override
+                    public void onError(Throwable e) {}
+
+                    @Override
+                    public void onNext(String s) {
                         if(isResumed()) {
-                            Log.d(TAG, "recieved measureEntry: "+measureEntry);
-                            mTextViewMeasure.setText( measureEntry.getMessung() );
-                            mTextViewTendency.setText( getTendency(measureEntry.getTendenz()) );
-                            mTextViewTime.setText( measureEntry.getZeit() );
+                            Glide.with(PegelDataFragment.this).load(s).into(mPegelDataImageView);
                         }
                     }
                 });
