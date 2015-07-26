@@ -90,15 +90,39 @@ public class PegelDataFragment extends Fragment {
                     public void onCompleted() {}
 
                     @Override
-                    public void onError(Throwable e) {}
+                    public void onError(Throwable e) {
+                        //TODO: Snackbar
+                    }
 
                     @Override
                     public void onNext(MeasureEntry measureEntry) {
                         if(isResumed()) {
                             mTextViewMeasure.setText( measureEntry.getMessung() );
+                            mTextViewTendency.setText( getTendency(measureEntry.getTendenz()) );
+                            mTextViewTime.setText( measureEntry.getZeit() );
                         }
                     }
-                })
-        ;
+                });
+    }
+
+    private String getTendency(String tendencyNr) {
+        String tendency = "";
+        int t = Integer.parseInt(tendencyNr);
+        switch (t) {
+            case 0:
+                tendency = getResources().getText(R.string.tendency_constant).toString();
+                break;
+            case 1:
+                tendency = getResources().getText(R.string.tendency_up).toString();
+                break;
+            case -1:
+                tendency = getResources().getText(R.string.tendency_down).toString();
+                break;
+
+            default:
+                tendency = getResources().getText(R.string.tendency_unknown).toString();
+                break;
+        }
+        return tendency;
     }
 }
