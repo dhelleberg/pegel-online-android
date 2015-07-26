@@ -490,8 +490,12 @@ public class PointStore {
 			public Observable<MeasureEntry> call() {
 				try {
 					MeasureEntry measureEntry = getPointData(pnr);
+					if(measureEntry.status == MeasureEntry.STATUS_NOT_FOUND || measureEntry == null)
+						return Observable.error(new Exception("Point Not found!"));
+
 					return Observable.just(measureEntry);
 				} catch (Exception e) {
+					Log.e(TAG,"Error",e);
 					return Observable.error(e);
 				}
 			}
