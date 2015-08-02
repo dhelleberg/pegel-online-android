@@ -18,7 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.cirrus.mobi.pegel.AbstractPegelDetailsActivity;
@@ -30,7 +32,7 @@ import org.cirrus.mobi.pegel.StartupActivity;
 /**
  * Created by dhelleberg on 25/07/15.
  */
-public class PegelDataActivity extends AbstractPegelDetailsActivity {
+public class PegelDataActivity extends AbstractPegelDetailsActivity implements RefreshIndicatorInterface {
     private static final int DIALOG_ABOUT = 1;
     private static final int DIALOG_NOT_FOUND = 2;
 
@@ -40,6 +42,7 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
     private String mpoint;
     private String river;
     private TabLayout mtabLayout;
+    private ProgressBar mProgessBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mProgessBar = (ProgressBar) toolbar.findViewById(R.id.progress_spinner);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -175,6 +180,14 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
         image.setImageResource(R.drawable.icon);
 
         return dialog;
+    }
+
+    @Override
+    public void isRefreshing(boolean refreshing) {
+        if(refreshing)
+            mProgessBar.setVisibility(View.VISIBLE);
+        else
+            mProgessBar.setVisibility(View.GONE);
     }
 
 

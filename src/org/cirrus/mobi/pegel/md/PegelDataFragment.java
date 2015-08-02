@@ -1,5 +1,6 @@
 package org.cirrus.mobi.pegel.md;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ public class PegelDataFragment extends Fragment {
     private TextView mTextViewTendency;
     private View mRooView;
     private ImageView mPegelDataImageView;
+    private RefreshIndicatorInterface mRefreshIndicator;
 
     public PegelDataFragment() {
     }
@@ -87,7 +89,19 @@ public class PegelDataFragment extends Fragment {
 
         this.mPointStore = ((PegelApplication) getActivity().getApplication()).getPointStore();
     }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mRefreshIndicator = (RefreshIndicatorInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement RefreshIndicatorInterface");
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -95,6 +109,7 @@ public class PegelDataFragment extends Fragment {
     }
 
     public void loadData(final boolean forceRefresh) {
+        mRefreshIndicator.isRefreshing(true);
         mPointStore.getMeasureEntry(getArguments().getString(PNR_NR), forceRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -108,6 +123,7 @@ public class PegelDataFragment extends Fragment {
                         final Snackbar snackbar = Snackbar.make(mRooView, R.string.connection_error, Snackbar.LENGTH_LONG);
                         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.primary));
                         snackbar.show();
+                        mRefreshIndicator.isRefreshing(false);
                     }
 
                     @Override
@@ -117,6 +133,7 @@ public class PegelDataFragment extends Fragment {
                             mTextViewTendency.setText(getTendency(measureEntry.getTendenz()));
                             mTextViewTime.setText(measureEntry.getZeit());
                             mPegelGraphicsView.setMeasure(Float.parseFloat(measureEntry.getMessung()));
+                            mRefreshIndicator.isRefreshing(false);
                         }
                     }
                 });
