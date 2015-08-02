@@ -62,6 +62,8 @@ public class PointStore {
 	private static final String PEGELNUMMER = "pegelnummer";
 	private static final String PEGELNAME = "pegelname";
 
+	private static final String MAPS_URL = "http://maps.google.com/maps/api/staticmap?";
+
 	private static final String TAG = "PointStore";
 
 	private static final String PREFS_NAME = "store";
@@ -520,6 +522,36 @@ public class PointStore {
 				final String imgurl = getImageURL(pnr);
 				Log.v(TAG, "Got image URL: " +imgurl);
 				return Observable.just(imgurl);
+			}
+		});
+
+	}
+	public Observable<String> getMapURL(final String pnr, final int mapsize) {
+		return Observable.defer(new Func0<Observable<String>>() {
+			@Override
+			public Observable<String> call() {
+				MeasureEntry measureEntry = null;
+				try {
+					measureEntry = getPointData(pnr);
+				} catch (Exception e) {
+					Log.w(TAG, "Error fecthing data from server, retry...", e);
+					try {
+						measureEntry = getPointData(pnr);
+					} catch (Exception e1) {
+						Log.w(TAG, "Error fecthing data from server, giving up...", e);
+					}
+				}
+				if(measureEntry != null && measureEntry.getLat() != null) {
+					StringBuilder mapsUrl = new StringBuilder(MAPS_URL);
+					mapsUrl.append("center=").append(measureEntry.getLat()).append(',').append(measureEntry.getLon());
+					mapsUrl.append("&zoom=12&size=").append(mapsize).append("x").append(mapsize).append("&sensor=false");
+					mapsUrl.append("&markers=color:blue|label:M|").append(measureEntry.getLat()).append(',').append(measureEntry.getLon());
+					Log.v(TAG, "will request map URL: "+mapsUrl.toString());
+
+					return Observable.just(mapsUrl.toString());
+				}
+
+				return Observable.error(new Exception("could not find point or map"));
 			}
 		});
 

@@ -196,7 +196,7 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
                 case 2:
                     return PegelDetailFragment.getNewInstance(pnr);
                 case 3:
-                    return PegelDataFragment.getNewInstance(pnr, river, mpoint);
+                    return PegelMapFragment.newInstance(pnr);
             }
             return null;
         }
