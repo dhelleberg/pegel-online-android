@@ -192,9 +192,9 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
                 case 0:
                     return PegelDataFragment.getNewInstance(pnr, river, mpoint);
                 case 1:
-                    return PegelDataFragment.getNewInstance(pnr, river, mpoint);
+                    return PegelDataDetailFragment.getNewInstance(pnr);
                 case 2:
-                    return PegelDataFragment.getNewInstance(pnr, river, mpoint);
+                    return PegelDetailFragment.getNewInstance(pnr);
                 case 3:
                     return PegelDataFragment.getNewInstance(pnr, river, mpoint);
             }
@@ -209,9 +209,9 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity {
                 case 1:
                     return getString(R.string.tab2);
                 case 2:
-                    return getString(R.string.tab3);
-                case 3:
                     return getString(R.string.tab4);
+                case 3:
+                    return getString(R.string.tab3);
             }
             return null;
         }

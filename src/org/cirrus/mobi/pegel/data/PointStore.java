@@ -495,7 +495,7 @@ public class PointStore {
 				try {
 
 					if(refresh) // clear cache
-					cachedEntry = null;
+						cachedEntry = null;
 
 					if(cachedEntry != null)
 						return Observable.just(cachedEntry);
@@ -523,6 +523,24 @@ public class PointStore {
 			}
 		});
 
+	}
+
+	public Observable<MeasureStationDetails[]> getMeasureStationDetails(final Context context, final String pnr) {
+		return Observable.defer(new Func0<Observable<MeasureStationDetails[]>>() {
+			@Override
+			public Observable<MeasureStationDetails[]> call() {
+				try {
+					MeasureStationDetails[] measureStationDetailses = getMeasurePointDetails(context, pnr);
+					if(measureStationDetailses != null)
+						return Observable.just(measureStationDetailses);
+					else
+						return Observable.error(new Exception("Point nor found"));
+				}
+				catch (Exception e) {
+					return Observable.error(e);
+				}
+			}
+		});
 	}
 
 }
