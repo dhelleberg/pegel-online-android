@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.R;
+import org.cirrus.mobi.pegel.data.MeasurePointDataDetails;
 import org.cirrus.mobi.pegel.data.MeasureStationDetails;
 import org.cirrus.mobi.pegel.data.PointStore;
 
@@ -65,10 +66,10 @@ public class PegelDataDetailFragment extends Fragment{
     }
 
     private void loadData(boolean forceRefresh) {
-        mPointStore.getMeasureStationDetails(getActivity(), getArguments().getString(PNR_NR))
+        mPointStore.getMeasurePointDetailsObserver(getActivity(), getArguments().getString(PNR_NR))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MeasureStationDetails[]>() {
+                .subscribe(new Observer<MeasurePointDataDetails[]>() {
                     @Override
                     public void onCompleted() {}
 
@@ -80,14 +81,14 @@ public class PegelDataDetailFragment extends Fragment{
                     }
 
                     @Override
-                    public void onNext(MeasureStationDetails[] measureStationDetailses) {
+                    public void onNext(MeasurePointDataDetails[] measureStationDetailses) {
                         if(mTableLayout.getChildCount() > 1)//clean up the rows
                             mTableLayout.removeViews(1, mTableLayout.getChildCount()-1);
 
                         for (int i = 0; i < measureStationDetailses.length; i++) {
                             final View rowView = mInflater.inflate(R.layout.table_data_row, mTableLayout, false);
                             TextView tv = (TextView) rowView.findViewById(R.id.tableTextP);
-                            tv.setText(measureStationDetailses[i].getName());
+                            tv.setText(measureStationDetailses[i].getDataType());
 
                             TextView tv2 = (TextView) rowView.findViewById(R.id.tableTextM);
                             String value = measureStationDetailses[i].getValue();//(Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
@@ -96,7 +97,7 @@ public class PegelDataDetailFragment extends Fragment{
                             tv2.setText(value);
 
                             TextView tv3 = (TextView) rowView.findViewById(R.id.tableTextD);
-                            tv3.setText(measureStationDetailses[i].getDescription());
+                            tv3.setText(measureStationDetailses[i].getTime());
 
                             mTableLayout.addView(rowView);
 

@@ -543,4 +543,22 @@ public class PointStore {
 		});
 	}
 
+	public Observable<MeasurePointDataDetails[]> getMeasurePointDetailsObserver(final Context context, final String pnr) {
+		return Observable.defer(new Func0<Observable<MeasurePointDataDetails[]>>() {
+			@Override
+			public Observable<MeasurePointDataDetails[]> call() {
+				try {
+					MeasurePointDataDetails[] measureStationDetailses = getMeasurePointDataDetails(context, pnr);
+					if(measureStationDetailses != null)
+						return Observable.just(measureStationDetailses);
+					else
+						return Observable.error(new Exception("Point nor found"));
+				}
+				catch (Exception e) {
+					return Observable.error(e);
+				}
+			}
+		});
+	}
+
 }
