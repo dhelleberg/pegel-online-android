@@ -24,6 +24,7 @@ import java.util.Map;
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -37,7 +38,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
-@ReportsCrashes(formKey = "")
+@ReportsCrashes(reportType = HttpSender.Type.JSON )
 public class PegelApplication extends Application {
 
 	private static final String TAG = "PegelApplication";
@@ -64,8 +65,10 @@ public class PegelApplication extends Application {
 	public void onCreate() {
 		ACRAConfiguration config=ACRA.getNewDefaultConfig(this);
 		config.setFormUri(getString(R.string.acra_form_uri));
-		config.setFormUriBasicAuthLogin(getString(R.string.acra_form_user));
-		config.setFormUriBasicAuthPassword(getString(R.string.acra_form_pwd));
+		//config.setFormUriBasicAuthLogin(getString(R.string.acra_form_user));
+		//config.setFormUriBasicAuthPassword(getString(R.string.acra_form_pwd));
+		config.setReportType(HttpSender.Type.JSON);
+		config.setHttpMethod(HttpSender.Method.POST);
 		ACRA.setConfig(config);
 		ACRA.init(this);
 
