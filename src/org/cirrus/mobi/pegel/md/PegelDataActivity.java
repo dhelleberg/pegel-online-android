@@ -98,6 +98,17 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
         switch (mPager.getCurrentItem()) {
             case 0:
                 ((PegelDataFragment)currentFragment).loadData(true);
+                break;
+            case 1:
+                ((PegelDataDetailFragment)currentFragment).loadData(true);
+                break;
+            case 2:
+                ((PegelDetailFragment)currentFragment).loadData(true);
+                break;
+            case 3:
+                ((PegelMapFragment)currentFragment).loadData(true);
+                break;
+
         }
 
 

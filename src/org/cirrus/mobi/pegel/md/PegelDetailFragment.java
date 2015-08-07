@@ -1,5 +1,6 @@
 package org.cirrus.mobi.pegel.md;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -29,6 +30,7 @@ public class PegelDetailFragment extends Fragment{
     private PointStore mPointStore;
     private TableLayout mTableLayout;
     private LayoutInflater mInflater;
+    private RefreshIndicatorInterface mRefreshIndicator;
 
     public PegelDetailFragment() {
     }
@@ -59,12 +61,28 @@ public class PegelDetailFragment extends Fragment{
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mRefreshIndicator = (RefreshIndicatorInterface) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement RefreshIndicatorInterface");
+        }
+    }
+
+
+    @Override
     public void onResume() {
         super.onResume();
         loadData(false);
     }
 
-    private void loadData(boolean forceRefresh) {
+    protected void loadData(final boolean forceRefresh) {
+        mRefreshIndicator.isRefreshing(true);
         mPointStore.getMeasureStationDetails(getActivity(), getArguments().getString(PNR_NR))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -77,10 +95,12 @@ public class PegelDetailFragment extends Fragment{
                         final Snackbar snackbar = Snackbar.make(mRooView, R.string.connection_error, Snackbar.LENGTH_LONG);
                         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.primary));
                         snackbar.show();
+                        mRefreshIndicator.isRefreshing(false);
                     }
 
                     @Override
                     public void onNext(MeasureStationDetails[] measureStationDetailses) {
+                        mRefreshIndicator.isRefreshing(false);
                         if(mTableLayout.getChildCount() > 1)//clean up the rows
                             mTableLayout.removeViews(1, mTableLayout.getChildCount()-1);
 
@@ -101,6 +121,7 @@ public class PegelDetailFragment extends Fragment{
                             mTableLayout.addView(rowView);
 
                         }
+                        mRefreshIndicator.isRefreshing(false);
 
                     }
                 });
