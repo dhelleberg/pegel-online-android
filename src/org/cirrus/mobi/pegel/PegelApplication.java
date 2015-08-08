@@ -23,13 +23,11 @@ import java.util.Map;
 
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
+import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender;
 import org.cirrus.mobi.pegel.data.PointStore;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
 
 
 
@@ -38,7 +36,19 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
-@ReportsCrashes(reportType = HttpSender.Type.JSON )
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
+@ReportsCrashes(
+		mode = ReportingInteractionMode.SILENT,
+		httpMethod = HttpSender.Method.POST,
+		formUri = "http://104.155.60.110:9090/",
+		forceCloseDialogAfterToast = false,
+		reportType = HttpSender.Type.JSON,
+		formUriBasicAuthLogin="crash",
+		formUriBasicAuthPassword="rep0rter"
+
+)
 public class PegelApplication extends Application {
 
 	private static final String TAG = "PegelApplication";
@@ -49,12 +59,11 @@ public class PegelApplication extends Application {
 	public static final String host = "http://pegel-online.appspot.com";
 
 	private PointStore pointStore;
-	private Tracker tracker;
-	private EasyTracker easytracker;
 
 	private Map<String, Drawable> imageCache = null;
 
 	private boolean emulator = false;
+	private Tracker mTracker;
 
 	public boolean isEmulator()
 	{
@@ -63,22 +72,19 @@ public class PegelApplication extends Application {
 
 	@Override
 	public void onCreate() {
-		ACRAConfiguration config=ACRA.getNewDefaultConfig(this);
+		super.onCreate();
+		/*ACRAConfiguration config=ACRA.getNewDefaultConfig(this);
 		config.setFormUri(getString(R.string.acra_form_uri));
 		//config.setFormUriBasicAuthLogin(getString(R.string.acra_form_user));
 		//config.setFormUriBasicAuthPassword(getString(R.string.acra_form_pwd));
 		config.setReportType(HttpSender.Type.JSON);
 		config.setHttpMethod(HttpSender.Method.POST);
-		ACRA.setConfig(config);
+		ACRA.setConfig(config);*/
 		ACRA.init(this);
 
-		super.onCreate();
 
-		easytracker = EasyTracker.getInstance();
-		easytracker.setContext(this);
 		GoogleAnalytics myInstance = GoogleAnalytics.getInstance(this);
-		tracker = myInstance.getDefaultTracker();
-
+		this.mTracker = myInstance.newTracker(R.xml.analytics);
 
 		this.pointStore = new PointStore();
 
@@ -88,9 +94,7 @@ public class PegelApplication extends Application {
 		if(Build.PRODUCT.equalsIgnoreCase("sdk") || Build.PRODUCT.equalsIgnoreCase("google_sdk"))
 		{
 			StringBuilder deviceInfo = new StringBuilder(Build.PRODUCT).append(' ').append(Build.MANUFACTURER).append(' ').append(Build.DEVICE);
-			Log.v(TAG, "Detected emulator, turn off tracker for: "+deviceInfo);
-			tracker.sendEvent("DEBUG", "On", deviceInfo.toString(), (long) 1);		
-			tracker.close();
+			Log.v(TAG, "Detected emulator, turn off tracker for: " + deviceInfo);
 			this.emulator = true;
 		}
 
@@ -111,17 +115,19 @@ public class PegelApplication extends Application {
 	}
 
 	public void trackEvent(String string, String string2, String string3, int i) {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(string, string2);
 		if(this.emulator)
 			Log.v(TAG, "dropping event, running on emulator "+string+string2+string3+i);
 		else
-			tracker.sendEvent(string, string2, string3, (long) i);		
+			mTracker.send(params);
 	}
 
 	public void trackPageView(String string) {
 		if(this.emulator)
 			Log.v(TAG, "dropping pageView, running on emulator "+string);
 		else
-			tracker.sendView(string);
+			mTracker.setPage(string);
 
 	}
 
