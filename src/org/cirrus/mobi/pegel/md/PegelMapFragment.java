@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.bumptech.glide.request.target.Target;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.R;
@@ -145,5 +146,10 @@ public class PegelMapFragment extends Fragment {
                     }
                 });
 
+    }
+    @Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = PegelApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

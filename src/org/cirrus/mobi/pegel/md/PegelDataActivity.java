@@ -34,7 +34,7 @@ import org.cirrus.mobi.pegel.StartupActivity;
  */
 public class PegelDataActivity extends AbstractPegelDetailsActivity implements RefreshIndicatorInterface {
     private static final int DIALOG_ABOUT = 1;
-    private static final int DIALOG_NOT_FOUND = 2;
+    private static final int DIALOG_NOT_FOUND = 3;
 
 
     private ViewPager mPager;

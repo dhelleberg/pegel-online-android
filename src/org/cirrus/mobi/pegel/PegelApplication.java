@@ -32,12 +32,15 @@ import org.cirrus.mobi.pegel.data.PointStore;
 
 
 import android.app.Application;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 @ReportsCrashes(
 		mode = ReportingInteractionMode.SILENT,
@@ -64,6 +67,7 @@ public class PegelApplication extends Application {
 
 	private boolean emulator = false;
 	private Tracker mTracker;
+	private RefWatcher refWatcher;
 
 	public boolean isEmulator()
 	{
@@ -82,6 +86,7 @@ public class PegelApplication extends Application {
 		ACRA.setConfig(config);*/
 		ACRA.init(this);
 
+		refWatcher = LeakCanary.install(this);
 
 		GoogleAnalytics myInstance = GoogleAnalytics.getInstance(this);
 		this.mTracker = myInstance.newTracker(R.xml.analytics);
@@ -130,5 +135,13 @@ public class PegelApplication extends Application {
 			mTracker.setPage(string);
 
 	}
+
+
+	public static RefWatcher getRefWatcher(Context context) {
+		PegelApplication application = (PegelApplication) context.getApplicationContext();
+		return application.refWatcher;
+	}
+
+
 
 }

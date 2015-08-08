@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.PegelGrafikView;
@@ -143,16 +144,18 @@ public class PegelDataFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                    }
 
                     @Override
-                    public void onError(Throwable e) {}
+                    public void onError(Throwable e) {
+                    }
 
                     @Override
                     public void onNext(String s) {
-                        if(isResumed()) {
+                        if (isResumed()) {
                             Log.d(TAG, "Loading image: " + s);
-                            if(forceRefresh)
+                            if (forceRefresh)
                                 Glide.with(PegelDataFragment.this).load(s)
                                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                                         .skipMemoryCache(true)
@@ -186,5 +189,10 @@ public class PegelDataFragment extends Fragment {
                 break;
         }
         return tendency;
+    }
+    @Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = PegelApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

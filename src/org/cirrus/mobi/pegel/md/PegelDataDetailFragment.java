@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.R;
 import org.cirrus.mobi.pegel.data.MeasurePointDataDetails;
@@ -86,7 +88,8 @@ public class PegelDataDetailFragment extends Fragment{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MeasurePointDataDetails[]>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                    }
 
                     @Override
                     public void onError(Throwable e) {
@@ -98,8 +101,8 @@ public class PegelDataDetailFragment extends Fragment{
 
                     @Override
                     public void onNext(MeasurePointDataDetails[] measureStationDetailses) {
-                        if(mTableLayout.getChildCount() > 1)//clean up the rows
-                            mTableLayout.removeViews(1, mTableLayout.getChildCount()-1);
+                        if (mTableLayout.getChildCount() > 1)//clean up the rows
+                            mTableLayout.removeViews(1, mTableLayout.getChildCount() - 1);
 
                         for (int i = 0; i < measureStationDetailses.length; i++) {
                             final View rowView = mInflater.inflate(R.layout.table_data_row, mTableLayout, false);
@@ -108,8 +111,8 @@ public class PegelDataDetailFragment extends Fragment{
 
                             TextView tv2 = (TextView) rowView.findViewById(R.id.tableTextM);
                             String value = measureStationDetailses[i].getValue();//(Math.round(Float.parseFloat(dat[3])*100.0) / 100.0)+dat[2];
-                            if(value.length() > 6)
-                                value = value.substring(0,6);
+                            if (value.length() > 6)
+                                value = value.substring(0, 6);
                             tv2.setText(value);
 
                             TextView tv3 = (TextView) rowView.findViewById(R.id.tableTextD);
@@ -122,5 +125,11 @@ public class PegelDataDetailFragment extends Fragment{
                         mRefreshIndicator.isRefreshing(false);
                     }
                 });
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = PegelApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }
