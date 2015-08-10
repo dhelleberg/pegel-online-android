@@ -138,6 +138,9 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
                 this.pegelApp.trackEvent("PegelDataView", "donate", "donate", 1);
                 startActivity(i);
                 return true;
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 

@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,9 +39,12 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.cirrus.mobi.pegel.md.PegelDataFragment;
+import org.cirrus.mobi.pegel.md.RefreshIndicatorInterface;
+
 
 @TargetApi(11)
-public class PegelFragmentsActivity extends Activity {
+public class PegelFragmentsActivity extends AppCompatActivity implements RefreshIndicatorInterface {
 
 	private static final String PREFS_NAME = "prefs";
 	private static final int DIALOG_ABOUT = 1;
@@ -57,7 +61,7 @@ public class PegelFragmentsActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		//getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		setContentView(R.layout.fragment_view);
 
@@ -180,7 +184,7 @@ public class PegelFragmentsActivity extends Activity {
 				//clear selection, remove fragments
 				Intent i = new Intent(PegelFragmentsActivity.this, PegelFragmentsActivity.class);
 				startActivity(i);
-				
+
 			}
 		});
 
@@ -210,6 +214,23 @@ public class PegelFragmentsActivity extends Activity {
 
 	private void showTabs(String pnr, String river, String mpoint)
 	{
+		getSupportFragmentManager().findFragmentById(R.id.details);
+		getSupportFragmentManager().beginTransaction().replace(R.id.details, PegelDataFragment.getNewInstance(pnr,river,mpoint)).commit();
+
+
+
+
+
+	}
+
+	@Override
+	public void isRefreshing(boolean refreshing) {
+
+	}
+
+
+	/*private void showTabs(String pnr, String river, String mpoint)
+	{
 		// setup Action Bar for tabs
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -231,7 +252,7 @@ public class PegelFragmentsActivity extends Activity {
 
 		actionBar.selectTab(actionBar.getTabAt(index));
 
-	}
+	}*/
 
 	private class MyTabListener implements ActionBar.TabListener {
 		private Fragment mFragment;

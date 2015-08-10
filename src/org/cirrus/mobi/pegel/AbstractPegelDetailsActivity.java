@@ -35,7 +35,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AbstractPegelDetailsActivity extends AppCompatActivity {
+	public class AbstractPegelDetailsActivity extends AppCompatActivity {
 	protected static final int DIALOG_TIP = 2;
 
 
