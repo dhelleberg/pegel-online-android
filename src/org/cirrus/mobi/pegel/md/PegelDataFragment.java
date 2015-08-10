@@ -21,6 +21,7 @@ import org.cirrus.mobi.pegel.PegelApplication;
 import org.cirrus.mobi.pegel.PegelGrafikView;
 import org.cirrus.mobi.pegel.R;
 import org.cirrus.mobi.pegel.data.MeasureEntry;
+import org.cirrus.mobi.pegel.data.MeasureStationDetails;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import rx.Observer;
@@ -165,6 +166,38 @@ public class PegelDataFragment extends Fragment {
                                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                                         .into(mPegelDataImageView);
                         }
+                    }
+                });
+
+        mPointStore.getMeasureStationDetails(getActivity(), getArguments().getString(PNR_NR))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MeasureStationDetails[]>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        final Snackbar snackbar = Snackbar.make(mRooView, R.string.connection_error, Snackbar.LENGTH_LONG);
+                        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.primary));
+                        snackbar.show();
+                        mRefreshIndicator.isRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(MeasureStationDetails[] measureStationDetailses) {
+                        for (int i = 0; i < measureStationDetailses.length; i++) {
+                            if(measureStationDetailses[i].getName().equals("HSW")) {
+                                mPegelGraphicsView.setHSW(Float.parseFloat(measureStationDetailses[i].getValue()));
+                                mPegelGraphicsView.setVisibility(View.VISIBLE);
+                            }
+                            else if(measureStationDetailses[i].getName().equals("M_I"))
+                                mPegelGraphicsView.addAdditionalData("M_I", measureStationDetailses[i].getValue());
+                        }
+
+
+
                     }
                 });
     }
