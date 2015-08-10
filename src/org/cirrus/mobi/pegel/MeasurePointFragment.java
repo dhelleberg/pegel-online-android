@@ -31,7 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 @TargetApi(11)
-public class MeasurePointFragment extends ListFragment {
+public class MeasurePointFragment extends android.support.v4.app.ListFragment {
 
 	private static final String PREFS_NAME = "prefs";
 

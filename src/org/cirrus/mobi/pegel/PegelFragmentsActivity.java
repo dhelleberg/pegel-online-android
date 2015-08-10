@@ -31,7 +31,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.cirrus.mobi.pegel.md.PegelDataFragment;
+import org.cirrus.mobi.pegel.md.PegelDetailsTabsAdapter;
 import org.cirrus.mobi.pegel.md.RefreshIndicatorInterface;
 
 
@@ -49,11 +54,15 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	private static final String PREFS_NAME = "prefs";
 	private static final int DIALOG_ABOUT = 1;
 	private static final int DIALOG_NOT_FOUND = 2;
+	private static final String TAG = PegelFragmentsActivity.class.getSimpleName();
 
 	private String app_ver;
 	private PegelApplication pa;
 	private int index;
 	private ListRiverFragment lrf = null;
+	private PegelDetailsTabsAdapter mPagerAdapter;
+	private ViewPager mPager;
+	private TabLayout mtabLayout;
 
 
 	/** Called when the activity is first created. */
@@ -85,7 +94,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 					lrf = ListRiverFragment.getInstance(null, null, null);
 				}
 				if(lrf != null)
-					getFragmentManager().beginTransaction().replace(R.id.ListRiverFragment, lrf).commit();
+					getSupportFragmentManager().beginTransaction().replace(R.id.ListRiverFragment, lrf).commit();
 			}
 		}
 
@@ -103,7 +112,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		// TODO Auto-generated method stub
-		getFragmentManager().beginTransaction().remove(lrf).commit();
+		getSupportFragmentManager().beginTransaction().remove(lrf).commit();
 		super.onSaveInstanceState(outState);
 
 	}
@@ -214,10 +223,17 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 
 	private void showTabs(String pnr, String river, String mpoint)
 	{
-		getSupportFragmentManager().findFragmentById(R.id.details);
-		getSupportFragmentManager().beginTransaction().replace(R.id.details, PegelDataFragment.getNewInstance(pnr,river,mpoint)).commit();
+	
+		Log.d(TAG, "show Tabs pnr: " + pnr);
+		mPagerAdapter = new PegelDetailsTabsAdapter(getSupportFragmentManager(),pnr, river, mpoint, getResources());
+		mPager = (ViewPager) findViewById(R.id.pegel_data_pager);
+		mPager.setAdapter(mPagerAdapter);
+		mtabLayout = (TabLayout) findViewById(R.id.tab_layout);
+		mtabLayout.setupWithViewPager(mPager);
+		mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mtabLayout));
 
-
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
 
 

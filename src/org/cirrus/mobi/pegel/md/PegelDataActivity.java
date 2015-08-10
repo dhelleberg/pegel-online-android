@@ -49,7 +49,11 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pegel_data_viewpager);
 
-        mPagerAdapter = new PegelDetailsTabsAdapter(getSupportFragmentManager());
+        this.pnr = getIntent().getStringExtra("pnr");
+        this.river = getIntent().getStringExtra("river");
+        this.mpoint = getIntent().getStringExtra("mpoint");
+
+        mPagerAdapter = new PegelDetailsTabsAdapter(getSupportFragmentManager(),pnr, river, mpoint, getResources());
         mPager = (ViewPager) findViewById(R.id.pegel_data_pager);
         mPager.setAdapter(mPagerAdapter);
         mtabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -68,9 +72,6 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
 
         pegelApp = (PegelApplication) getApplication();
 
-        this.pnr = getIntent().getStringExtra("pnr");
-        this.river = getIntent().getStringExtra("river");
-        this.mpoint = getIntent().getStringExtra("mpoint");
 
         if(firstRunThisVersion)
         {
@@ -205,47 +206,5 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
     }
 
 
-    class PegelDetailsTabsAdapter extends FragmentPagerAdapter {
 
-        private static final int TAB_COUNT = 4;
-
-        public PegelDetailsTabsAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return PegelDataFragment.getNewInstance(pnr, river, mpoint);
-                case 1:
-                    return PegelDataDetailFragment.getNewInstance(pnr);
-                case 2:
-                    return PegelDetailFragment.getNewInstance(pnr);
-                case 3:
-                    return PegelMapFragment.newInstance(pnr);
-            }
-            return null;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.tab1);
-                case 1:
-                    return getString(R.string.tab2);
-                case 2:
-                    return getString(R.string.tab4);
-                case 3:
-                    return getString(R.string.tab3);
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return TAB_COUNT;
-        }
-    }
 }

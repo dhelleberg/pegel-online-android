@@ -31,7 +31,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 @TargetApi(11)
-public class ListRiverFragment extends ListFragment implements RiverCallBack {
+public class ListRiverFragment extends android.support.v4.app.ListFragment implements RiverCallBack {
 
 	int mCurCheckPosition = 0;	
 	private AbstractSelectRiver abstractSR;
@@ -94,7 +94,8 @@ public class ListRiverFragment extends ListFragment implements RiverCallBack {
 		{
 			//transit to new Fragment
 			MeasurePointFragment mpf = MeasurePointFragment.newInstance(this.abstractSR.rivers[position]);
-			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+			android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
 			// Replace whatever is in the fragment_container view with this fragment,
 			// and add the transaction to the back stack
