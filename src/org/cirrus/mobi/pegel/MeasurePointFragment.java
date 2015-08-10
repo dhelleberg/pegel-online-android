@@ -76,7 +76,8 @@ public class MeasurePointFragment extends android.support.v4.app.ListFragment {
 		if(mpoint.length() > 0)
 		{
 			int pos = ((ArrayAdapter<String> )getListAdapter()).getPosition(mpoint);
-			this.select(pos);
+//			this.select(pos);
+			getListView().setItemChecked(pos, true);
 			this.setSelection(pos);
 		}
 

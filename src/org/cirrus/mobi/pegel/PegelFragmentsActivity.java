@@ -74,6 +74,9 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 
 		setContentView(R.layout.fragment_view);
 
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
 		//check if we have a saved preference, then we jump to detailview already
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
 		String river = settings.getString("river", "");		
@@ -88,6 +91,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 					String pnr = settings.getString("pnr", "");
 					String mpoint = settings.getString("mpoint", "");			
 					lrf = ListRiverFragment.getInstance(river, mpoint, pnr);
+					showTabs(pnr,river,mpoint);
 				}
 				else
 				{
@@ -105,7 +109,8 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 			this.app_ver = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
 		} catch (NameNotFoundException e) {
 			this.app_ver = "unknown";
-		}		
+		}
+
 	}
 
 
@@ -232,8 +237,6 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 		mtabLayout.setupWithViewPager(mPager);
 		mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mtabLayout));
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
 
 
 
@@ -245,64 +248,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	}
 
 
-	/*private void showTabs(String pnr, String river, String mpoint)
-	{
-		// setup Action Bar for tabs
-		final ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		actionBar.removeAllTabs();
-
-		// add a new tab and set its title text and tab listener
-		actionBar.addTab(actionBar.newTab().setText(R.string.tab1)
-				.setTabListener(new MyTabListener(DetailDataFragment.getInstance(pnr, river, mpoint),0)),false);
-
-		actionBar.addTab(actionBar.newTab().setText(R.string.tab4)
-				.setTabListener(new MyTabListener(RealDetailsFragment.getInstance(pnr),1)),false);
-
-		actionBar.addTab(actionBar.newTab().setText(R.string.tab2)
-				.setTabListener(new MyTabListener(MoreDetailsFragment.getInstance(pnr),2)),false);
-
-		actionBar.addTab(actionBar.newTab().setText(R.string.tab3)
-				.setTabListener(new MyTabListener(SimpleMapFragment.getInstance(pnr),3)),false);
-
-		actionBar.selectTab(actionBar.getTabAt(index));
-
-	}*/
-
-	private class MyTabListener implements ActionBar.TabListener {
-		private Fragment mFragment;
-		private int mindex;
-
-		// Called to create an instance of the listener when adding a new tab
-		public MyTabListener(Fragment fragment, int mindex) {
-			mFragment = fragment;
-			this.mindex = mindex;			
-		}
-
-		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			if(getFragmentManager() != null) // I have seen NPEs here :(
-			{
-				Fragment f = getFragmentManager().findFragmentById(R.id.details);
-				if(f != mFragment)
-				{
-					ft.replace(R.id.details, mFragment);			
-					index = this.mindex;
-				}
-			}
-		}
-
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			// do nothing
-		}
-
-		@Override
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			// do nothing
-
-		}
-
-	}
 
 	public void pegelNotFound() {
 		showDialog(this.DIALOG_NOT_FOUND);

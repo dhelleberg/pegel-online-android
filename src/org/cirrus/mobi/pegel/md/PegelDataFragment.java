@@ -109,9 +109,9 @@ public class PegelDataFragment extends Fragment {
         loadData(false);
     }
 
-    public void loadData(final boolean forceRefresh) {
+    public void loadData(final boolean refresh) {
         mRefreshIndicator.isRefreshing(true);
-        mPointStore.getMeasureEntry(getArguments().getString(PNR_NR), forceRefresh)
+        mPointStore.getMeasureEntry(getArguments().getString(PNR_NR))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MeasureEntry>() {
@@ -155,7 +155,7 @@ public class PegelDataFragment extends Fragment {
                     public void onNext(String s) {
                         if (isResumed()) {
                             Log.d(TAG, "Loading image: " + s);
-                            if (forceRefresh)
+                            if (refresh)
                                 Glide.with(PegelDataFragment.this).load(s)
                                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                                         .skipMemoryCache(true)

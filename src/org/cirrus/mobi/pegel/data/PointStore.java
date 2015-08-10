@@ -86,7 +86,6 @@ public class PointStore {
 	private static final String LON = "lon";
 	private static final String LAT = "lat";
 
-	private MeasureEntry cachedEntry = null;
 
 	//simple cache in memory
 	private Map<String, PegelEntry[]> riverPoints = null;
@@ -490,22 +489,15 @@ public class PointStore {
 		
 	}
 
-	public Observable<MeasureEntry> getMeasureEntry(final String pnr, final boolean refresh) {
+	public Observable<MeasureEntry> getMeasureEntry(final String pnr) {
 		return Observable.defer(new Func0<Observable<MeasureEntry>>() {
 			@Override
 			public Observable<MeasureEntry> call() {
 				try {
 
-					if(refresh) // clear cache
-						cachedEntry = null;
-
-					if(cachedEntry != null)
-						return Observable.just(cachedEntry);
-
 					MeasureEntry measureEntry = getPointData(pnr);
 					if(measureEntry == null)
 						return Observable.error(new Exception("Point Not found!"));
-					cachedEntry = measureEntry;
 					return Observable.just(measureEntry);
 				} catch (Exception e) {
 					Log.e(TAG,"Error",e);
