@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -95,21 +96,25 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
     @Override
     protected void refreshFromOptionsMenu() {
         super.refreshFromOptionsMenu();
-        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pegel_data_pager + ":" + mPager.getCurrentItem());
-        switch (mPager.getCurrentItem()) {
-            case 0:
-                ((PegelDataFragment)currentFragment).loadData(true);
-                break;
-            case 1:
-                ((PegelDataDetailFragment)currentFragment).loadData(true);
-                break;
-            case 2:
-                ((PegelDetailFragment)currentFragment).loadData(true);
-                break;
-            case 3:
-                ((PegelMapFragment)currentFragment).loadData(true);
-                break;
+        /** this hack worked with FragmenPagerAdapter but not with FragmentStatePagerAdapter */
+//        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pegel_data_pager + ":" + mPager.getCurrentItem());
+        Fragment currentFragment = (Fragment) ((FragmentStatePagerAdapter)mPagerAdapter).instantiateItem(mPager, mPager.getCurrentItem());
+        if(currentFragment != null ) {
+            switch (mPager.getCurrentItem()) {
+                case 0:
+                    ((PegelDataFragment) currentFragment).loadData(true);
+                    break;
+                case 1:
+                    ((PegelDataDetailFragment) currentFragment).loadData(true);
+                    break;
+                case 2:
+                    ((PegelDetailFragment) currentFragment).loadData(true);
+                    break;
+                case 3:
+                    ((PegelMapFragment) currentFragment).loadData(true);
+                    break;
 
+            }
         }
 
 
