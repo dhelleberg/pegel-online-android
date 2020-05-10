@@ -74,7 +74,7 @@ public class PointStore {
 	private static final String POINT_DATA_URL = PegelApplication.host+"/pegeldata?pn=";
 	private static final String POINT_DATA_IMAGE_URL = PegelApplication.host+"/pegeldataimage?pn=";
 
-	private static final String IMAGE_URL_SERVER_URL_1 = "http://www.pegelonline.wsv.de/webservices/rest/v1/locations/";
+	private static final String IMAGE_URL_SERVER_URL_1 = "https://www.pegelonline.wsv.de/webservices/rest/v1/locations/";
 	private static final String IMAGE_URL_SERVER_URL_2 = "/timeseries/W.png";
 
 	private static final String POINT_CACHE_FILE = "point_cache.json";

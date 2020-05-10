@@ -55,7 +55,7 @@ public class PegelApplication extends Application {
 	//for local testing
 //	public static final String host = "http://10.0.2.2:8888";//:8888";
 	//for production
-	public static final String host = "http://pegel-online.appspot.com";
+	public static final String host = "https://pegel-online.appspot.com";
 
 	private PointStore pointStore;
 
