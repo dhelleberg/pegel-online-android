@@ -6,3 +6,4 @@ local.properties
 .gradle
 acra.xml
 vending.xml
+.DS_Store
