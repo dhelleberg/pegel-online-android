@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -61,7 +62,7 @@ public class SelectMeasurePoint extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
+		Log.d(">>>>", "startup, do load");
 		PointsLoader ps = new PointsLoader();
 		ps.execute();
 	}
@@ -97,6 +98,7 @@ public class SelectMeasurePoint extends ListActivity {
 				entries = ps.getMeasurePoints(SelectMeasurePoint.this ,river);
 				plain_points = new String[entries.length];
 				for (int i = 0; i < plain_points.length; i++) {
+					Log.d(">>>>"," entry:"+entries[i].getPegelname());
 					plain_points[i] = entries[i].getPegelname();
 				}
 						

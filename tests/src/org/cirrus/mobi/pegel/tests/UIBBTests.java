@@ -10,8 +10,7 @@ import org.cirrus.mobi.pegel.SelectRiver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 
@@ -44,16 +43,16 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
 
         try {
             Assert.assertTrue(solo.waitForText("ALLER", 1, 8000));
-            Spoon.screenshot(getActivity(), "river");
+            //Spoon.screenshot(getActivity(), "river");
             solo.clickOnText("RHEIN");
             Assert.assertTrue(solo.waitForText("BONN", 1, 8000));
-            Spoon.screenshot(getActivity(), "station-select");
+            //Spoon.screenshot(getActivity(), "station-select");
             solo.clickOnText("BONN");
             Assert.assertTrue(solo.waitForText("Ok"));
-            Spoon.screenshot(getActivity(), "popup1");
+            //Spoon.screenshot(getActivity(), "popup1");
             solo.clickOnButton("Ok");
             Assert.assertTrue(solo.waitForText("Tendenz"));
-            Spoon.screenshot(getActivity(), "main-screen1");
+            //Spoon.screenshot(getActivity(), "main-screen1");
             solo.clickOnMenuItem("About");
 
             getInstrumentation().waitForIdleSync();
@@ -64,16 +63,16 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
             solo.goBack();
 
             solo.clickOnMenuItem("Refresh");
-            Spoon.screenshot(getActivity(), "main-screen-refresh");
+            //Spoon.screenshot(getActivity(), "main-screen-refresh");
             solo.clickOnMenuItem("Feedback");
             assertTrue(solo.waitForText("Email senden..."));
-            Spoon.screenshot(getActivity(), "about");
+            //Spoon.screenshot(getActivity(), "about");
             solo.goBack();
 
             solo.clickOnText("Details");
             assertTrue(solo.waitForText("TuGLW"));
             getInstrumentation().waitForIdleSync();
-            Spoon.screenshot(getActivity(), "details");
+            //Spoon.screenshot(getActivity(), "details");
 //			Screenshot.save_screenshot(solo.getCurrentActivity().getWindow(), "details");
 
             solo.clickOnText("Karte");

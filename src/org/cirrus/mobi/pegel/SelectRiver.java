@@ -67,7 +67,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		}
 		getWindow().requestFeature(Window.FEATURE_INDETERMINATE_PROGRESS);		
 		setContentView(R.layout.main);
-	
+
 	}
 	
 	@Override

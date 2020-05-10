@@ -1,0 +1,36 @@
+Applications Memory Usage (kB):
+Uptime: 1617328 Realtime: 1617328
+
+** MEMINFO in pid 1365 [org.cirrus.mobi.pegel] **
+                         Shared  Private     Heap     Heap     Heap
+                   Pss    Dirty    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------
+       Native     2316      468     2296    35596     8038      573
+       Dalvik     6956    10320     6508    12871    11205     1666
+       Cursor        0        0        0                           
+       Ashmem        0        4        0                           
+    Other dev        4       24        0                           
+     .so mmap     1521     1856      416                           
+    .jar mmap        0        0        0                           
+    .apk mmap      136        0        0                           
+    .ttf mmap       19        0        0                           
+    .dex mmap     3538        0       40                           
+   Other mmap      191       16      172                           
+      Unknown      460       24      460                           
+        TOTAL    15141    12712     9892    48467    19243     2239
+ 
+ Objects
+               Views:       83         ViewRootImpl:        3
+         AppContexts:        4           Activities:        3
+              Assets:        2        AssetManagers:        2
+       Local Binders:       12        Proxy Binders:       18
+    Death Recipients:        0
+     OpenSSL Sockets:        1
+ 
+ SQL
+         MEMORY_USED:      123
+  PAGECACHE_OVERFLOW:       37          MALLOC_SIZE:       62
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)          cache  Dbname
+         4       28             73       58/49/11  /data/data/org.cirrus.mobi.pegel/databases/google_analytics_v4.db

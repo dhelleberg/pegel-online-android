@@ -127,10 +127,12 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.detailmenu, menu);
-		Fragment f = getFragmentManager().findFragmentById(R.id.details); 
+/*
+		Fragment f = getFragmentManager().findFragmentById(R.id.details);
 		//check if the pegel-details are shown, only then show the refresh action
 		if( (!(f instanceof DetailDataFragment)) || f.isRemoving())
 			menu.removeItem(R.id.m_refresh);
+*/
 		return true;
 	}
 
@@ -139,8 +141,8 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.m_refresh:
-			DetailDataFragment df = (DetailDataFragment) getFragmentManager().findFragmentById(R.id.details);
-			df.refresh();
+			/*DetailDataFragment df = (DetailDataFragment) getFragmentManager().findFragmentById(R.id.details);
+			df.refresh();*/
 			this.pa.trackEvent("PegelDataView", "refresh", "refresh3", 1);
 			return true;
 		case R.id.m_feedback:

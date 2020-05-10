@@ -22,7 +22,7 @@ public class PegelApplicationTest extends ApplicationTestCase<PegelApplication> 
 //		super.setUp();
     	createApplication();
     	this.mPegelApp = getApplication();
-    	this.mContext = getSystemContext();		
+    	this.mContext = getApplication();
 	}
     
     public void testRiversCache() throws Exception {    	

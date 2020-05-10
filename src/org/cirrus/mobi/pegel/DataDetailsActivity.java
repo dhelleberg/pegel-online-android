@@ -45,7 +45,7 @@ public class DataDetailsActivity extends AbstractPegelDetailsActivity {
 		pdrDataDetails.setReceiver(new DataDetailHandler());
 
 		setProgressBarIndeterminateVisibility(true);
-		this.pegelDataProvider = PegelDataProvider.getInstance((PegelApplication) getApplication());		
+		this.pegelDataProvider = PegelDataProvider.getInstance((PegelApplication) getApplication());
 	}
 
 	@Override

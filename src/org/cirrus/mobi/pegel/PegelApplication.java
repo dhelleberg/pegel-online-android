@@ -18,19 +18,6 @@ package org.cirrus.mobi.pegel;
     along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.acra.ACRA;
-import org.acra.ACRAConfiguration;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpSender;
-import org.cirrus.mobi.pegel.data.PointStore;
-
-
-
-
 import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -42,14 +29,23 @@ import com.google.android.gms.analytics.Tracker;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender;
+import org.cirrus.mobi.pegel.data.PointStore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @ReportsCrashes(
 		mode = ReportingInteractionMode.SILENT,
 		httpMethod = HttpSender.Method.POST,
-		formUri = "http://104.155.60.110:9090/",
+		formUri = "https://mcr-stage.inovex.io/",
 		forceCloseDialogAfterToast = false,
 		reportType = HttpSender.Type.JSON,
-		formUriBasicAuthLogin="crash",
-		formUriBasicAuthPassword="rep0rter"
+		formUriBasicAuthLogin="stage",
+		formUriBasicAuthPassword="stage"
 
 )
 public class PegelApplication extends Application {

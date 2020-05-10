@@ -18,12 +18,22 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.cirrus.mobi.pegel.PegelApplication;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
@@ -33,18 +43,6 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Map;
-
-import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import org.cirrus.mobi.pegel.PegelApplication;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import rx.Observable;
 import rx.functions.Func0;
@@ -139,7 +137,7 @@ public class PointStore {
 			riverPoints = gson.fromJson(points, riverPointType);
 		}
 		else
-			Log.v(TAG, "JSON already parsed...");
+			Log.v(TAG, "JSON already parsed... returning for river "+river+ " points: "+this.riverPoints.get(river));
 
 		return this.riverPoints.get(river);
 	}
