@@ -60,7 +60,7 @@ public class PointStore {
 	private static final String PEGELNUMMER = "pegelnummer";
 	private static final String PEGELNAME = "pegelname";
 
-	private static final String MAPS_URL = "http://maps.google.com/maps/api/staticmap?";
+	private static final String MAPS_URL = "https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/static/pin-l-harbor+285A98";
 
 	private static final String TAG = "PointStore";
 
@@ -83,6 +83,7 @@ public class PointStore {
 	private static final int DEFAULT_BUFFER = 30720; //30k
 	private static final String LON = "lon";
 	private static final String LAT = "lat";
+	private static final String MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZGhlbGxlYmVyZyIsImEiOiJja2EwczVyZzMxODN5M2dsaTdqMWl1bWJwIn0.QQ5JIBORN6nS0xBcTRg3SA";
 
 
 	//simple cache in memory
@@ -533,9 +534,10 @@ public class PointStore {
 				}
 				if(measureEntry != null && measureEntry.getLat() != null) {
 					StringBuilder mapsUrl = new StringBuilder(MAPS_URL);
-					mapsUrl.append("center=").append(measureEntry.getLat()).append(',').append(measureEntry.getLon());
-					mapsUrl.append("&zoom=12&size=").append(mapsize).append("x").append(mapsize).append("&sensor=false");
-					mapsUrl.append("&markers=color:blue|label:M|").append(measureEntry.getLat()).append(',').append(measureEntry.getLon());
+					mapsUrl.append("(").append(measureEntry.getLon()).append(",").append(measureEntry.getLat()).append(")/");
+					mapsUrl.append(measureEntry.getLon()).append(',').append(measureEntry.getLat());
+					mapsUrl.append(",12,0/").append(mapsize).append("x").append(mapsize).append("@2x?access_token=");
+					mapsUrl.append(MAPBOX_ACCESS_TOKEN).append("&logo=false");
 					Log.v(TAG, "will request map URL: "+mapsUrl.toString());
 
 					return Observable.just(mapsUrl.toString());
