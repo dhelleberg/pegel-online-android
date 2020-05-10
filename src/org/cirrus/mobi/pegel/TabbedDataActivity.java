@@ -1,7 +1,5 @@
 package org.cirrus.mobi.pegel;
 
-import org.cirrus.mobi.pegel.widget.PegelWidgetProvider.UpdateService;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
@@ -21,6 +19,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import org.cirrus.mobi.pegel.widget.PegelWidgetProvider.UpdateService;
 
 public class TabbedDataActivity extends TabActivity {
 
@@ -104,7 +104,7 @@ public class TabbedDataActivity extends TabActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			//delete preferences
-			SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+			SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
 			SharedPreferences.Editor edit = settings.edit();
 			edit.clear();
 			edit.commit();
@@ -186,7 +186,7 @@ public class TabbedDataActivity extends TabActivity {
 		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				//delete preferences
-				SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+				SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
 				SharedPreferences.Editor edit = settings.edit();
 				edit.clear();
 				edit.commit();

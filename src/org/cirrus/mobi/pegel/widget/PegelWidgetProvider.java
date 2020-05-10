@@ -116,7 +116,7 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 			// Get the layout for the App Widget and attach an on-click listener to the button
 			RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.pegel_widget);
 
-			SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+			SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 			String river = settings.getString("river", "");
 			if(river.length() > 0)
 			{

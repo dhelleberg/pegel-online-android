@@ -18,13 +18,8 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,11 +34,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.cirrus.mobi.pegel.md.PegelDataFragment;
 import org.cirrus.mobi.pegel.md.PegelDetailsTabsAdapter;
 import org.cirrus.mobi.pegel.md.RefreshIndicatorInterface;
 
@@ -78,7 +71,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 		setSupportActionBar(toolbar);
 
 		//check if we have a saved preference, then we jump to detailview already
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		String river = settings.getString("river", "");		
 
 		if(!findViewById(R.id.ListRiverFragment).isShown())
@@ -193,7 +186,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				//delete preferences
-				SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+				SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
 				SharedPreferences.Editor edit = settings.edit();
 				edit.clear();
 				edit.commit();

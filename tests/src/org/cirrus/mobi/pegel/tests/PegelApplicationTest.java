@@ -53,7 +53,7 @@ public class PegelApplicationTest extends ApplicationTestCase<PegelApplication> 
 
     
 	private void clearPrefs(Context c) {
-		SharedPreferences prefs = c.getSharedPreferences("store", Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences prefs = c.getSharedPreferences("store", Context.MODE_PRIVATE);
 		SharedPreferences.Editor edit = prefs.edit();
 		edit.clear();
 		edit.commit();

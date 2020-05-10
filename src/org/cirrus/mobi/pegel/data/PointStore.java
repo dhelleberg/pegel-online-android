@@ -152,7 +152,7 @@ public class PointStore {
 	private String getPointData(Context context) throws Exception
 	{
 		// Restore preferences
-		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		long lastUpdate = settings.getLong(LAST_P_UPDATE, 0);
 
         boolean isConnected = isConnected(context);
@@ -354,7 +354,7 @@ public class PointStore {
 		MeasureStationDetails[] details = null;
 
 		//check the cache first
-		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		long lastUpdate = settings.getLong(LAST_P_UPDATE+pegelNummer, 0);
 
 		String serverResp = null;
@@ -481,7 +481,7 @@ public class PointStore {
 		File cacheFile = new File(context.getCacheDir(), POINT_CACHE_FILE);
 		if(cacheFile.exists())
 			cacheFile.delete();
-		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.remove(LAST_P_UPDATE);
 		editor.commit();

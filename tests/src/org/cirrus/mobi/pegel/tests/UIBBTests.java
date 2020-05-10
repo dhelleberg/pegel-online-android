@@ -33,7 +33,7 @@ public class UIBBTests extends ActivityInstrumentationTestCase2<SelectRiver>{
     }
 
     private void clearPrefs() {
-        SharedPreferences prefs = getInstrumentation().getTargetContext().getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences prefs = getInstrumentation().getTargetContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
         edit.clear();
         edit.commit();

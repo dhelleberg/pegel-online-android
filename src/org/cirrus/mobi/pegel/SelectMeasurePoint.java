@@ -19,11 +19,6 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import org.acra.ACRA;
-import org.cirrus.mobi.pegel.data.PegelEntry;
-import org.cirrus.mobi.pegel.data.PointStore;
-import org.cirrus.mobi.pegel.md.PegelDataActivity;
-
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +30,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.acra.ACRA;
+import org.cirrus.mobi.pegel.data.PegelEntry;
+import org.cirrus.mobi.pegel.data.PointStore;
+import org.cirrus.mobi.pegel.md.PegelDataActivity;
 
 public class SelectMeasurePoint extends ListActivity {
 	
@@ -76,7 +76,7 @@ public class SelectMeasurePoint extends ListActivity {
 		i.putExtra("pnr", this.entries[position].getPegelnummer());
 		i.putExtra("mpoint", this.entries[position].getPegelname());
 
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("river", river);
 		editor.putString("pnr", this.entries[position].getPegelnummer());

@@ -18,17 +18,16 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import org.cirrus.mobi.pegel.data.PegelEntry;
-import org.cirrus.mobi.pegel.data.PointStore;
-
 import android.annotation.TargetApi;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import org.cirrus.mobi.pegel.data.PegelEntry;
+import org.cirrus.mobi.pegel.data.PointStore;
 
 @TargetApi(11)
 public class MeasurePointFragment extends android.support.v4.app.ListFragment {
@@ -71,7 +70,7 @@ public class MeasurePointFragment extends android.support.v4.app.ListFragment {
 		
         
         //check if we have a saved preference, then we jump to detailview already
-		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		String mpoint = settings.getString("mpoint", "");
 		if(mpoint.length() > 0)
 		{
@@ -92,7 +91,7 @@ public class MeasurePointFragment extends android.support.v4.app.ListFragment {
 		getListView().setItemChecked(position, true);
 		
 		/** save settings */
-		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("river", getArguments().getString("river"));
 		editor.putString("pnr", this.entries[position].getPegelnummer());

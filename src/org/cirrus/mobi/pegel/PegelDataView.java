@@ -18,15 +18,12 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.Window;
 import android.widget.TextView;
 
 public class PegelDataView extends AbstractPegelDetailsActivity {
@@ -72,7 +69,7 @@ public class PegelDataView extends AbstractPegelDetailsActivity {
 		{
 			showDialog(DIALOG_TIP);
 			this.pegelApp.trackEvent("PegelDataView", "firstrundialog", "show", 1);
-			SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_WORLD_WRITEABLE);
+			SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_PRIVATE);
 			Editor edit = settings.edit();
 			edit.putBoolean("run_"+app_ver, true);
 			edit.commit();

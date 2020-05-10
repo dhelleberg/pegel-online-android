@@ -48,7 +48,7 @@ public class SelectRiver extends ListActivity implements RiverCallBack{
 		
 		this.pegelApp = (PegelApplication) getApplication();
 		//check if we have a saved preference, then we jump to detailview already
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		String river = settings.getString("river", "");
 		if(river.length() > 0)
 		{

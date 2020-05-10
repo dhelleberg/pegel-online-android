@@ -18,20 +18,20 @@ You should have received a copy of the GNU General Public License
 along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.util.Log;
 
 import org.cirrus.mobi.pegel.data.MeasureEntry;
 import org.cirrus.mobi.pegel.data.MeasurePointDataDetails;
 import org.cirrus.mobi.pegel.data.MeasureStationDetails;
 import org.cirrus.mobi.pegel.data.PointStore;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class PegelDataProvider {
 
@@ -354,7 +354,7 @@ public class PegelDataProvider {
 			b.putString("time", data.getZeit().replace(' ', '\n'));
 			pdrPegel.send(STATUS_FINISHED, b);
 
-			SharedPreferences settings = pegelApp.getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+			SharedPreferences settings = pegelApp.getSharedPreferences("prefs", Context.MODE_PRIVATE);
 			SharedPreferences.Editor edit = settings.edit();
 			edit.putString("measure", data.getMessung());
 			edit.commit();

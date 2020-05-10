@@ -19,21 +19,14 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 	public class AbstractPegelDetailsActivity extends AppCompatActivity {
 	protected static final int DIALOG_TIP = 2;
@@ -59,7 +52,7 @@ import android.widget.TextView;
 		try {
 			this.app_ver = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
 
-			SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_WORLD_WRITEABLE);
+			SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_PRIVATE);
 			if(settings.contains("run_"+app_ver))
 				firstRunThisVersion = false;
 			else

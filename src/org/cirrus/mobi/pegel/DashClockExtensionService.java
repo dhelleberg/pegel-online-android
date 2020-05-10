@@ -23,7 +23,7 @@ public class DashClockExtensionService extends DashClockExtension {
 		pa.trackEvent("DashClock", "refresh", "refresh", 1);
 
 		
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		String river = settings.getString("river", "");
 		if(river.length() > 0)
 		{

@@ -19,9 +19,6 @@ along with pegel-online.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -71,7 +68,7 @@ public class ListRiverFragment extends android.support.v4.app.ListFragment imple
 	//listView handler
 	public void onListItemClick(ListView parent, View v, int position, long id) { 
 		//delete preferences
-		SharedPreferences settings = getActivity().getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+		SharedPreferences settings = getActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE);
 		SharedPreferences.Editor edit = settings.edit();
 		edit.clear();
 		edit.commit();		

@@ -76,7 +76,7 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
         {
             showDialog(DIALOG_TIP);
             this.pegelApp.trackEvent("PegelDataView", "firstrundialog", "show", 1);
-            SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_WORLD_WRITEABLE);
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_PRIVATE);
             SharedPreferences.Editor edit = settings.edit();
             edit.putBoolean("run_"+app_ver, true);
             edit.commit();
@@ -173,7 +173,7 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //delete preferences
-                        SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_WORLD_WRITEABLE);
+                        SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = settings.edit();
                         edit.clear();
                         edit.commit();
