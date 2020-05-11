@@ -31,13 +31,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.acra.ACRA;
 import org.cirrus.mobi.pegel.data.PegelEntry;
 import org.cirrus.mobi.pegel.data.PointStore;
 import org.cirrus.mobi.pegel.md.PegelDataActivity;
 
 public class SelectMeasurePoint extends ListActivity {
-	
+	private static final String TAG = "SelectMeasurePoint";
 
 	private static final String PREFS_NAME = "prefs";
 
@@ -102,16 +101,12 @@ public class SelectMeasurePoint extends ListActivity {
 					plain_points[i] = entries[i].getPegelname();
 				}
 						
-			} catch (Exception e) {			
-				ACRA.getErrorReporter().putCustomData("river", river);
-				ACRA.getErrorReporter().putCustomData("reason", "Exception during getMeasurePoints()");
-				ACRA.getErrorReporter().handleException(e);
-			}		
+			} catch (Exception e) {
+				Log.e(TAG, "Exception getting Measurepoints.");
+			}
 			if(plain_points == null)
 			{
-				ACRA.getErrorReporter().putCustomData("river", river);
-				ACRA.getErrorReporter().putCustomData("reason", "River Points are null??");
-				ACRA.getErrorReporter().handleException(null);
+				Log.e(TAG, "Exception getting Measurepoints.");
 				plain_points = new String[0];
 			}
 			return null;

@@ -29,25 +29,11 @@ import com.google.android.gms.analytics.Tracker;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpSender;
 import org.cirrus.mobi.pegel.data.PointStore;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@ReportsCrashes(
-		mode = ReportingInteractionMode.SILENT,
-		httpMethod = HttpSender.Method.POST,
-		formUri = "https://mcr-stage.inovex.io/",
-		forceCloseDialogAfterToast = false,
-		reportType = HttpSender.Type.JSON,
-		formUriBasicAuthLogin="stage",
-		formUriBasicAuthPassword="stage"
-
-)
 public class PegelApplication extends Application {
 
 	private static final String TAG = "PegelApplication";
@@ -73,14 +59,6 @@ public class PegelApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		/*ACRAConfiguration config=ACRA.getNewDefaultConfig(this);
-		config.setFormUri(getString(R.string.acra_form_uri));
-		//config.setFormUriBasicAuthLogin(getString(R.string.acra_form_user));
-		//config.setFormUriBasicAuthPassword(getString(R.string.acra_form_pwd));
-		config.setReportType(HttpSender.Type.JSON);
-		config.setHttpMethod(HttpSender.Method.POST);
-		ACRA.setConfig(config);*/
-		ACRA.init(this);
 
 		refWatcher = LeakCanary.install(this);
 
