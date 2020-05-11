@@ -32,6 +32,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -47,13 +49,16 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		final int N = appWidgetIds.length;
-		Log.v(TAG, "on update");		
+		Log.v(TAG, "on update");
+		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		String river = settings.getString("river", "");
 		// Perform this loop procedure for each App Widget that belongs to this provider
 		for (int i=0; i<N; i++) {
 			int appWidgetId = appWidgetIds[i];
 			Log.v(TAG, "update!");
 			//start service to handle updates on click
-			context.startService(new Intent(context, UpdateService.class));
+			//context.startService(new Intent(context, UpdateService.class));
+			UpdateService.enqueueWork(context, new Intent(context, UpdateService.class));
 		}
 	}
 
@@ -62,7 +67,8 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 		Log.v(TAG, "on Recieve! "+intent.getAction() );
 		//if we recieve a refresh-intent, update the widget!
 		if (REFRESH_ACTION.equals(intent.getAction())) {
-			ctxt.startService(new Intent(ctxt, UpdateService.class));
+			//ctxt.startService(new Intent(ctxt, UpdateService.class));
+			UpdateService.enqueueWork(ctxt, new Intent(ctxt, UpdateService.class));
 		}
 		else {
 			super.onReceive(ctxt, intent);
@@ -90,16 +96,19 @@ public class PegelWidgetProvider extends AppWidgetProvider {
 	}
 
 
-	public static class UpdateService extends IntentService {
+	public static class UpdateService extends JobIntentService {
 
 		private static final String TAG = "PegelWidgetProvider$UpdateService";
-
-		public UpdateService() {
-			super(".widget.PegelWidgetProvider$UpdateService");
+		/**
+		 * Unique job ID for this service.
+		 */
+		private static final int JOB_ID = 2;
+		public static void enqueueWork(Context context, Intent intent) {
+			enqueueWork(context, UpdateService.class, JOB_ID, intent);
 		}
 
 		@Override
-		protected void onHandleIntent(Intent intent) {
+		protected void onHandleWork(@NonNull Intent intent) {
 			generateUpdate(this);
 		}
 
