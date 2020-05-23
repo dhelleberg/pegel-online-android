@@ -24,8 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -48,7 +46,6 @@ public class PegelApplication extends Application {
 	private Map<String, Drawable> imageCache = null;
 
 	private boolean emulator = false;
-	private Tracker mTracker;
 	private RefWatcher refWatcher;
 
 	public boolean isEmulator()
@@ -62,8 +59,6 @@ public class PegelApplication extends Application {
 
 		refWatcher = LeakCanary.install(this);
 
-		GoogleAnalytics myInstance = GoogleAnalytics.getInstance(this);
-		this.mTracker = myInstance.newTracker(R.xml.analytics);
 
 		this.pointStore = new PointStore();
 
@@ -99,14 +94,14 @@ public class PegelApplication extends Application {
 		if(this.emulator)
 			Log.v(TAG, "dropping event, running on emulator "+string+string2+string3+i);
 		else
-			mTracker.send(params);
+			Log.v(TAG, "dropping event, no GA anymore "+string+string2+string3+i);
 	}
 
 	public void trackPageView(String string) {
 		if(this.emulator)
 			Log.v(TAG, "dropping pageView, running on emulator "+string);
 		else
-			mTracker.setPage(string);
+			Log.v(TAG, "dropping event, no GA anymore ");
 
 	}
 
