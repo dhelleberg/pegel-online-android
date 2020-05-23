@@ -110,7 +110,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		// TODO Auto-generated method stub
-		getSupportFragmentManager().beginTransaction().remove(lrf).commit();
+		//getSupportFragmentManager().beginTransaction().remove(lrf).commit();
 		super.onSaveInstanceState(outState);
 
 	}
