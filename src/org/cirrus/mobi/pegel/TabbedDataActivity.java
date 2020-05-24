@@ -128,6 +128,10 @@ public class TabbedDataActivity extends TabActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.detailmenu, menu);
+		SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+		if(settings.getString("mode","").equals(PegelApplication.ScreenMode.FORCE_SMARTPHONE.toString())){
+			inflater.inflate(R.menu.smartphonemenu,menu);
+		}
 		return true;
 	}
 
@@ -155,9 +159,15 @@ public class TabbedDataActivity extends TabActivity {
 			this.pegelApp.trackEvent("PegelDataView", "donate", "donate", 1);
 			startActivity(i);
 			return true;
+		case R.id.m_noForceSmartphone:
+			SharedPreferences settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+			settings.edit().remove("mode").commit();
+			Intent intent = new Intent(this, StartupActivity.class);
+			startActivity(intent);
+			return true;
+
 		default:
 			return super.onOptionsItemSelected(item);
-
 		}
 	}
 

@@ -41,6 +41,8 @@ public class PegelApplication extends Application {
 	//for production
 	public static final String host = "https://pegel-online.appspot.com";
 
+	private ScreenMode screenMode = ScreenMode.SMARTPHONE;
+
 	private PointStore pointStore;
 
 	private Map<String, Drawable> imageCache = null;
@@ -53,17 +55,18 @@ public class PegelApplication extends Application {
 		return this.emulator ;
 	}
 
+	public enum ScreenMode {
+		TABLET,
+		SMARTPHONE,
+		FORCE_SMARTPHONE
+    }
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
 		refWatcher = LeakCanary.install(this);
-
-
 		this.pointStore = new PointStore();
-
-		
-
 		//detect emulator, 						
 		if(Build.PRODUCT.equalsIgnoreCase("sdk") || Build.PRODUCT.equalsIgnoreCase("google_sdk"))
 		{
@@ -86,6 +89,10 @@ public class PegelApplication extends Application {
 
 	public Drawable getCachedDrawable(String key) {
 		return this.imageCache.get(key);
+	}
+
+	public void setScreenMode(ScreenMode screenMode) {
+		this.screenMode = screenMode;
 	}
 
 	public void trackEvent(String string, String string2, String string3, int i) {

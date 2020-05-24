@@ -56,6 +56,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	private PegelDetailsTabsAdapter mPagerAdapter;
 	private ViewPager mPager;
 	private TabLayout mtabLayout;
+	private SharedPreferences settings;
 
 
 	/** Called when the activity is first created. */
@@ -71,7 +72,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 		setSupportActionBar(toolbar);
 
 		//check if we have a saved preference, then we jump to detailview already
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		String river = settings.getString("river", "");		
 
 		if(!findViewById(R.id.ListRiverFragment).isShown())
@@ -120,6 +121,7 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.detailmenu, menu);
+		inflater.inflate(R.menu.tabletmenu, menu);
 /*
 		Fragment f = getFragmentManager().findFragmentById(R.id.details);
 		//check if the pegel-details are shown, only then show the refresh action
@@ -154,6 +156,11 @@ public class PegelFragmentsActivity extends AppCompatActivity implements Refresh
 			Intent i = new Intent(this, DonateActivity.class);			
 			this.pa.trackEvent("PegelDataView", "donate", "donate", 1);
 			startActivity(i);
+			return true;
+		case R.id.m_forceSmartphone:
+			settings.edit().putString("mode", PegelApplication.ScreenMode.FORCE_SMARTPHONE.toString()).commit();
+			Intent intent = new Intent(this, StartupActivity.class);
+			startActivity(intent);
 			return true;
 			
 		default:

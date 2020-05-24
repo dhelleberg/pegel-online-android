@@ -42,6 +42,7 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
     private String river;
     private TabLayout mtabLayout;
     private ProgressBar mProgessBar;
+    private SharedPreferences settings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,13 +71,13 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
         }
 
         pegelApp = (PegelApplication) getApplication();
-
+        settings = getSharedPreferences("prefs", Context.MODE_PRIVATE);
 
         if(firstRunThisVersion)
         {
             showDialog(DIALOG_TIP);
             this.pegelApp.trackEvent("PegelDataView", "firstrundialog", "show", 1);
-            SharedPreferences settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_PRIVATE);
+            SharedPreferences r_settings = getSharedPreferences(PREFS_NAME_RUN, Context.MODE_PRIVATE);
             SharedPreferences.Editor edit = settings.edit();
             edit.putBoolean("run_"+app_ver, true);
             edit.commit();
@@ -88,6 +89,10 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detailmenu, menu);
+        if(settings.getString("mode","").equals(PegelApplication.ScreenMode.FORCE_SMARTPHONE.toString())){
+            inflater.inflate(R.menu.smartphonemenu,menu);
+        }
+
         return true;
     }
 
@@ -145,6 +150,13 @@ public class PegelDataActivity extends AbstractPegelDetailsActivity implements R
             case android.R.id.home:
                 super.onBackPressed();
                 return true;
+
+            case R.id.m_noForceSmartphone:
+                settings.edit().remove("mode").commit();
+                Intent intent = new Intent(this, StartupActivity.class);
+                startActivity(intent);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
 
